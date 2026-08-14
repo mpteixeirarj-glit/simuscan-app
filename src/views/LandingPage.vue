@@ -21,7 +21,7 @@
         </p>
         <div class="hero-actions">
           <RouterLink :to="{ name: 'login' }" class="btn-primary">Começar agora</RouterLink>
-          <a href="#features" class="btn-ghost">Ver funcionalidades</a>
+          <button class="btn-ghost" @click="scrollTo('features')">Ver funcionalidades</button>
         </div>
       </div>
       <div class="hero-image-wrap">
@@ -119,6 +119,10 @@ import { RouterLink } from 'vue-router'
 
 const BASE_URL = import.meta.env.BASE_URL
 const year = new Date().getFullYear()
+
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+}
 
 const features = [
   { icon: '🖥️', title: 'Console interativo', desc: 'Interface fiel ao ambiente real de uma sala de TC, com painéis, botões e fluxos de trabalho autênticos.' },
