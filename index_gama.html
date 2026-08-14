@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de TC: Sistema Gama Healthcare</title>
+    <link rel="stylesheet" href="css/gama.css">
+</head>
+<body>
+    <script>
+        if (sessionStorage.getItem('usuarioLogado') !== 'true') {
+            alert('Acesso negado. Por favor, faça o login.');
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <div id="screen-toggle-switch" title="Mudar para modo de Visualização/Edição">
+        <div class="knob"></div>
+    </div>
+
+    <div id="master-container">
+        <div class="main" id="screen-acquisition">
+            <div class="header">
+                <svg class="icon" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+                SIMULADOR DE TC : SISTEMA GAMA HEALTHCARE (MODO DE AQUISIÇÃO)
+                <svg class="icon" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+            </div>
+            
+            <div class="screen" id="main-screen">
+                <div id="patientProtocolPanel" style="display: none;">
+                    <div class="panel-sections-container">
+                        <div class="panel-section patient-info">
+                            <h3 data-tooltip="Informações do Paciente">Patient Information</h3>
+                            <div class="form-group"><label for="examNumberInput" data-tooltip="Número do Exame.">Exam Number:</label><input type="text" id="examNumberInput" readonly></div>
+                            <div class="form-group"><label for="accessionNumberInput" data-tooltip="Número de Acesso.">Accession Number:</label><input type="text" id="accessionNumberInput" data-input-type="number" class="validate-input"><span class="tooltip-error"></span></div>
+                            <div class="form-group"><label for="patientIdInput" data-tooltip="ID do Paciente.">Patient ID:</label><input type="text" id="patientIdInput" data-input-type="number" class="validate-input"><span class="tooltip-error"></span></div>
+                            <div class="form-group"><label for="patientNameInput" data-tooltip="Nome do paciente.">Patient Name:</label><input type="text" id="patientNameInput" data-input-type="text" class="validate-input"><span class="tooltip-error"></span></div>
+                            <div class="form-group"><label data-tooltip="Data de nascimento.">Birthdate:</label><div class="date-inputs"><input type="text" placeholder="Dia" id="birthdate-day" data-input-type="number" class="validate-input" data-max-length="2"><input type="text" placeholder="Mês" id="birthdate-month" data-input-type="number" class="validate-input" data-max-length="2"><input type="text" placeholder="Ano" id="birthdate-year" data-input-type="number" class="validate-input" data-max-length="4"></div></div>
+                            <div class="form-row"><label for="sexInput" data-tooltip="Sexo (M ou F)">Sex:</label><input type="text" style="max-width: 40px;" id="sexInput" data-input-type="sex" class="validate-input" maxlength="1"><label for="patient-age" data-tooltip="Idade.">Age:</label><input type="text" id="patient-age" readonly><label class="unit-label">Years</label></div>
+                            <div class="form-row"><label for="weightInput" data-tooltip="Peso.">Weight:</label><input type="text" id="weightInput" data-input-type="number" class="validate-input" data-max-length="3"><label class="unit-label">Kg</label><label for="heightInput" data-tooltip="Altura.">Height:</label><input type="text" id="heightInput" data-input-type="number" class="validate-input" data-max-length="3"><label class="unit-label">cm</label></div>
+                            <div class="form-group"><label for="referringPhysicianInput" data-tooltip="Médico solicitante.">Referring Physician:</label><input type="text" id="referringPhysicianInput" data-input-type="text" class="validate-input"><span class="tooltip-error"></span></div>
+                            <div class="form-group"><label for="radiologistInput" data-tooltip="Radiologista.">Radiologist:</label><input type="text" id="radiologistInput" data-input-type="text" class="validate-input"><span class="tooltip-error"></span></div>
+                            <div class="form-group"><label for="operatorInput" data-tooltip="Operador.">Operator:</label><input type="text" id="operatorInput" data-input-type="text" class="validate-input"><span class="tooltip-error"></span></div>
+                            <div class="form-group"><label for="historyInput" data-tooltip="Histórico.">History:</label><input type="text" id="historyInput" data-input-type="text" class="validate-input"><span class="tooltip-error"></span></div>
+                            <div class="form-group"><label for="examDescriptionInput" data-tooltip="Descrição do exame.">Exam Description:</label><input type="text" id="examDescriptionInput" data-input-type="text" class="validate-input"><span class="tooltip-error"></span></div>
+                            <div class="form-group"><label for="protocolNumberInput" data-tooltip="Protocolo selecionado.">Protocol Number:</label><input type="text" id="protocolNumberInput" readonly></div>
+                            <div class="form-group"><label for="reqProcIdInput" data-tooltip="ID do Procedimento.">Req. Proc. ID:</label><input type="text" id="reqProcIdInput" data-input-type="number" class="validate-input"><span class="tooltip-error"></span></div>
+                            <button id="btn-end-exam" style="align-self: flex-start; margin-top: 15px; background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">End Exam</button>
+                        </div>
+                        <div class="panel-section protocol-selection">
+                            <div class="protocol-tabs"><span class="protocol-title" data-tooltip="Seleção de Protocolo">Protocol Selection</span><button data-area="gama">Gama</button><button data-area="user">User</button><button data-area="service">Service</button><button data-area="recent" class="active">Most Recent</button></div>
+                            <div class="protocol-content-area">
+                                <div class="human-body-diagram"><div class="image-control-buttons"><button id="showSkeletonBtn" class="active">Esqueleto</button><button id="showMarkedSkeletonBtn">Marcação</button></div><img id="bodyImage" src="imagens/esqueleto-simples.png" alt="Diagrama do Corpo Humano" usemap="#skeletonmap" style="width: 150px; height: auto;"><map name="skeletonmap"><area shape="rect" coords="60, 3, 94, 44" href="#" data-area="cranio" alt="Crânio"><area shape="rect" coords="59, 76, 97, 127" href="#" data-area="torax" alt="Tórax"><area shape="rect" coords="53, 141, 98, 194" href="#" data-area="abd_plv" alt="Abdômen/Pelve"><area shape="rect" coords="50, 272, 101, 305" href="#" data-area="joelhos" alt="Joelhos"><area shape="rect" coords="40, 358, 114, 389" href="#" data-area="pes" alt="Pés"><area shape="rect" coords="127, 64, 147, 177" href="#" data-area="ombros" alt="Ombros"><area shape="rect" coords="0, 64, 20, 177" href="#" data-area="ombros" alt="Ombros"></map></div>
+                                <div class="protocol-list"><ul id="protocolList"></ul></div>
+                            </div>
+                            <div class="panel-buttons"><button id="btn-cancel" class="cancel">Cancel</button><button id="okButton" disabled>OK</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="worklistPanel" style="display: none;">
+                    <div class="worklist-header"><h3>Patient Worklist</h3><div class="actions"><button id="refreshWorklistBtn">Refresh</button><button id="closeWorklistBtn">Close</button></div></div>
+                    <div class="worklist-content">
+                        <div class="worklist-table-container"><table class="worklist-table"><thead><tr><th>Patient Name</th><th>Patient ID</th><th>Exam Description</th><th>Referring Physician</th></tr></thead><tbody id="worklistTableBody"></tbody></table></div>
+                        <div class="worklist-details" id="worklistDetailsPanel">
+                            <h4>Patient Details</h4>
+                            <p><strong>Patient Name:</strong> <span id="detailPatientName"></span></p><p><strong>Patient ID:</strong> <span id="detailPatientId"></span></p><p><strong>Birthdate:</strong> <span id="detailBirthdate"></span></p><p><strong>Age:</strong> <span id="detailAge"></span></p><p><strong>Sex:</strong> <span id="detailSex"></span></p><p><strong>Weight:</strong> <span id="detailWeight"></span></p><p><strong>Height:</strong> <span id="detailHeight"></span></p><p><strong>Exam Description:</strong> <span id="detailExamDesc"></span></p><p><strong>Referring Physician:</strong> <span id="detailRefPhy"></span></p><p><strong>Radiologist:</strong> <span id="detailRadiologist"></span></p><p><strong>Operator:</strong> <span id="detailOperator"></span></p><p><strong>History:</strong> <span id="detailHistory"></span></p><p><strong>Protocol Number:</strong> <span id="detailProtocolNumber"></span></p><p><strong>Accession Number:</strong> <span id="detailAccNumber"></span></p><p><strong>Req. Proc. ID:</strong> <span id="detailReqProcId"></span></p>
+                            <div class="worklist-actions-bottom"><button id="startExamFromWorklistBtn" disabled>Start Exam</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="protocolManagerPanel" style="display: none;">
+                    <div id="protocol-manager-wrapper" style="width: 100%; height: 100%; background: #003366; color: #e0e0e0; font-family: Arial, sans-serif; box-sizing: border-box; overflow: hidden;">
+                        <style>
+                            /* Estilos específicos para o Protocol Manager */
+                            #protocolManagerPanel .hidden-view { display: none !important; }
+                            
+                            #protocolManagerPanel #protocolManagerListView { 
+                                display: flex; 
+                                flex-direction: column; 
+                                width: 100%; 
+                                height: 100%; 
+                                margin: 0; 
+                                padding: 15px; 
+                                gap: 15px; 
+                                background-color: #003366; 
+                                color: #e0e0e0; 
+                                box-sizing: border-box;
+                            }
+                            #protocolManagerPanel .protocol-manager-container { 
+                                display: flex; 
+                                gap: 15px; 
+                                width: 100%; 
+                                flex-grow: 1; 
+                                overflow: hidden; 
+                            }
+                            #protocolManagerPanel .side-panel { 
+                                flex-basis: 350px; 
+                                flex-shrink: 0; 
+                                display: flex; 
+                                flex-direction: column; 
+                                gap: 10px; 
+                                background-color: #0b2c5d; 
+                                padding: 15px; 
+                                border-radius: 6px; 
+                                border: 1px solid #3c6eac;
+                            }
+                            #protocolManagerPanel .main-panel-manager { 
+                                flex-grow: 1; 
+                                display: flex; 
+                                flex-direction: column; 
+                                background-color: #0b2c5d; 
+                                padding: 15px; 
+                                border-radius: 6px; 
+                                overflow-y: auto;
+                                border: 1px solid #3c6eac;
+                            }
+                            #protocolManagerPanel .protocol-tabs-manager { 
+                                display: flex; 
+                                border-bottom: 1px solid #3c6eac; 
+                                margin-bottom: 10px; 
+                            }
+                            #protocolManagerPanel .protocol-tabs-manager button { 
+                                flex-grow: 1; 
+                                padding: 10px; 
+                                font-size: 1em; 
+                                background-color: #1c4e8c; 
+                                color: #fff; 
+                                border: 1px solid #3c6eac; 
+                                cursor: pointer; 
+                                border-bottom: none; 
+                            }
+                            #protocolManagerPanel .protocol-tabs-manager button.active { 
+                                background-color: #f39c12; 
+                                color: #000; 
+                                font-weight: bold; 
+                            }
+                            #protocolManagerPanel .main-panel-manager h3, #protocolManagerPanel #protocol-details-view h4 { 
+                                text-align: center; 
+                                color: #f39c12; 
+                                margin: 0 0 10px 0; 
+                                padding-bottom: 10px; 
+                                border-bottom: 1px solid #3c6eac; 
+                                font-size: 1.2em; 
+                            }
+                            #protocolManagerPanel #protocol-details-view { 
+                                display: block; 
+                            }
+                            #protocolManagerPanel #protocol-details-view p { 
+                                margin: 8px 0; 
+                                font-size: 0.9em; 
+                                display: flex; 
+                                justify-content: space-between; 
+                                border-bottom: 1px solid #3c6eac; 
+                                padding-bottom: 4px;
+                            }
+                            #protocolManagerPanel #protocol-details-view p strong { 
+                                color: #f39c12;
+                            }
+                            #protocolManagerPanel .protocol-list-container-manager { 
+                                flex-grow: 1; 
+                                background-color: #003366; 
+                                border: 1px solid #3c6eac; 
+                                border-radius: 5px; 
+                                padding: 5px; 
+                                overflow-y: auto; 
+                            }
+                            #protocolManagerPanel #protocol-list-manager { 
+                                list-style: none; 
+                                padding: 0; 
+                                margin: 0; 
+                            }
+                            #protocolManagerPanel #protocol-list-manager li { 
+                                padding: 12px 14px; 
+                                border-bottom: 1px solid #3c6eac; 
+                                cursor: pointer; 
+                                transition: background-color 0.2s; 
+                                font-size: 1em; 
+                                color: #e0e0e0;
+                            }
+                            #protocolManagerPanel #protocol-list-manager li:hover { 
+                                background-color: #1c4e8c; 
+                            }
+                            #protocolManagerPanel #protocol-list-manager li.selected { 
+                                background-color: #f39c12; 
+                                color: #000; 
+                                font-weight: bold; 
+                            }
+                            #protocolManagerPanel .mgmt-buttons { 
+                                display: flex; 
+                                gap: 15px; 
+                                justify-content: flex-end; 
+                                padding-top: 15px; 
+                                border-top: 1px solid #3c6eac; 
+                            }
+                            #protocolManagerPanel .mgmt-buttons button { 
+                                padding: 10px 20px; 
+                                font-size: 1em; 
+                                border-radius: 5px; 
+                                border: none; 
+                                background-color: #3c6eac; 
+                                color: #fff; 
+                                cursor: pointer; 
+                                transition: background-color 0.2s; 
+                            }
+                            #protocolManagerPanel .mgmt-buttons button:hover:not(:disabled) { 
+                                background-color: #5c8ebc; 
+                            }
+                            #protocolManagerPanel .mgmt-buttons button:disabled { 
+                                background-color: #555; 
+                                cursor: not-allowed; 
+                                color: #bbb; 
+                            }
+                            #protocolManagerPanel .mgmt-buttons .btn-delete, #protocolManagerPanel .mgmt-buttons .cancel { 
+                                background-color: #dc3545; 
+                            }
+                            #protocolManagerPanel .mgmt-buttons .btn-delete:hover:not(:disabled), #protocolManagerPanel .mgmt-buttons .cancel:hover:not(:disabled) { 
+                                background-color: #c82333; 
+                            }
+                        </style>
+
+                        <div id="protocolManagerListView">
+                            <div class="protocol-manager-container">
+                                <div class="side-panel">
+                                    <div class="protocol-tabs-manager">
+                                        <button data-area="gama" class="active">Gama</button>
+                                        <button data-area="user">User</button>
+                                        <button data-area="service">Service</button>
+                                    </div>
+                                    <div class="protocol-list-container-manager">
+                                        <ul id="protocol-list-manager"></ul>
+                                    </div>
+                                </div>
+                                <div class="main-panel-manager">
+                                    <h3>Detalhes do Protocolo</h3>
+                                    <div id="protocol-details-view"><p>Selecione um protocolo na lista para ver os detalhes.</p></div>
+                                </div>
+                            </div>
+                            <div class="mgmt-buttons">
+                                <button id="proto-btn-new">Novo</button>
+                                <button id="proto-btn-edit" disabled>Editar</button>
+                                <button id="proto-btn-delete" class="btn-delete" disabled>Excluir</button>
+                                <button id="proto-btn-close-mgmt" class="cancel">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="examinationDetails" style="display: none;">
+                    <h3>Examination Details</h3>
+                    <p><span>Exam Number:</span> <span id="displayExamNumber"></span></p><p><span>Accession Number:</span> <span id="displayAccessionNumber"></span></p><p><span>Patient Name:</span> <span id="displayPatientName"></span></p><p><span>Patient ID:</span> <span id="displayPatientId"></span></p><p><span>Birthdate:</span> <span id="displayBirthdate"></span></p><p><span>Age:</span> <span id="displayAge"></span></p><p><span>Sex:</span> <span id="displaySex"></span></p><p><span>Weight:</span> <span id="displayWeight"></span></p><p><span>Height:</span> <span id="displayHeight"></span></p><p><span>Protocol:</span> <span id="displayProtocol"></span></p>
+                </div>
+                <div id="page-content-wrapper"></div>
+            </div>
+
+            <div class="bottom-bar" id="bottom-bar-main">
+                <button id="btn-examination" data-tooltip="Inicia cadastro do paciente.">Examination</button>
+                <button id="btn-patient-schedule" data-tooltip="Visualiza a lista de agendamentos.">Patient Schedule</button>
+                <button id="btn-protocol-manager" data-tooltip="Gerencia protocolos de aquisição.">Protocol Manager</button>
+                <button id="btn-data-screen" data-tooltip="Analisa as imagens.">Data Screen</button>
+                <button id="btn-recon-manager" data-tooltip="Gerencia reconstrução.">Recon Manager</button>
+                <button id="btn-daily-prep" data-tooltip="Realiza calibração diária.">Daily Prep</button>
+                <button id="btn-scanner-util" data-tooltip="Acessa utilitários.">Scanner Util</button>
+                <button id="btn-return-system" data-tooltip="Retorna à escolha de Sistemas.">Return System</button>
+            </div>
+
+            <div class="bottom-bar" id="bottom-bar-topogram" style="display: none;" role="toolbar">
+                 <div class="group-left">
+                    <button id="topo-btn-cancel" class="btn-cancel" data-tooltip="Cancelar e voltar à tela inicial.">Cancel</button>
+                </div>
+                <div class="group-center">
+                    <button id="topo-btn-prior" class="btn-disabled" data-tooltip="Ir para a série anterior (desativado).">Prior Series</button>
+                    <button id="topo-btn-next" data-tooltip="Ir para a próxima série.">Next Series</button>
+                    <button id="topo-btn-new" data-tooltip="Cria uma nova série baseada na primeira.">Create New Series</button>
+                    <button id="topo-btn-repeat" data-tooltip="Repete os dados da primeira série na segunda.">Repeat Series</button>
+                    <button id="topo-btn-delete" data-tooltip="Limpa os dados da segunda série.">Delete Series</button>
+                    <button id="topo-btn-transfer" class="toggle-btn" data-tooltip="Ativa/Desativa a transferência automática.">Series Auto Transfer</button>
+                </div>
+                <div class="group-right">
+                    <button id="topo-btn-accept" class="btn-accept" data-tooltip="Confirma a configuração das séries.">Accept</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main" id="screen-viewer">
+            <div class="header" style="background-color: #005f9e;">
+                <svg class="icon" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+                SIMULADOR DE TC : SISTEMA GAMA HEALTHCARE (MODO DE VISUALIZAÇÃO)
+                <svg class="icon" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+            </div>
+            <div class="screen">
+                <h1 style="color: white; text-align: center;">Área de Visualização e Edição de Exames</h1>
+            </div>
+            <div class="bottom-bar">
+                </div>
+        </div>
+    </div>
+
+    <audio id="sound-slide-in" src="sons/swoosh_in.mp3" preload="auto"></audio>
+    <audio id="sound-slide-out" src="sons/swoosh_out.mp3" preload="auto"></audio>
+
+    <script src="js/main_gama.js"></script>
+</body>
+</html>

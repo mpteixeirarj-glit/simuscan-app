@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SimuScan - Login</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <form class="login-form" id="login-form">
+        <img src="imagens/logopainel.png" alt="Logo SimuScan" class="login-logo">
+        <h2>Login do Sistema</h2>
+        <div id="error-message" class="error"></div>
+        <input type="text" id="usuario" placeholder="E-mail" autocomplete="email" required />
+        <input type="password" id="senha" placeholder="Senha" autocomplete="current-password" required />
+        <button type="submit">Entrar</button>
+    </form>
+
+    <audio id="somSucesso" src="sons/sucesso.mp3" preload="auto"></audio>
+    <audio id="somErroLogin" src="sons/erro.mp3" preload="auto"></audio>
+
+    <script src="js/login.js"></script>
+</body>
+</html>
