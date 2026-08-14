@@ -2,3 +2,5 @@
 Thumbs.db
 *.log
 site teste/
+node_modules/
+dist/

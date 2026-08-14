@@ -1,0 +1,78 @@
+<div class="center-strip">
+    <div class="side-box">
+        <img src="imagens/mesaGE.png" alt="Posicionamento do Paciente" style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;">
+    </div>
+    <table class="center-table">
+        <tbody>
+            <tr>
+                <td><button class="toggle-btn" data-tooltip="Orientação do Paciente">OM</button></td>
+                <td><button class="toggle-btn" data-tooltip="Armazenamento Automático">AUTO STORE</button></td>
+                <td><button class="toggle-btn" data-tooltip="Transferência Automática para PACS">Auto Transfer PACS</button></td>
+            </tr>
+            <tr>
+                <td><button class="toggle-btn" data-tooltip="Transferência Automática do Relatório de Dose">Dose Report Auto Transfer</button></td>
+                <td><button class="toggle-btn" data-tooltip="Transferência do Relatório de Dose SR(Relatório Estruturado)">Dose SR Report Transfer</button></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="side-box">
+        <div class="topo-patient-data">
+            <div class="data-item"><span>Paciente:</span> <span id="topo-data-name"></span></div>
+            <div class="data-item"><span>ID:</span> <span id="topo-data-id"></span></div>
+            <div class="data-item"><span>Nascimento:</span> <span id="topo-data-birthdate"></span></div>
+            <div class="data-item"><span>Idade:</span> <span id="topo-data-age"></span></div>
+            <div class="data-item"><span>Sexo:</span> <span id="topo-data-sex"></span></div>
+            <div class="data-item"><span>Médico:</span> <span id="topo-data-physician"></span></div>
+            <div class="data-item"><span>Protocolo:</span> <span id="topo-data-protocol"></span></div>
+        </div>
+    </div>
+</div>
+
+<div class="series-row">
+    <label for="seriesDesc">Series Description</label>
+    <input id="seriesDesc" type="text" value="SCOUT">
+</div>
+
+<div class="series-grid-wrap">
+    <table class="series-grid" id="series-grid-table">
+        <tbody>
+            <tr>
+                <td class="grid-header scout">Scout Number</td>
+                <td class="grid-header">Scan Type</td>
+                <td class="grid-header">Start Loc.</td>
+                <td class="grid-header">End Loc.</td>
+                <td class="grid-header">kV</td>
+                <td class="grid-header">mA</td>
+                <td class="grid-header">Scout Plane</td>
+                <td class="grid-header">Voice</td>
+                <td class="grid-header">Lights</td>
+                <td class="grid-header">WW/WL</td>
+            </tr>
+            <tr>
+                <td><input type="text" value="1" readonly></td>
+                <td><input type="text" value="Scout"></td>
+                <td><input type="text" value="S150.00"></td>
+                <td><input type="text" value="I100.00"></td>
+                <td><select><option>80</option><option>110</option><option selected>120</option></select></td>
+                <td><input type="text" value="10"></td>
+                <td><select><option>0</option><option selected>90</option><option>180</option></select></td>
+                <td><select><option value="S">S</option><option value="N" selected>N</option></select></td>
+                <td><select><option value="S">S</option><option value="N" selected>N</option></select></td>
+                <td><input type="text" value="400/50"></td>
+            </tr>
+            <tr>
+                <td><input type="text" value="2" readonly></td>
+                <td><input type="text" value="Scout"></td>
+                <td><input type="text" value="S150.00"></td>
+                <td><input type="text" value="I100.00"></td>
+                <td><select><option>80</option><option>110</option><option selected>120</option></select></td>
+                <td><input type="text" value="10"></td>
+                <td><select><option selected>0</option><option>90</option><option>180</option></select></td>
+                <td><select><option value="S">S</option><option value="N" selected>N</option></select></td>
+                <td><select><option value="S">S</option><option value="N" selected>N</option></select></td>
+                <td><input type="text" value="400/50"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
