@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SimuScan — Simulador de Equipamentos de Imagem Médica</title>
+<meta name="description" content="Treine na plataforma de simulação de equipamentos de imagem médica mais completa do Brasil. Pratique como se estivesse no equipamento real.">
+<style>
+/* ── TOKENS: light (base) ── */
+:root {
+  --pink:    #e2006a;
+  --pink-lo: rgba(226,0,106,0.12);
+  --pink-md: rgba(226,0,106,0.22);
+  --blue:    #27a8df;
+  --blue-lo: rgba(39,168,223,0.12);
+  --blue-md: rgba(39,168,223,0.22);
+
+  --bg:      #f2f4f9;
+  --surf:    #ffffff;
+  --surf2:   #e8ecf5;
+  --border:  #d2d8e8;
+  --text:    #0c0e18;
+  --sub:     #3a405a;
+  --muted:   #7a8098;
+  --nav-bg:  rgba(242,244,249,0.9);
+}
+
+/* ── dark (sistema) ── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:     #0c0e14;
+    --surf:   #13161f;
+    --surf2:  #1a1e2b;
+    --border: #222840;
+    --text:   #dde2f2;
+    --sub:    #9aa2c0;
+    --muted:  #5e677d;
+    --nav-bg: rgba(12,14,20,0.9);
+  }
+}
+
+/* ── dark (explícito) ── */
+:root[data-theme="dark"] {
+  --bg:     #0c0e14;
+  --surf:   #13161f;
+  --surf2:  #1a1e2b;
+  --border: #222840;
+  --text:   #dde2f2;
+  --sub:    #9aa2c0;
+  --muted:  #5e677d;
+  --nav-bg: rgba(12,14,20,0.9);
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SCROLL REVEAL ── */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+}
+
+/* ── UTILITY ── */
+.tag {
+  display: inline-block;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--blue);
+  margin-bottom: 0.9rem;
+}
+h2.section-title {
+  font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+  font-weight: 900; letter-spacing: -0.03em;
+  line-height: 1.1; text-wrap: balance;
+  margin-bottom: 0.75rem;
+}
+.section-sub { color: var(--sub); max-width: 500px; font-size: 1rem; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; inset: 0 0 auto 0; height: 64px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(20px, 5vw, 72px);
+  z-index: 900;
+}
+.logo { font-size: 1.45rem; font-weight: 900; letter-spacing: -0.04em; text-decoration: none; }
+.logo .p { color: var(--pink); }
+.logo .b { color: var(--blue); }
+
+.nav-r { display: flex; align-items: center; gap: 2rem; }
+.nav-r a { color: var(--muted); text-decoration: none; font-size: 0.875rem; transition: color .2s; }
+.nav-r a:hover { color: var(--text); }
+.btn-login {
+  padding: .48rem 1.3rem;
+  border: 1.5px solid var(--pink); border-radius: 6px;
+  color: var(--pink); background: transparent;
+  font-size: .875rem; font-weight: 700;
+  text-decoration: none; transition: background .2s, color .2s;
+}
+.btn-login:hover { background: var(--pink); color: #fff; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100svh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  padding: 100px clamp(20px, 5vw, 72px) 60px;
+  position: relative; overflow: hidden;
+}
+
+.hero-text { max-width: 560px; }
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--surf); border: 1px solid var(--border);
+  padding: 5px 13px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 1.8rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 6px var(--pink);
+  flex-shrink: 0;
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-weight: 900; letter-spacing: -0.04em; line-height: 1.04;
+  text-wrap: balance; margin-bottom: 1.3rem;
+}
+.hero h1 em { font-style: normal; color: var(--pink); }
+.hero h1 strong { font-style: normal; color: var(--blue); }
+
+.hero-desc {
+  color: var(--sub); font-size: 1.05rem;
+  max-width: 440px; margin-bottom: 2.2rem; line-height: 1.7;
+}
+
+.hero-actions { display: flex; gap: .9rem; flex-wrap: wrap; }
+
+.btn-primary {
+  padding: .8rem 1.8rem;
+  background: var(--pink); border: 1.5px solid var(--pink);
+  color: #fff; border-radius: 7px;
+  font-size: .95rem; font-weight: 700;
+  text-decoration: none; cursor: pointer;
+  box-shadow: 0 0 24px var(--pink-md);
+  transition: opacity .2s, transform .15s;
+  display: inline-block;
+}
+.btn-primary:hover { opacity: .87; transform: translateY(-1px); }
+
+.btn-ghost {
+  padding: .8rem 1.8rem;
+  background: var(--surf); border: 1.5px solid var(--border);
+  color: var(--sub); border-radius: 7px;
+  font-size: .95rem; font-weight: 600;
+  text-decoration: none; cursor: pointer;
+  transition: border-color .2s, color .2s;
+  display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--blue); color: var(--text); }
+
+/* ── HERO VISUAL (imagem ou animação fallback) ── */
+.hero-visual {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+
+/* Imagem gerada (quando disponível) */
+.hero-img {
+  width: 100%; max-width: 540px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  object-fit: cover;
+  aspect-ratio: 16/10;
+  box-shadow: 0 0 60px var(--blue-md), 0 0 30px var(--pink-lo);
+  display: block;
+}
+
+/* Animação fallback (enquanto imagem não está disponível) */
+.scanner-fallback {
+  position: relative; width: 320px; height: 320px;
+}
+.hero-img + .scanner-fallback { display: none; } /* esconde se imagem carregar */
+
+.ring {
+  position: absolute; border-radius: 50%;
+  border: 2px solid transparent;
+  inset: 0; margin: auto;
+}
+.ring-1 { width: 320px; height: 320px; border-color: var(--blue); opacity: .25; animation: spin 16s linear infinite; }
+.ring-2 { width: 256px; height: 256px; border-top-color: var(--pink); border-right-color: var(--pink); opacity: .35; animation: spin 10s linear infinite reverse; }
+.ring-3 { width: 200px; height: 200px; border-color: var(--blue); border-bottom-color: transparent; border-left-color: transparent; opacity: .3; animation: spin 7s linear infinite; }
+
+.glow-p { position: absolute; width: 140px; height: 140px; background: radial-gradient(circle, var(--pink-md), transparent 70%); border-radius: 50%; top: 50%; left: 48%; transform: translate(-50%, -50%); animation: pulse-glow 4s ease-in-out infinite; }
+.glow-b { position: absolute; width: 100px; height: 100px; background: radial-gradient(circle, var(--blue-md), transparent 70%); border-radius: 50%; top: 36%; left: 60%; transform: translate(-50%, -50%); animation: pulse-glow 4s 1.2s ease-in-out infinite; }
+
+.figure { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 2; }
+.fig-head { width: 28px; height: 28px; border-radius: 50%; background: var(--text); opacity: .7; }
+.fig-body { width: 42px; height: 56px; background: var(--text); opacity: .65; border-radius: 6px 6px 4px 4px; margin-top: 3px; clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%); }
+.scan-line { position: absolute; left: 50%; top: 32%; transform: translateX(-50%); width: 2px; height: 36%; background: linear-gradient(to bottom, var(--blue), var(--pink)); border-radius: 2px; opacity: .6; animation: scanMove 2.8s ease-in-out infinite; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse-glow { 0%,100% { opacity: .5; transform: translate(-50%,-50%) scale(1); } 50% { opacity: .8; transform: translate(-50%,-50%) scale(1.15); } }
+@keyframes scanMove { 0%,100% { top: 28%; opacity: .4; } 50% { top: 54%; opacity: .8; } }
+
+/* ── STATS ── */
+.stats-bar {
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  background: var(--surf);
+  display: flex; flex-wrap: wrap; justify-content: center;
+}
+.stat { padding: 1.6rem 2.8rem; text-align: center; border-right: 1px solid var(--border); }
+.stat:last-child { border-right: none; }
+.stat-n {
+  font-size: 2.1rem; font-weight: 900; letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--pink), var(--blue));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.stat-l { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-top: 2px; }
+
+/* ── SECTIONS ── */
+.section { padding: clamp(56px, 7vw, 96px) clamp(20px, 5vw, 72px); }
+.section.alt { background: var(--surf); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+/* ── COMO FUNCIONA ── */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-top: 3rem; }
+.step { background: var(--surf2); border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem 1.6rem; }
+.step-num { font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--pink); margin-bottom: 1rem; }
+.step h3 { font-size: 1rem; font-weight: 800; margin-bottom: .4rem; }
+.step p { font-size: .875rem; color: var(--sub); }
+
+/* ── FEATURES ── */
+.features-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.1rem; margin-top: 3rem; }
+.feat { background: var(--surf2); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: border-color .2s; }
+.feat:hover { border-color: var(--blue); }
+.feat.wide { grid-column: span 6; }
+.feat.med  { grid-column: span 4; }
+
+.feat-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--blue-lo); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; margin-bottom: 1rem; }
+.feat-icon.p { background: var(--pink-lo); }
+.feat h4 { font-size: .92rem; font-weight: 800; margin-bottom: .35rem; }
+.feat p { font-size: .82rem; color: var(--sub); line-height: 1.6; }
+
+/* ── SISTEMAS ── */
+.systems-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.3rem; margin-top: 3rem; max-width: 900px; }
+.sys { border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem; position: relative; overflow: hidden; transition: transform .2s; }
+.sys.on { border-color: var(--pink); }
+.sys.on::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--pink-lo), transparent); pointer-events: none; }
+.sys:hover { transform: translateY(-3px); }
+.sys-badge { font-size: .65rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 1rem; }
+.sys-badge.live { background: var(--pink-lo); color: var(--pink); }
+.sys-badge.soon { background: var(--surf2); color: var(--muted); }
+.sys h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: .3rem; }
+.sys p { font-size: .82rem; color: var(--sub); }
+
+/* ── PLANOS ── */
+.plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.3rem; margin-top: 3rem; }
+.plan { background: var(--surf2); border: 1px solid var(--border); border-radius: 14px; padding: 2rem; display: flex; flex-direction: column; position: relative; transition: transform .2s; }
+.plan:hover { transform: translateY(-3px); }
+.plan.feat-plan { border-color: var(--pink); background: var(--surf); }
+.plan-chip { position: absolute; top: -11px; left: 1.8rem; background: var(--pink); color: #fff; font-size: .65rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 3px 12px; border-radius: 20px; }
+.plan-name { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .5rem; }
+.plan-price { font-size: 2.4rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; margin-bottom: .2rem; }
+.plan-price sub { font-size: 1rem; font-weight: 500; color: var(--muted); vertical-align: baseline; }
+.plan-cadence { font-size: .78rem; color: var(--muted); margin-bottom: 1.8rem; }
+.plan-items { list-style: none; flex: 1; display: flex; flex-direction: column; gap: .65rem; margin-bottom: 1.8rem; }
+.plan-items li { font-size: .85rem; display: flex; gap: .6rem; }
+.plan-items li::before { content: '✓'; color: var(--pink); font-weight: 900; flex-shrink: 0; }
+.plan-items li.no::before { content: '–'; color: var(--muted); }
+.plan-items li.no { color: var(--muted); }
+.btn-plan { display: block; text-align: center; text-decoration: none; padding: .75rem; border-radius: 7px; font-size: .9rem; font-weight: 700; border: 1.5px solid var(--pink); color: var(--pink); background: transparent; transition: background .2s, color .2s; }
+.btn-plan:hover, .plan.feat-plan .btn-plan { background: var(--pink); color: #fff; }
+
+/* ── CTA FINAL ── */
+.cta-band { padding: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 72px); text-align: center; position: relative; overflow: hidden; }
+.cta-band::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 30% 50%, var(--pink-lo), transparent), radial-gradient(ellipse 70% 60% at 70% 50%, var(--blue-lo), transparent); pointer-events: none; }
+.cta-band h2 { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 900; letter-spacing: -0.03em; text-wrap: balance; margin-bottom: .8rem; position: relative; }
+.cta-band p { color: var(--sub); max-width: 420px; margin: 0 auto 2rem; position: relative; }
+
+/* ── FOOTER ── */
+footer { background: var(--surf); border-top: 1px solid var(--border); padding: 2.5rem clamp(20px, 5vw, 72px); }
+.foot-top { display: flex; flex-wrap: wrap; gap: 2.5rem; justify-content: space-between; margin-bottom: 2rem; }
+.foot-brand p { font-size: .8rem; color: var(--muted); margin-top: .5rem; max-width: 270px; }
+.foot-col h5 { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .8rem; }
+.foot-col ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+.foot-col a { font-size: .83rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+.foot-col a:hover { color: var(--text); }
+.foot-bottom { border-top: 1px solid var(--border); padding-top: 1.4rem; }
+.foot-bottom p { font-size: .73rem; color: var(--muted); line-height: 1.75; }
+
+/* ── RESPONSIVO ── */
+@media (max-width: 860px) {
+  .feat.wide, .feat.med { grid-column: span 12; }
+}
+@media (max-width: 720px) {
+  .hero { grid-template-columns: 1fr; padding-top: 90px; }
+  .hero-visual { display: none; }
+  .hero-text { max-width: 100%; }
+}
+@media (max-width: 560px) {
+  .nav-r a:not(.btn-login) { display: none; }
+  .stat { padding: 1.2rem 1.4rem; }
+  .features-grid { grid-template-columns: 1fr; }
+  .feat { grid-column: span 1 !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo"><span class="p">Simu</span><span class="b">Scan</span></a>
+  <div class="nav-r">
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#sistemas">Sistemas</a>
+    <a href="#planos">Planos</a>
+    <a href="login.html" class="btn-login">Entrar</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Simulador de Imagem Médica</div>
+    <h1>Treine no<br><em>simulador.</em><br>Opere com<br><strong>confiança.</strong></h1>
+    <p class="hero-desc">Pratique protocolos, posicionamento e operação de equipamentos de tomografia como se estivesse na sala de exame — antes de chegar nela.</p>
+    <div class="hero-actions">
+      <a href="login.html" class="btn-primary">Acessar o Simulador</a>
+      <a href="#como-funciona" class="btn-ghost">Ver como funciona</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <img src="imagens/hero-scanner.jpg" alt="Scanner de tomografia computadorizada com luz azul e rosa" class="hero-img">
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-n">3</div><div class="stat-l">Sistemas simulados</div></div>
+  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">No navegador</div></div>
+  <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Disponível</div></div>
+  <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Repetições</div></div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<section class="section" id="como-funciona">
+  <div class="tag">Metodologia</div>
+  <h2 class="section-title reveal">Simule o exame completo, do início ao fim</h2>
+  <p class="section-sub reveal">O fluxo do simulador reproduz cada etapa de uma aquisição real para que a memória muscular seja formada antes do contato com o equipamento.</p>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">Passo 1</div>
+      <h3>Login e acesso</h3>
+      <p>Cada usuário tem acesso individual ao ambiente de simulação. Sem compartilhamento de credenciais.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">Passo 2</div>
+      <h3>Escolha o sistema</h3>
+      <p>Selecione o equipamento que deseja praticar. Cada sistema tem interface própria e fluxo de trabalho distinto.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">Passo 3</div>
+      <h3>Execute o exame</h3>
+      <p>Worklist, protocolo, posicionamento, topograma, aquisição e reconstrução — exatamente como no equipamento real.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FUNCIONALIDADES -->
+<section class="section alt">
+  <div class="tag">Funcionalidades</div>
+  <h2 class="section-title reveal">O que você vai praticar</h2>
+  <p class="section-sub reveal">Módulos desenvolvidos para cobrir cada etapa real de operação de equipamentos de imagem médica.</p>
+  <div class="features-grid">
+    <div class="feat wide reveal">
+      <div class="feat-icon p">📋</div>
+      <h4>Worklist de pacientes</h4>
+      <p>Acesse a lista de exames, selecione o paciente e confirme os dados clínicos antes de iniciar o procedimento — o mesmo fluxo do equipamento real.</p>
+    </div>
+    <div class="feat med reveal">
+      <div class="feat-icon">📐</div>
+      <h4>Seleção de protocolo</h4>
+      <p>Escolha o protocolo correto por região anatômica com parâmetros ajustáveis.</p>
+    </div>
+    <div class="feat med reveal">
+      <div class="feat-icon p">🧍</div>
+      <h4>Posicionamento</h4>
+      <p>Supino, prone, lateral e variações para cada região do corpo.</p>
+    </div>
+    <div class="feat med reveal">
+      <div class="feat-icon">📡</div>
+      <h4>Topograma (Scout)</h4>
+      <p>Execute o topograma de planejamento e delimite o volume de aquisição.</p>
+    </div>
+    <div class="feat wide reveal">
+      <div class="feat-icon">🖥️</div>
+      <h4>Tela dupla — Console + Viewer</h4>
+      <p>Alterne entre a tela de operação e o visualizador de imagens, simulando um ambiente de dois monitores como no equipamento real.</p>
+    </div>
+    <div class="feat med reveal">
+      <div class="feat-icon p">🔧</div>
+      <h4>Gerenciador de protocolos</h4>
+      <p>Navegue e organize os protocolos disponíveis no sistema.</p>
+    </div>
+    <div class="feat med reveal">
+      <div class="feat-icon">📊</div>
+      <h4>Calibração diária</h4>
+      <p>Checklist de preparo do equipamento antes do início das atividades.</p>
+    </div>
+    <div class="feat med reveal">
+      <div class="feat-icon p">🔔</div>
+      <h4>Feedback sonoro</h4>
+      <p>Retorno auditivo em ações corretas e incorretas para reforçar o aprendizado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SISTEMAS -->
+<section class="section" id="sistemas">
+  <div class="tag">Plataformas</div>
+  <h2 class="section-title reveal">Sistemas disponíveis</h2>
+  <p class="section-sub reveal">Cada sistema simula uma família de equipamentos com interface e fluxo de trabalho próprios.</p>
+  <div class="systems-grid">
+    <div class="sys on reveal">
+      <span class="sys-badge live">Disponível</span>
+      <h3>Gama Healthcare</h3>
+      <p>Tomografia computadorizada com console completo, visualizador de imagens e gerenciador de protocolos.</p>
+    </div>
+    <div class="sys reveal">
+      <span class="sys-badge soon">Em breve</span>
+      <h3>Sigma Healthcare</h3>
+      <p>Tomografia e ressonância magnética com fluxo de trabalho avançado e protocolos dedicados.</p>
+    </div>
+    <div class="sys reveal">
+      <span class="sys-badge soon">Em breve</span>
+      <h3>Kappa Healthcare</h3>
+      <p>Interface de alta produtividade para ambientes de grande volume de exames.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PLANOS -->
+<section class="section alt" id="planos">
+  <div class="tag">Preços</div>
+  <h2 class="section-title reveal">Planos e acesso</h2>
+  <p class="section-sub reveal">Para o profissional que quer treinar, para a escola que quer capacitar e para quem quer acesso permanente.</p>
+  <div class="plans">
+    <div class="plan reveal">
+      <div class="plan-name">Mensal</div>
+      <div class="plan-price">R$ 49<sub>/mês</sub></div>
+      <div class="plan-cadence">Renovação automática · Cancele quando quiser</div>
+      <ul class="plan-items">
+        <li>Acesso a todos os sistemas disponíveis</li>
+        <li>Atualizações inclusas</li>
+        <li>1 usuário</li>
+        <li class="no">Acesso antecipado a novos módulos</li>
+        <li class="no">Suporte prioritário</li>
+      </ul>
+      <a href="login.html" class="btn-plan">Começar agora</a>
+    </div>
+    <div class="plan feat-plan reveal">
+      <div class="plan-chip">Mais escolhido</div>
+      <div class="plan-name">Institucional</div>
+      <div class="plan-price">R$ 299<sub>/mês</sub></div>
+      <div class="plan-cadence">Até 20 usuários · Ideal para escolas e clínicas</div>
+      <ul class="plan-items">
+        <li>Acesso a todos os sistemas disponíveis</li>
+        <li>Atualizações inclusas</li>
+        <li>Até 20 usuários simultâneos</li>
+        <li>Acesso antecipado a novos módulos</li>
+        <li>Suporte prioritário por e-mail</li>
+      </ul>
+      <a href="login.html" class="btn-plan">Falar com a equipe</a>
+    </div>
+    <div class="plan reveal">
+      <div class="plan-name">Vitalício</div>
+      <div class="plan-price">R$ 497</div>
+      <div class="plan-cadence">Pagamento único · Acesso permanente</div>
+      <ul class="plan-items">
+        <li>Acesso a todos os sistemas disponíveis</li>
+        <li>Todas as atualizações futuras inclusas</li>
+        <li>1 usuário</li>
+        <li>Acesso antecipado a novos módulos</li>
+        <li>Sem mensalidade, para sempre</li>
+      </ul>
+      <a href="login.html" class="btn-plan">Garantir meu acesso</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-band">
+  <h2 class="reveal">Pronto para praticar?</h2>
+  <p class="reveal">Acesse o simulador agora e treine quantas vezes precisar, no seu ritmo, de qualquer dispositivo.</p>
+  <a href="login.html" class="btn-primary reveal">Acessar o SimuScan</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a href="index.html" class="logo"><span class="p">Simu</span><span class="b">Scan</span></a>
+      <p>Simulador de equipamentos de imagem médica para formação e capacitação de técnicos em radiologia.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Produto</h5>
+      <ul>
+        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#sistemas">Sistemas</a></li>
+        <li><a href="#planos">Planos</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Acesso</h5>
+      <ul>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="mailto:contato@simuscan.com.br">Contato</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2025 SimuScan®. Todos os direitos reservados. SimuScan é uma marca registrada. Todos os nomes de sistemas simulados são fictícios e utilizados exclusivamente para fins educacionais e de treinamento profissional. O SimuScan não possui vínculo, parceria, endosso ou afiliação com fabricantes de equipamentos médicos. As interfaces simuladas foram criadas de forma independente para fins pedagógicos e não reproduzem software proprietário de terceiros. Esta plataforma destina-se exclusivamente a fins de treinamento e não substitui capacitação profissional formal, normas técnicas vigentes ou orientação de profissionais habilitados.</p>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
