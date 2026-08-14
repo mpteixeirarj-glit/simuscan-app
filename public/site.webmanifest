@@ -1,0 +1,19 @@
+{
+  "name": "SimuScan",
+  "short_name": "SimuScan",
+  "description": "Simulador de Tomografia Computadorizada",
+  "start_url": "/simuscan-app/",
+  "scope": "/simuscan-app/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0c0e14",
+  "theme_color": "#e2006a",
+  "icons": [
+    {
+      "src": "/simuscan-app/imagens/icon-pwa.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
