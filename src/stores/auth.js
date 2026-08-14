@@ -22,7 +22,16 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       await signInWithEmailAndPassword(auth, email, password)
     } catch (e) {
-      error.value = 'E-mail ou senha incorretos.'
+      const code = e?.code || ''
+      if (code === 'auth/too-many-requests') {
+        error.value = 'Muitas tentativas. Aguarde alguns minutos ou redefina sua senha.'
+      } else if (code === 'auth/user-disabled') {
+        error.value = 'Conta desativada. Entre em contato com o suporte.'
+      } else if (code === 'auth/network-request-failed') {
+        error.value = 'Erro de conexão. Verifique sua internet e tente novamente.'
+      } else {
+        error.value = 'E-mail ou senha incorretos.'
+      }
       throw e
     }
   }
