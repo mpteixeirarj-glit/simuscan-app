@@ -18,21 +18,21 @@
           <span class="sys-badge">Disponível</span>
           <div class="sys-icon">🟢</div>
           <h2>Gama Healthcare</h2>
-          <p>Tomografia computadorizada com console completo e gerenciador de protocolos.</p>
+          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
         </button>
 
         <div class="sys-card locked">
           <span class="sys-badge soon">Em breve</span>
           <div class="sys-icon">🔵</div>
           <h2>Sigma Healthcare</h2>
-          <p>Tomografia e ressonância magnética com fluxo avançado.</p>
+          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
         </div>
 
         <div class="sys-card locked">
           <span class="sys-badge soon">Em breve</span>
           <div class="sys-icon">🟠</div>
           <h2>Kappa Healthcare</h2>
-          <p>Interface de alta produtividade para grandes volumes.</p>
+          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
         </div>
       </div>
     </main>
