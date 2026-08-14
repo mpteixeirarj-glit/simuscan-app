@@ -1,0 +1,2196 @@
+<div id="protocol-manager-wrapper" style="width: 100%; height: 100%; background: #003366; color: #e0e0e0; font-family: Arial, sans-serif; box-sizing: border-box; overflow: hidden;">
+    <style>
+        /* Estilos específicos para o Protocol Manager */
+        #protocol-manager-wrapper .hidden-view { display: none !important; }
+        
+        #protocol-manager-wrapper #protocolManagerListView { 
+            display: flex; 
+            flex-direction: column; 
+            width: 100%; 
+            height: 100%; 
+            margin: 0; 
+            padding: 15px; 
+            gap: 15px; 
+            background-color: #003366; 
+            color: #e0e0e0; 
+            box-sizing: border-box;
+        }
+        #protocol-manager-wrapper .protocol-manager-container { 
+            display: flex; 
+            gap: 15px; 
+            width: 100%; 
+            flex-grow: 1; 
+            overflow: hidden; 
+        }
+        #protocol-manager-wrapper .side-panel { 
+            flex-basis: 350px; 
+            flex-shrink: 0; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            background-color: #0b2c5d; 
+            padding: 15px; 
+            border-radius: 6px; 
+            border: 1px solid #3c6eac;
+        }
+        #protocol-manager-wrapper .main-panel-manager { 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+            background-color: #0b2c5d; 
+            padding: 15px; 
+            border-radius: 6px; 
+            overflow-y: auto;
+            border: 1px solid #3c6eac;
+        }
+        #protocol-manager-wrapper .protocol-tabs-manager { 
+            display: flex; 
+            border-bottom: 1px solid #3c6eac; 
+            margin-bottom: 10px; 
+        }
+        #protocol-manager-wrapper .protocol-tabs-manager button { 
+            flex-grow: 1; 
+            padding: 10px; 
+            font-size: 1em; 
+            background-color: #1c4e8c; 
+            color: #fff; 
+            border: 1px solid #3c6eac; 
+            cursor: pointer; 
+            border-bottom: none; 
+        }
+        #protocol-manager-wrapper .protocol-tabs-manager button.active { 
+            background-color: #f39c12; 
+            color: #000; 
+            font-weight: bold; 
+        }
+        #protocol-manager-wrapper .main-panel-manager h3, #protocol-manager-wrapper #protocol-details-view h4 { 
+            text-align: center; 
+            color: #f39c12; 
+            margin: 0 0 10px 0; 
+            padding-bottom: 10px; 
+            border-bottom: 1px solid #3c6eac; 
+            font-size: 1.2em; 
+        }
+        #protocol-manager-wrapper #protocol-details-view { 
+            display: block; 
+        }
+        #protocol-manager-wrapper #protocol-details-view p { 
+            margin: 8px 0; 
+            font-size: 0.9em; 
+            display: flex; 
+            justify-content: space-between; 
+            border-bottom: 1px solid #3c6eac; 
+            padding-bottom: 4px;
+        }
+        #protocol-manager-wrapper #protocol-details-view p strong { 
+            color: #f39c12;
+        }
+        #protocol-manager-wrapper .protocol-list-container-manager { 
+            flex-grow: 1; 
+            background-color: #003366; 
+            border: 1px solid #3c6eac; 
+            border-radius: 5px; 
+            padding: 5px; 
+            overflow-y: auto; 
+        }
+        #protocol-manager-wrapper #protocol-list-manager { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+        }
+        #protocol-manager-wrapper #protocol-list-manager li { 
+            padding: 12px 14px; 
+            border-bottom: 1px solid #3c6eac; 
+            cursor: pointer; 
+            transition: background-color 0.2s; 
+            font-size: 1em; 
+            color: #e0e0e0;
+        }
+        #protocol-manager-wrapper #protocol-list-manager li:hover { 
+            background-color: #1c4e8c; 
+        }
+        #protocol-manager-wrapper #protocol-list-manager li.selected { 
+            background-color: #f39c12; 
+            color: #000; 
+            font-weight: bold; 
+        }
+        #protocol-manager-wrapper .mgmt-buttons { 
+            display: flex; 
+            gap: 15px; 
+            justify-content: flex-end; 
+            padding-top: 15px; 
+            border-top: 1px solid #3c6eac; 
+        }
+        #protocol-manager-wrapper .mgmt-buttons button { 
+            padding: 10px 20px; 
+            font-size: 1em; 
+            border-radius: 5px; 
+            border: none; 
+            background-color: #3c6eac; 
+            color: #fff; 
+            cursor: pointer; 
+            transition: background-color 0.2s; 
+        }
+        #protocol-manager-wrapper .mgmt-buttons button:hover:not(:disabled) { 
+            background-color: #5c8ebc; 
+        }
+        #protocol-manager-wrapper .mgmt-buttons button:disabled { 
+            background-color: #555; 
+            cursor: not-allowed; 
+            color: #bbb; 
+        }
+        #protocol-manager-wrapper .mgmt-buttons .btn-delete, #protocol-manager-wrapper .mgmt-buttons .cancel { 
+            background-color: #dc3545; 
+        }
+        #protocol-manager-wrapper .mgmt-buttons .btn-delete:hover:not(:disabled), #protocol-manager-wrapper .mgmt-buttons .cancel:hover:not(:disabled) { 
+            background-color: #c82333; 
+        }
+
+        /* Estilos da tela de edição */
+        #protocol-manager-wrapper .protocol-editor-container { 
+            background: #003366; 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            width: 100%; 
+            height: 100%;
+            margin: 0; 
+            border-radius: 0; 
+            color: white; 
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        #protocol-manager-wrapper .editor-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: #0b2c5d; 
+            padding: 8px 20px; 
+            border-radius: 6px; 
+            border: 1px solid #3c6eac;
+        }
+        #protocol-manager-wrapper .protocol-title-editor { 
+            font-size: 1.5em; 
+            font-weight: bold; 
+            color: #f39c12; 
+        }
+        #protocol-manager-wrapper .series-info-editor { 
+            font-size: 1.3em; 
+        }
+        #protocol-manager-wrapper .editor-top-section { 
+            display: flex; 
+            gap: 15px; 
+            align-items: stretch; 
+        }
+        #protocol-manager-wrapper .positioning-area { 
+            flex: 1.5; 
+            background: rgba(11, 44, 93, 0.5); 
+            border-radius: 6px; 
+            padding: 10px; 
+            display: flex; 
+            gap: 15px; 
+            border: 1px solid #3c6eac;
+        }
+        #protocol-manager-wrapper .patient-illustration { 
+            flex-basis: 180px; 
+            flex-shrink: 0; 
+        }
+        #protocol-manager-wrapper .patient-illustration img { 
+            width: 100%; 
+            height: auto; 
+            object-fit: contain; 
+        }
+        #protocol-manager-wrapper .positioning-controls { 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-around; 
+        }
+        #protocol-manager-wrapper .anat-ref label { 
+            display: block; 
+            font-size: 0.9em; 
+            margin-bottom: 5px; 
+        }
+        #protocol-manager-wrapper .anat-ref input { 
+            width: 80%; 
+            background: #1c4e8c; 
+            border: 1px solid #3c6eac; 
+            color: white; 
+            border-radius: 4px; 
+            padding: 5px; 
+            font-size: 1em; 
+        }
+        #protocol-manager-wrapper .patient-orientation, #protocol-manager-wrapper .patient-position { 
+            font-size: 1em; 
+            margin: 10px 0;
+        }
+        #protocol-manager-wrapper .patient-orientation select, #protocol-manager-wrapper .patient-position select {
+            margin-left: 8px;
+            background: #1c4e8c;
+            border: 1px solid #3c6eac;
+            color: white;
+            border-radius: 4px;
+            padding: 5px;
+            font-size: 1em;
+        }
+        #protocol-manager-wrapper .patient-orientation select option, #protocol-manager-wrapper .patient-position select option {
+            background-color: #1c4e8c;
+            color: white;
+        }
+        #protocol-manager-wrapper .center-controls-wrapper { 
+            flex: 1.5; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+        }
+        #protocol-manager-wrapper .function-buttons-area { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 8px; 
+        }
+        #protocol-manager-wrapper .function-buttons-area button { 
+            flex: 1 1 22%; 
+            font-size: 0.85em; 
+            background: #1c4e8c; 
+            color: white; 
+            border: 1px solid #3c6eac; 
+            border-radius: 5px; 
+            padding: 8px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: background-color 0.2s; 
+        }
+        #protocol-manager-wrapper .function-buttons-area button.active { 
+            background: #f39c12; 
+            color: black; 
+            font-weight: bold; 
+        }
+        #protocol-manager-wrapper .printer-setup-area { 
+            background: rgba(11, 44, 93, 0.5); 
+            padding: 10px; 
+            text-align: center; 
+            border-radius: 4px; 
+            font-size: 1em; 
+            border: 1px solid #3c6eac;
+        }
+        #protocol-manager-wrapper .printer-setup-area strong { 
+            color: #f39c12; 
+            margin-left: 5px; 
+        }
+        #protocol-manager-wrapper .smart-prep-button {
+            background: #f39c12;
+            color: black;
+            border: 1px solid #3c6eac;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        #protocol-manager-wrapper .smart-prep-button:hover {
+            background: #e67e22;
+        }
+        #protocol-manager-wrapper .dose-info-wrapper { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+        }
+        #protocol-manager-wrapper .dose-info-area { 
+            background: rgba(11, 44, 93, 0.5); 
+            border-radius: 6px; 
+            padding: 15px; 
+            text-align: center; 
+            flex-grow: 1; 
+            border: 1px solid #3c6eac;
+        }
+        #protocol-manager-wrapper .dose-info-area h4 { 
+            margin: 0 0 15px 0; 
+            font-size: 1.1em; 
+            color: #f39c12; 
+        }
+        #protocol-manager-wrapper .dose-item { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 1em; 
+            margin-bottom: 8px; 
+        }
+        #protocol-manager-wrapper .dose-info-area p { 
+            font-size: 0.9em; 
+            margin: 15px 0; 
+            border-top: 1px solid #3c6eac; 
+            padding-top: 10px; 
+        }
+        #protocol-manager-wrapper .dose-info-area small { 
+            font-size: 0.8em; 
+            color: #ccc; 
+        }
+        #protocol-manager-wrapper .technical-table-area { 
+            background: rgba(11, 44, 93, 0.5); 
+            padding: 8px; 
+            border-radius: 6px; 
+            overflow-x: auto;
+            border: 1px solid #3c6eac;
+        }
+        #protocol-manager-wrapper .technical-table-area table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 0.9em; 
+            text-align: center; 
+        }
+        #protocol-manager-wrapper .technical-table-area th { 
+            background: #0b2c5d; 
+            padding: 10px; 
+            white-space: nowrap;
+            border: 1px solid #3c6eac;
+            color: white;
+            font-weight: bold;
+        }
+        #protocol-manager-wrapper .technical-table-area td { 
+            background: #1c4e8c; 
+            padding: 2px; 
+            border: 1px solid #3c6eac; 
+            vertical-align: middle;
+        }
+        #protocol-manager-wrapper .technical-table-area td input, #protocol-manager-wrapper .technical-table-area td select { 
+            width: 98%; 
+            background-color: transparent; 
+            border: none; 
+            color: white; 
+            text-align: center; 
+            padding: 8px 2px; 
+            font-size: 1em; 
+            -moz-appearance: none; 
+            appearance: none; 
+            text-align-last: center;
+        }
+        #protocol-manager-wrapper .technical-table-area td button {
+            width: 98%; 
+            background-color: #f39c12; 
+            border: 1px solid #3c6eac; 
+            color: black; 
+            text-align: center; 
+            padding: 8px 2px; 
+            font-size: 1em; 
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        #protocol-manager-wrapper .technical-table-area td select option { 
+            background-color: #1c4e8c; 
+            color: white; 
+        }
+        #protocol-manager-wrapper .split-button-container { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 4px; 
+        }
+        #protocol-manager-wrapper #btn-split-series { 
+            background-color: #f39c12; 
+            color: black; 
+            border: none; 
+            border-radius: 3px; 
+            padding: 2px 8px; 
+            font-size: 0.8em; 
+            cursor: pointer; 
+        }
+        #protocol-manager-wrapper #btn-split-series:disabled { 
+            background-color: #555; 
+            cursor: not-allowed; 
+        }
+        
+        /* Container para abas de ícones */
+        #protocol-manager-wrapper .icon-tabs-container { 
+            margin-top: 10px; 
+            border: 1px solid #3c6eac; 
+            border-radius: 6px; 
+        }
+        #protocol-manager-wrapper .icon-tabs-buttons { 
+            display: flex; 
+            justify-content: space-around; 
+            background: #0b2c5d; 
+            border-radius: 6px 6px 0 0; 
+            padding: 5px; 
+        }
+        #protocol-manager-wrapper .icon-tabs-buttons button { 
+            background: #1c4e8c; 
+            color: white; 
+            border: 1px solid #3c6eac; 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            font-size: 2.5em; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        #protocol-manager-wrapper .icon-tabs-buttons button.active { 
+            background-color: #f39c12; 
+            color: black; 
+        }
+        #protocol-manager-wrapper .icon-tabs-content { 
+            padding: 15px; 
+            background: rgba(11, 44, 93, 0.5); 
+        }
+        #protocol-manager-wrapper .icon-tab-pane { 
+            display: none; 
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 15px; 
+        }
+        #protocol-manager-wrapper .icon-tab-pane.active { 
+            display: grid; 
+        }
+        #protocol-manager-wrapper .icon-tab-pane .data-pair { 
+            text-align: center; 
+        }
+        #protocol-manager-wrapper .icon-tab-pane .data-pair-label { 
+            font-size: 0.8em; 
+            color: #ccc; 
+        }
+        #protocol-manager-wrapper .icon-tab-pane .data-pair-value { 
+            font-size: 1.1em; 
+            color: #f39c12; 
+            font-weight: bold; 
+        }
+        #protocol-manager-wrapper .icon-tab-pane .data-pair input,
+        #protocol-manager-wrapper .icon-tab-pane .data-pair select {
+            background: #1c4e8c;
+            border: 1px solid #3c6eac;
+            color: white;
+            border-radius: 4px;
+            padding: 5px;
+            text-align: center;
+            width: 100%;
+            margin-top: 5px;
+        }
+        #protocol-manager-wrapper .icon-tab-pane .data-pair button {
+            background: #f39c12;
+            border: 1px solid #3c6eac;
+            color: black;
+            border-radius: 4px;
+            padding: 5px;
+            text-align: center;
+            width: 100%;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+        #protocol-manager-wrapper .icon-tab-pane .data-pair select option {
+            background-color: #1c4e8c;
+            color: white;
+        }
+        
+        #protocol-manager-wrapper .bottom-actions-area { 
+            display: flex; 
+            gap: 15px; 
+            background: #0b2c5d; 
+            padding: 10px; 
+            border-radius: 6px; 
+            justify-content: space-between; 
+            border: 1px solid #3c6eac;
+        }
+        #protocol-manager-wrapper .bottom-actions-area div { 
+            display: flex; 
+            gap: 10px; 
+        }
+        #protocol-manager-wrapper .bottom-actions-area button { 
+            background: #3c6eac; 
+            color: white; 
+            border: 1px solid #5c8ebc; 
+            border-radius: 5px; 
+            padding: 10px 15px; 
+            font-size: 0.9em; 
+            cursor: pointer; 
+        }
+        #protocol-manager-wrapper .bottom-actions-area button:hover { 
+            background: #5c8ebc; 
+        }
+        #protocol-manager-wrapper .bottom-actions-area button.toggle-btn.active { 
+            background: #f39c12; 
+            color: black; 
+            font-weight: bold; 
+        }
+        #protocol-manager-wrapper .bottom-actions-area button.cancel { 
+            background: #dc3545; 
+        }
+        #protocol-manager-wrapper .bottom-actions-area button.accept { 
+            background: #f39c12; 
+            color: black; 
+            font-weight: bold; 
+        }
+        #protocol-manager-wrapper .bottom-actions-area button:disabled { 
+            background: #555; 
+            cursor: not-allowed; 
+            color: #999; 
+        }
+
+        /* Estilos para popups/modais */
+        #protocol-manager-wrapper .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+
+        #protocol-manager-wrapper .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #0b2c5d;
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border: 2px solid #f39c12;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+
+        #protocol-manager-wrapper .modal-content h3 {
+            margin-bottom: 20px;
+            color: #f39c12;
+        }
+
+        #protocol-manager-wrapper .modal-content button {
+            background-color: #f39c12;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        #protocol-manager-wrapper .modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        #protocol-manager-wrapper .modal-section {
+            background: rgba(28, 78, 140, 0.3);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #3c6eac;
+        }
+
+        #protocol-manager-wrapper .modal-section h4 {
+            color: #f39c12;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        #protocol-manager-wrapper .toggle-button {
+            display: inline-block;
+            background: #1c4e8c;
+            color: white;
+            border: 1px solid #3c6eac;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9em;
+        }
+
+        #protocol-manager-wrapper .toggle-button.active {
+            background: #f39c12;
+            color: black;
+            font-weight: bold;
+        }
+
+        #protocol-manager-wrapper .toggle-button:hover {
+            background: #2c5e9c;
+        }
+
+        #protocol-manager-wrapper .toggle-button.active:hover {
+            background: #e67e22;
+        }
+
+        #protocol-manager-wrapper .increment-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        #protocol-manager-wrapper .increment-btn {
+            background: #f39c12;
+            color: black;
+            border: 1px solid #3c6eac;
+            border-radius: 3px;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #protocol-manager-wrapper .increment-btn:hover {
+            background: #e67e22;
+        }
+
+        #protocol-manager-wrapper .modal-input {
+            background: #1c4e8c;
+            border: 1px solid #3c6eac;
+            color: white;
+            border-radius: 4px;
+            padding: 5px;
+            text-align: center;
+            width: 80px;
+        }
+
+        #protocol-manager-wrapper .divider {
+            border-bottom: 2px solid #3c6eac;
+            margin: 20px 0;
+        }
+
+        #protocol-manager-wrapper .modal-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        #protocol-manager-wrapper .modal-column {
+            flex: 1;
+            text-align: left;
+        }
+
+        #protocol-manager-wrapper .modal-column.right {
+            text-align: right;
+        }
+
+        #protocol-manager-wrapper .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            margin: 10px;
+        }
+
+        #protocol-manager-wrapper .input-group label {
+            font-size: 0.9em;
+            color: #ccc;
+        }
+
+        #protocol-manager-wrapper .input-group input {
+            background: #1c4e8c;
+            border: 1px solid #3c6eac;
+            color: white;
+            border-radius: 4px;
+            padding: 5px;
+            text-align: center;
+            width: 100px;
+        }
+    </style>
+
+    <div id="protocolManagerListView">
+        <div class="protocol-manager-container">
+            <div class="side-panel">
+                <div class="protocol-tabs-manager">
+                    <button data-area="gama" class="active">Gama</button>
+                    <button data-area="user">User</button>
+                    <button data-area="service">Service</button>
+                </div>
+                <div class="protocol-list-container-manager">
+                    <ul id="protocol-list-manager"></ul>
+                </div>
+            </div>
+            <div class="main-panel-manager">
+                <h3>Detalhes do Protocolo</h3>
+                <div id="protocol-details-view"><p>Selecione um protocolo na lista para ver os detalhes.</p></div>
+            </div>
+        </div>
+        <div class="mgmt-buttons">
+            <button id="proto-btn-new">Novo</button>
+            <button id="proto-btn-edit" disabled>Editar</button>
+            <button id="proto-btn-delete" class="btn-delete" disabled>Excluir</button>
+            <button id="proto-btn-close-mgmt" class="cancel" onclick="window.history.back()">Fechar</button>
+
+        </div>
+    </div>
+
+    <div id="protocolEditorView" class="protocol-editor-container hidden-view">
+        <div class="editor-header">
+            <div class="protocol-title-editor">Protocol: <span id="editor-protocol-name"></span></div>
+            <div class="series-info-editor">Series <span id="editor-series-number">1</span></div>
+        </div>
+        <div class="editor-top-section">
+            <div class="positioning-area">
+                <div class="patient-illustration">
+                    <img id="patient-position-image" src="../imagens/hfsupine.png" alt="Posicionamento do Paciente" title="Posicionamento do paciente na mesa de exame" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div style="display: none; width: 100%; height: 180px; background-color: #1c4e8c; border: 2px solid #3c6eac; border-radius: 8px; align-items: center; justify-content: center; color: #f39c12; font-size: 14px; text-align: center;">
+                        Mesa de Exame<br>
+                        <small>../imagens/hfsupine.png</small>
+                    </div>
+                </div>
+                <div class="positioning-controls">
+                    <div class="anat-ref"><label>Anatomical Reference</label><input type="text" value="OM" title="Referência Anatômica"></div>
+                    <div class="patient-orientation">
+                        <span>Patient Orientation:</span>
+                        <select id="patient-orientation" title="Orientação do paciente na mesa" onchange="updatePatientImage()">
+                            <option value="Head First" title="Cabeça primeiro - paciente entra com a cabeça na direção do gantry">Head First</option>
+                            <option value="Feet First" title="Pés primeiro - paciente entra com os pés na direção do gantry">Feet First</option>
+                        </select>
+                    </div>
+                    <div class="patient-position">
+                        <span>Patient Position:</span>
+                        <select id="patient-position" title="Posição do paciente na mesa" onchange="updatePatientImage()">
+                            <option value="Supine" title="Decúbito dorsal - paciente deitado de costas">Supine</option>
+                            <option value="Prone" title="Decúbito ventral - paciente deitado de bruços">Prone</option>
+                            <option value="Left Lateral" title="Decúbito lateral esquerdo - paciente deitado sobre o lado esquerdo">Left Lateral</option>
+                            <option value="Right Lateral" title="Decúbito lateral direito - paciente deitado sobre o lado direito">Right Lateral</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="center-controls-wrapper">
+                <div class="function-buttons-area">
+                    <button class="toggle-button" title="Copiar Orientação do Paciente">Copy Pt. Orient.</button>
+                    <button class="toggle-button" title="Copiar Posição do Paciente">Pt. Position.</button>
+                    <button class="toggle-button" title="Copiar Referência Anatômica">Anat. Ref.</button>
+                    <button class="toggle-button active" title="Armazenamento Automático">Auto Store</button>
+                    <button class="toggle-button" title="Transferência Automática para PACS">Auto Transfer PACS</button>
+                    <button class="toggle-button" title="Transferência do Relatório de Dose">Dose Report Auto Transfer</button>
+                    <button class="toggle-button" title="Exibir Localizador">Show Localizer</button>
+                    <button class="toggle-button" title="Configuração Automática de Impressão">AUTO Film Setup</button>
+                </div>
+                <div class="printer-setup-area" title="Impressora configurada">
+                    <span>Impressora:</span><strong id="current-printer">AGFA Drystar 5500</strong>
+                </div>
+                <button class="smart-prep-button" onclick="openSmartPrepModal()" title="Configurações Smart Prep">Smart Prep Rx</button>
+            </div>
+            <div class="dose-info-wrapper">
+                <div class="dose-info-area">
+                    <h4>Dose Information</h4>
+                    <div class="dose-item"><span>CTDIvol (mGy):</span> <strong id="dose-ctdi">73.33</strong></div>
+                    <div class="dose-item"><span>DLP (mGy·cm):</span> <strong id="dose-dlp">1164.33</strong></div>
+                    <div class="dose-item"><span>Dose Eff. %:</span> <strong id="dose-eff">89.31</strong></div>
+                    <p>SimuScan 64 Canais - 128 Virtuais</p><small>Accumulated: <span id="dose-accumulated">1164.33</span></small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="technical-table-area">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                           <div class="split-button-container">
+                                Images
+                                <button id="btn-split-series" title="Resetar contagem de imagens da 2ª série" disabled>Split</button>
+                           </div>
+                        </th>
+                        <th>Scan Type</th><th>Start</th><th>End</th><th>No. Img</th><th>Thick</th><th>Interval</th><th>Tilt</th><th>SFOV</th><th>kV</th><th>mA</th><th>Time(s)</th>
+                    </tr>
+                </thead>
+                <tbody id="technical-table-body"></tbody>
+            </table>
+        </div>
+        
+        <div class="icon-tabs-container">
+            <div class="icon-tabs-buttons">
+                <button data-tab="prep" class="active" title="Grupo de Preparação">⏱️</button>
+                <button data-tab="recon" title="Parâmetros de Reconstrução">◎</button>
+                <button data-tab="photo" title="Configurações de Filmagem">📷</button>
+            </div>
+            <div class="icon-tabs-content">
+                <div id="tab-content-prep" class="icon-tab-pane active">
+                    <div class="data-pair">
+                        <div class="data-pair-label">Prep Group</div>
+                        <input type="text" class="data-pair-value" value="0.0" title="Grupo de preparação editável">
+                    </div>
+                    <div class="data-pair"><div class="data-pair-label">ISD</div><div class="data-pair-value">1.3</div></div>
+                    <div class="data-pair">
+                        <div class="data-pair-label">Breath Hold</div>
+                        <select class="data-pair-value" title="Controle de respiração">
+                            <option value="N" selected>N</option>
+                            <option value="S">S</option>
+                        </select>
+                    </div>
+                    <div class="data-pair">
+                        <div class="data-pair-label">Breath Time</div>
+                        <select class="data-pair-value" title="Tempo de respiração">
+                            <option value="S" selected>S</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                    <div class="data-pair">
+                        <div class="data-pair-label">Voice Lights Timer</div>
+                        <button class="data-pair-value" onclick="openVoiceLightsModal()" title="Configurações de voz e luzes">Configure</button>
+                    </div>
+                    <div class="data-pair"><div class="data-pair-label">Cine Duration</div><div class="data-pair-value">2.0</div></div>
+                </div>
+                <div id="tab-content-recon" class="icon-tab-pane">
+                    <div class="data-pair">
+                        <div class="data-pair-label">Recon Type</div>
+                        <select class="data-pair-value" title="Tipo de reconstrução">
+                            <option value="Soft">Soft</option>
+                            <option value="Standard" selected>Standard</option>
+                            <option value="Lung">Lung</option>
+                            <option value="Chest">Chest</option>
+                            <option value="Detail">Detail</option>
+                            <option value="Bone">Bone</option>
+                            <option value="Bone Plus">Bone Plus</option>
+                            <option value="Edge">Edge</option>
+                        </select>
+                    </div>
+                    <div class="data-pair">
+                        <div class="data-pair-label">Kernel</div>
+                        <select class="data-pair-value" title="Kernel de reconstrução">
+                            <option value="B31s" selected>B31s</option>
+                            <option value="B30f">B30f</option>
+                            <option value="B50f">B50f</option>
+                            <option value="B70f">B70f</option>
+                            <option value="B80f">B80f</option>
+                            <option value="H30s">H30s</option>
+                            <option value="H50s">H50s</option>
+                            <option value="H70s">H70s</option>
+                        </select>
+                    </div>
+                    <div class="data-pair">
+                        <div class="data-pair-label">Window</div>
+                        <input type="text" class="data-pair-value" value="400/50" title="Janela de visualização editável">
+                    </div>
+                </div>
+                <div id="tab-content-photo" class="icon-tab-pane">
+                    <div class="data-pair">
+                        <div class="data-pair-label">Filming</div>
+                        <select class="data-pair-value" title="Modo de filmagem">
+                            <option value="AUTO" selected>AUTO</option>
+                            <option value="OFF">OFF</option>
+                        </select>
+                    </div>
+                    <div class="data-pair">
+                        <div class="data-pair-label">Layout</div>
+                        <select class="data-pair-value" title="Layout de impressão">
+                            <option value="1x1(1)">1x1(1)</option>
+                            <option value="2x2(4)">2x2(4)</option>
+                            <option value="3x3(9)">3x3(9)</option>
+                            <option value="3x4(12)">3x4(12)</option>
+                            <option value="4x5(20)" selected>4x5(20)</option>
+                            <option value="5x5(25)">5x5(25)</option>
+                            <option value="6x5(30)">6x5(30)</option>
+                        </select>
+                    </div>
+                    <div class="data-pair">
+                        <div class="data-pair-label">Printer</div>
+                        <select class="data-pair-value" title="Impressora selecionada" onchange="updatePrinterDisplay(this.value)">
+                            <option value="AGFA Drystar 5500" selected>AGFA Drystar 5500</option>
+                            <option value="KODAK 6900 Photo Printer">KODAK 6900 Photo Printer</option>
+                            <option value="Adicionar Nova Printer">Adicionar Nova Printer</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-actions-area">
+            <div class="action-buttons-left"><button id="editor-btn-cancel" class="cancel" title="Cancelar Edição">Cancel</button></div>
+            <div class="action-buttons-center">
+                <button disabled title="Ir para Série Anterior">Prior Series</button>
+                <button title="Ir para Próxima Série">Next Series</button>
+                <button id="btn-create-new-series" title="Criar Nova Série (máx 4)">Create New Series</button>
+                <button id="btn-delete-series" title="Excluir Última Série">Delete Series</button>
+            </div>
+            <div class="action-buttons-right">
+                <button class="toggle-btn" title="Reconstrução Prioritária">Priority Recon</button>
+                <button class="toggle-btn" title="Iniciar Aquisição">Auto Scan</button>
+                <button id="editor-btn-accept" class="accept" title="Aceitar e Salvar">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modais/Popups -->
+    
+    <!-- Modal Scan Type -->
+    <div class="modal" id="scanTypeModal">
+        <div class="modal-content" style="width: 600px;">
+            <h3>Scan Type Configuration</h3>
+            <div class="modal-section">
+                <h4>Scan Type</h4>
+                <div id="scanTypeButtons">
+                    <span class="toggle-button active" data-value="Axial" onclick="selectScanType('Axial')">Axial</span>
+                    <span class="toggle-button" data-value="Helical" onclick="selectScanType('Helical')">Helical</span>
+                    <span class="toggle-button" data-value="Cine" onclick="selectScanType('Cine')">Cine</span>
+                    <span class="toggle-button" data-value="Cardiac" onclick="selectScanType('Cardiac')">Cardiac</span>
+                </div>
+            </div>
+            <div class="modal-section">
+                <h4>Cardiac Mode</h4>
+                <div id="cardiacModeButtons" style="opacity: 0.5; pointer-events: none;">
+                    <span class="toggle-button" data-value="SnapShot Segment(Helical)" onclick="selectCardiacMode('SnapShot Segment(Helical)')">SnapShot Segment(Helical)</span>
+                    <span class="toggle-button" data-value="SnapShot Burst(helical)" onclick="selectCardiacMode('SnapShot Burst(helical)')">SnapShot Burst(helical)</span>
+                    <span class="toggle-button" data-value="SnapShot Burst-Plus(Helical)" onclick="selectCardiacMode('SnapShot Burst-Plus(Helical)')">SnapShot Burst-Plus(Helical)</span>
+                    <span class="toggle-button" data-value="SnapShot Pulse(Cine)" onclick="selectCardiacMode('SnapShot Pulse(Cine)')">SnapShot Pulse(Cine)</span>
+                </div>
+            </div>
+            <div class="modal-section">
+                <h4>Rotation Time</h4>
+                <div id="rotationTimeButtons">
+                    <span class="toggle-button" data-value="0.35" onclick="selectRotationTime('0.35')">0.35</span>
+                    <span class="toggle-button" data-value="0.37" onclick="selectRotationTime('0.37')">0.37</span>
+                    <span class="toggle-button" data-value="0.4" onclick="selectRotationTime('0.4')">0.4</span>
+                    <span class="toggle-button" data-value="0.42" onclick="selectRotationTime('0.42')">0.42</span>
+                    <span class="toggle-button" data-value="0.45" onclick="selectRotationTime('0.45')">0.45</span>
+                    <span class="toggle-button" data-value="0.47" onclick="selectRotationTime('0.47')">0.47</span>
+                    <span class="toggle-button" data-value="0.5" onclick="selectRotationTime('0.5')">0.5</span>
+                    <span class="toggle-button active" data-value="0.6" onclick="selectRotationTime('0.6')">0.6</span>
+                    <span class="toggle-button" data-value="0.7" onclick="selectRotationTime('0.7')">0.7</span>
+                    <span class="toggle-button" data-value="0.8" onclick="selectRotationTime('0.8')">0.8</span>
+                    <span class="toggle-button" data-value="0.9" onclick="selectRotationTime('0.9')">0.9</span>
+                    <span class="toggle-button" data-value="1.0" onclick="selectRotationTime('1.0')">1.0</span>
+                    <span class="toggle-button" data-value="2.0" onclick="selectRotationTime('2.0')">2.0</span>
+                </div>
+            </div>
+            <div class="modal-section">
+                <h4>Rotation Length</h4>
+                <div id="rotationLengthButtons">
+                    <span class="toggle-button" data-value="Segment" onclick="selectRotationLength('Segment')">Segment</span>
+                    <span class="toggle-button active" data-value="Full" onclick="selectRotationLength('Full')">Full</span>
+                </div>
+            </div>
+            <div class="modal-section">
+                <h4>Shuttle Mode</h4>
+                <div id="shuttleModeButtons">
+                    <span class="toggle-button active" data-value="Off" onclick="selectShuttleMode('Off')">Off</span>
+                    <span class="toggle-button" data-value="On" onclick="selectShuttleMode('On')">On</span>
+                </div>
+            </div>
+            <button onclick="applyScanTypeSettings()">OK</button>
+            <button onclick="closeScanTypeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Modal mA Control -->
+    <div class="modal" id="maControlModal">
+        <div class="modal-content" style="width: 500px;">
+            <h3>mA Control</h3>
+            
+            <!-- Parte Superior - Auto mA -->
+            <div class="modal-section">
+                <div class="modal-row">
+                    <span class="toggle-button active" id="autoMaToggle" onclick="toggleAutoMa()">Auto mA</span>
+                </div>
+                <div style="margin: 15px 0;">
+                    <label style="display: block; margin-bottom: 10px;">Reference Noise Index</label>
+                    <div class="modal-row">
+                        <input type="number" id="refNoiseIndex" value="21.45" step="0.01" class="modal-input">
+                        <button onclick="resetRefNoiseIndex()">Reset</button>
+                        <div class="increment-controls">
+                            <button class="increment-btn" onclick="adjustDoseSteps(-1)">-</button>
+                            <input type="number" id="doseSteps" value="6.00" step="1" class="modal-input" style="width: 60px;" title="Dose Steps">
+                            <button class="increment-btn" onclick="adjustDoseSteps(1)">+</button>
+                        </div>
+                        <input type="number" id="noiseIndex" value="15.01" step="0.01" class="modal-input" title="Noise Index">
+                    </div>
+                    <div style="font-size: 0.8em; color: #ccc; margin-top: 5px;">
+                        <span>Dose Steps: </span><span id="doseStepsLabel">+6.00</span>
+                        <span style="margin-left: 20px;">Noise Index</span>
+                    </div>
+                </div>
+                <div style="margin: 15px 0;">
+                    <label style="display: block; margin-bottom: 10px;">mA Range</label>
+                    <div class="modal-row">
+                        <div class="input-group">
+                            <label>Min</label>
+                            <input type="number" id="maMin" value="10" min="0" max="500" class="modal-input">
+                        </div>
+                        <div class="input-group">
+                            <label>Max</label>
+                            <input type="number" id="maMax" value="500" min="0" max="500" class="modal-input">
+                        </div>
+                        <div class="input-group">
+                            <label>% Dose Reduction</label>
+                            <input type="number" id="doseReductionAuto" value="30" min="0" max="100" class="modal-input">
+                        </div>
+                        <span class="toggle-button active" id="smartMaToggle" onclick="toggleSmartMa()">Smart mA</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Parte Inferior - Manual mA -->
+            <div class="modal-section">
+                <div class="modal-row">
+                    <span class="toggle-button" id="manualMaToggle" onclick="toggleManualMa()">Manual mA</span>
+                </div>
+                <div class="modal-row" style="margin-top: 10px;">
+                    <div class="input-group">
+                        <label>Ref</label>
+                        <input type="number" id="manualRef" value="450" min="0" max="500" class="modal-input" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Act</label>
+                        <input type="number" id="manualAct" value="450" min="0" max="500" class="modal-input" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>% Dose Reduction</label>
+                        <input type="number" id="doseReductionManual" value="0" min="0" max="100" class="modal-input" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button onclick="applyMaSettings()">OK</button>
+                <button onclick="closeMaModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Voice & Breathing Lights -->
+    <div class="modal" id="voiceLightsModal">
+        <div class="modal-content" style="width: 600px;">
+            <h3>AutoVoice & BreathingLights Selection</h3>
+            
+            <div class="modal-row">
+                <div class="modal-column">
+                    <label>Pre-Recorded Message Language Selection:</label>
+                    <select id="languageSelect" style="margin-left: 10px; background: #1c4e8c; color: white; border: 1px solid #3c6eac; padding: 5px;">
+                        <option value="en">English</option>
+                        <option value="pt-br" selected>Português Brasil</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        <option value="ja">日本語</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </div>
+                <div class="modal-column">
+                    <label>Preset Delay Time:</label>
+                    <div class="increment-controls">
+                        <button class="increment-btn" onclick="adjustDelayTime(-1)">-</button>
+                        <input type="number" id="delayTime" value="5" min="0" max="20" class="modal-input">
+                        <button class="increment-btn" onclick="adjustDelayTime(1)">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-grid" style="grid-template-columns: repeat(2, 1fr); margin: 20px 0;">
+                <span class="toggle-button" onclick="toggleVoiceOption('suspension')">Suspension</span>
+                <span class="toggle-button" onclick="toggleVoiceOption('inspiration')">Inspiration</span>
+                <span class="toggle-button" onclick="toggleVoiceOption('expiration')">Expiration</span>
+                <span class="toggle-button active" onclick="toggleVoiceOption('inspiracao')">INSPIRAÇÃO</span>
+                <span class="toggle-button" onclick="toggleVoiceOption('expiracao')">EXPIRAÇÃO</span>
+                <span class="toggle-button" onclick="toggleVoiceOption('pararRespirar')">PARAR DE RESPIRAR</span>
+                <span class="toggle-button" onclick="toggleVoiceOption('apneiaLivre')">APNEIA LIVRE</span>
+                <input type="text" id="custom1" placeholder="         " style="background: #1c4e8c; color: white; border: 1px solid #3c6eac; padding: 5px;">
+                <input type="text" id="custom2" placeholder="         " style="background: #1c4e8c; color: white; border: 1px solid #3c6eac; padding: 5px;">
+                <input type="text" id="custom3" placeholder="         " style="background: #1c4e8c; color: white; border: 1px solid #3c6eac; padding: 5px;">
+            </div>
+
+            <div class="modal-row" style="margin: 20px 0;">
+                <span class="toggle-button active" onclick="toggleVoiceControl('autoVoice')">AutoVoice</span>
+                <span class="toggle-button active" onclick="toggleVoiceControl('breathingLight')">Breathing Light</span>
+                <span class="toggle-button active" onclick="toggleVoiceControl('timer')">Timer</span>
+            </div>
+
+            <button onclick="applyVoiceLightsSettings()">OK</button>
+            <button onclick="closeVoiceLightsModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Modal Image Thickness -->
+    <div class="modal" id="thicknessModal">
+        <div class="modal-content" style="width: 700px;">
+            <h3>Select the desired Image Thickness</h3>
+            
+            <div class="modal-section">
+                <h4>Detector Coverage(mm) Coverage Time: 7.9</h4>
+                <div>
+                    <span class="toggle-button" data-group="detectorCoverage" data-value="20.0" onclick="selectDetectorCoverage('20.0')">20.0</span>
+                    <span class="toggle-button active" data-group="detectorCoverage" data-value="40.0" onclick="selectDetectorCoverage('40.0')">40.0</span>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h4>Helical Thickness(mm) Coverage Speed: 65.62mm/s</h4>
+                <div>
+                    <span class="toggle-button" data-group="helicalThickness" data-value="0.625" onclick="selectHelicalThickness('0.625')">0.625</span>
+                    <span class="toggle-button active" data-group="helicalThickness" data-value="1.25" onclick="selectHelicalThickness('1.25')">1.25</span>
+                    <span class="toggle-button" data-group="helicalThickness" data-value="2.5" onclick="selectHelicalThickness('2.5')">2.5</span>
+                    <span class="toggle-button" data-group="helicalThickness" data-value="3.75" onclick="selectHelicalThickness('3.75')">3.75</span>
+                    <span class="toggle-button" data-group="helicalThickness" data-value="5.0" onclick="selectHelicalThickness('5.0')">5.0</span>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h4>Pitch & Speed(mm/rot)</h4>
+                <div>
+                    <span class="toggle-button" data-group="pitchSpeed" data-value="0.516:1 20.62" onclick="selectPitchSpeed('0.516:1 20.62')">0.516:1 20.62</span>
+                    <span class="toggle-button active" data-group="pitchSpeed" data-value="0.984:1 39.37" onclick="selectPitchSpeed('0.984:1 39.37')">0.984:1 39.37</span>
+                    <span class="toggle-button" data-group="pitchSpeed" data-value="1.375:1 55.00" onclick="selectPitchSpeed('1.375:1 55.00')">1.375:1 55.00</span>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h4>Rotation Time(s)</h4>
+                <div>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="0.35" onclick="selectRotationTimeThick('0.35')">0.35</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="0.37" onclick="selectRotationTimeThick('0.37')">0.37</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="0.4" onclick="selectRotationTimeThick('0.4')">0.4</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="0.42" onclick="selectRotationTimeThick('0.42')">0.42</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="0.45" onclick="selectRotationTimeThick('0.45')">0.45</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="0.47" onclick="selectRotationTimeThick('0.47')">0.47</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="0.5" onclick="selectRotationTimeThick('0.5')">0.5</span>
+                    <span class="toggle-button active" data-group="rotationTimeThick" data-value="0.6" onclick="selectRotationTimeThick('0.6')">0.6</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="0.7" onclick="selectRotationTimeThick('0.7')">0.7</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="0.8" onclick="selectRotationTimeThick('0.8')">0.8</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="0.9" onclick="selectRotationTimeThick('0.9')">0.9</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="1.0" onclick="selectRotationTimeThick('1.0')">1.0</span>
+                    <span class="toggle-button" data-group="rotationTimeThick" data-value="2.0" onclick="selectRotationTimeThick('2.0')">2.0</span>
+                </div>
+            </div>
+
+            <button onclick="applyThicknessSettings()">OK</button>
+            <button onclick="closeThicknessModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Modal Smart Prep -->
+    <div class="modal" id="smartPrepModal">
+        <div class="modal-content" style="width: 600px;">
+            <h3>Smart Prep</h3>
+            
+            <div class="modal-row">
+                <div class="modal-column right">
+                    <span class="toggle-button active" onclick="toggleSmartPrepOption('on')">On</span><br>
+                    <span class="toggle-button" onclick="toggleSmartPrepOption('dynamicTransition')">Dynamic Transition</span>
+                </div>
+                <div class="modal-column">
+                    <span class="toggle-button" onclick="toggleSmartPrepOption('showLocalizer')">Show Localizer</span><br>
+                    <span class="toggle-button" onclick="toggleSmartPrepOption('autoVoicePreMessage')">AutoVoice Pre-Message</span><br>
+                    <span class="toggle-button" onclick="toggleSmartPrepOption('autoMinimumDelay')">Auto Minimum Delay</span>
+                </div>
+            </div>
+
+            <div class="modal-grid" style="grid-template-columns: repeat(3, 1fr); margin: 20px 0;">
+                <div class="input-group">
+                    <label>Monitor Location</label>
+                    <input type="text" id="monitorLocation" value="I400.00">
+                </div>
+                <div class="input-group">
+                    <label>mA</label>
+                    <input type="number" id="smartPrepMa" value="40">
+                </div>
+                <div class="input-group">
+                    <label>Monitoring Delay</label>
+                    <input type="number" id="monitoringDelay" value="10.0" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label>Monitoring ISD</label>
+                    <input type="number" id="monitoringISD" value="2.5" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label>Enhancement Threshold</label>
+                    <input type="number" id="enhancementThreshold" value="50">
+                </div>
+                <div class="input-group">
+                    <label>Diagnostic Delay</label>
+                    <input type="number" id="diagnosticDelay" value="8.2" step="0.1">
+                </div>
+            </div>
+
+            <button onclick="applySmartPrepSettings()">Accept</button>
+            <button onclick="closeSmartPrepModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Modal de sucesso -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <h3>✓ Protocolo salvo com sucesso!</h3>
+            <p>As alterações foram aplicadas ao protocolo.</p>
+            <button id="modalOkBtn">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let currentProtocol = null;
+        let currentSeries = 1;
+        let maxSeries = 4;
+        let seriesData = [];
+        let currentTab = 'gama';
+        let selectedProtocolIndex = -1;
+
+        // Configurações dos modais
+        let scanTypeConfig = {
+            scanType: 'Axial',
+            cardiacMode: 'SnapShot Segment(Helical)',
+            rotationTime: '0.6',
+            rotationLength: 'Full',
+            shuttleMode: 'Off'
+        };
+
+        let maControlConfig = {
+            autoMa: true,
+            manualMa: false,
+            refNoiseIndex: 21.45,
+            doseSteps: 6.00,
+            noiseIndex: 15.01,
+            maMin: 10,
+            maMax: 500,
+            doseReductionAuto: 30,
+            smartMa: true,
+            manualRef: 450,
+            manualAct: 450,
+            doseReductionManual: 0
+        };
+
+        let voiceLightsConfig = {
+            language: 'pt-br',
+            delayTime: 5,
+            voiceOptions: {
+                suspension: false,
+                inspiration: false,
+                expiration: false,
+                inspiracao: true,
+                expiracao: false,
+                pararRespirar: false,
+                apneiaLivre: false
+            },
+            controls: {
+                autoVoice: true,
+                breathingLight: true,
+                timer: true
+            }
+        };
+
+        let thicknessConfig = {
+            detectorCoverage: '40.0',
+            helicalThickness: '1.25',
+            pitchSpeed: '0.984:1 39.37',
+            rotationTime: '0.6'
+        };
+
+        let smartPrepConfig = {
+            on: true,
+            dynamicTransition: false,
+            showLocalizer: false,
+            autoVoicePreMessage: false,
+            autoMinimumDelay: false,
+            monitorLocation: 'I400.00',
+            ma: 40,
+            monitoringDelay: 10.0,
+            monitoringISD: 2.5,
+            enhancementThreshold: 50,
+            diagnosticDelay: 8.2
+        };
+
+        // Base de dados de protocolos
+        const protocolDatabase = {
+            gama: [
+                { name: "CRANIO ROTINA", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Head", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "CRANIO ANGIO", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Head", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "CRANIO PERFUSAO", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Head", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "FACE", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Head", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "SEIOS DA FACE", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Head", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "OUVIDO", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Head", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "PESCOCO", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Head", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "TORAX ROTINA", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "TORAX ALTA RESOLUCAO", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "TORAX ANGIO", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "ABDOME ROTINA", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "ABDOME MULTIFASICO", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "PELVE", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "COLUNA CERVICAL", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Medium Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "COLUNA TORACICA", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Medium Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "COLUNA LOMBAR", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Medium Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "EXTREMIDADES SUP", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Small Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "EXTREMIDADES INF", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Small Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "ANGIOGRAFIA CORONARIA", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "SCORE DE CALCIO", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "PEDIATRICO CRANIO", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "PED Head", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "PEDIATRICO TORAX", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "PED Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "PEDIATRICO ABDOME", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "PED Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "UROGRAFIA", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "ENTEROGRAFIA", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "COLONOGRAFIA", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "BIOPSIA GUIADA", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Medium Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "CORPO INTEIRO", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Large Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" },
+                { name: "DENSIDADE OSSEA", images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Medium Body", kv: "120", ma: "450", time: "0.6", ctdivol: "73.33", dlp: "1164.33", doseEff: "89.31" }
+            ],
+            user: [
+                { name: "USER PROTOCOL 1", images: "1-20", scanType: "Helical Full", start: "I350.00", end: "I150.00", noImg: "20", thick: "2.5", interval: "2.5", tilt: "0", sfov: "Medium Body", kv: "120", ma: "400", time: "0.8", ctdivol: "65.20", dlp: "980.50", doseEff: "75.40" },
+                { name: "USER PROTOCOL 2", images: "1-25", scanType: "Helical Full", start: "I300.00", end: "I100.00", noImg: "25", thick: "1.5", interval: "1.5", tilt: "0", sfov: "Large Body", kv: "120", ma: "350", time: "0.7", ctdivol: "58.90", dlp: "850.75", doseEff: "68.20" }
+            ],
+            service: [
+                { name: "DAILY CALIBRATION", description: "Executa a calibração diária dos detectores e do sistema de raios-X para garantir a qualidade e a precisão da imagem." },
+                { name: "TUBE WARMUP", description: "Realiza o aquecimento do tubo de raios-X, um procedimento necessário para proteger o tubo e garantir sua longevidade e performance estável." },
+                { name: "QA PHANTOM SCAN", description: "Escaneia um objeto de teste (phantom) para controle de qualidade (QA), verificando parâmetros como uniformidade, ruído e resolução espacial." }
+            ]
+        };
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeProtocolManager();
+        });
+
+        function initializeProtocolManager() {
+            // Inicializar dados das séries
+            seriesData = [
+                { images: "1-29", scanType: "Helical Full", start: "I400.00", end: "I200.00", noImg: "29", thick: "1.25", interval: "1.25", tilt: "0", sfov: "Head", kv: "120", ma: "450", time: "0.6" }
+            ];
+
+            // Event listeners para abas de protocolos
+            const protocolTabs = document.querySelectorAll('.protocol-tabs-manager button');
+            protocolTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const area = this.getAttribute('data-area');
+                    switchProtocolTab(area);
+                });
+            });
+
+            // Event listeners para botões de gerenciamento
+            const btnNew = document.getElementById('proto-btn-new');
+            const btnEdit = document.getElementById('proto-btn-edit');
+            const btnDelete = document.getElementById('proto-btn-delete');
+            const btnClose = document.getElementById('proto-btn-close-mgmt');
+
+            if(btnNew) btnNew.addEventListener('click', createNewProtocol);
+            if(btnEdit) btnEdit.addEventListener('click', editSelectedProtocol);
+            if(btnDelete) btnDelete.addEventListener('click', deleteSelectedProtocol);
+            if(btnClose) btnClose.addEventListener('click', showProtocolManagerListView);
+
+            // Event listeners para editor
+            initializeEditorEventListeners();
+
+            // Carregar lista inicial
+            loadProtocolList('gama');
+        }
+
+        function initializeEditorEventListeners() {
+            // Botões do editor
+            const btnCancel = document.getElementById('editor-btn-cancel');
+            const btnAccept = document.getElementById('editor-btn-accept');
+            const btnCreateSeries = document.getElementById('btn-create-new-series');
+            const btnDeleteSeries = document.getElementById('btn-delete-series');
+            const btnSplitSeries = document.getElementById('btn-split-series');
+
+            if(btnCancel) btnCancel.addEventListener('click', cancelEdit);
+            if(btnAccept) btnAccept.addEventListener('click', acceptEdit);
+            if(btnCreateSeries) btnCreateSeries.addEventListener('click', createNewSeries);
+            if(btnDeleteSeries) btnDeleteSeries.addEventListener('click', deleteLastSeries);
+            if(btnSplitSeries) btnSplitSeries.addEventListener('click', splitSeries);
+
+            // Abas de ícones
+            const iconTabs = document.querySelectorAll('.icon-tabs-buttons button');
+            iconTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchIconTab(tabName);
+                });
+            });
+
+            // Toggle buttons
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+            toggleButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+
+            // Function buttons
+            const functionButtons = document.querySelectorAll('.function-buttons-area .toggle-button');
+            functionButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+
+            // Modal event listeners
+            initializeModalEventListeners();
+        }
+
+        function initializeModalEventListeners() {
+            // Fechar modais ao clicar fora
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if(e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+            // Modal de sucesso
+            const modalOkBtn = document.getElementById('modalOkBtn');
+            if(modalOkBtn) {
+                modalOkBtn.addEventListener('click', function() {
+                    document.getElementById('successModal').style.display = 'none';
+                });
+            }
+        }
+
+        function switchProtocolTab(area) {
+            currentTab = area;
+            
+            // Atualizar aparência das abas
+            const tabs = document.querySelectorAll('.protocol-tabs-manager button');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if(tab.getAttribute('data-area') === area) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Carregar lista de protocolos
+            loadProtocolList(area);
+        }
+
+        function loadProtocolList(area) {
+            const protocolList = document.getElementById('protocol-list-manager');
+            if(!protocolList) return;
+
+            protocolList.innerHTML = '';
+            selectedProtocolIndex = -1;
+
+            const protocols = protocolDatabase[area] || [];
+            
+            protocols.forEach((protocol, index) => {
+                const li = document.createElement('li');
+                li.textContent = protocol.name;
+                li.addEventListener('click', () => selectProtocol(index, area));
+                protocolList.appendChild(li);
+            });
+
+            // Limpar detalhes
+            updateDetailsView(null);
+            updateManagementButtons();
+        }
+
+        function selectProtocol(index, area) {
+            selectedProtocolIndex = index;
+            currentTab = area;
+
+            // Atualizar aparência da lista
+            const items = document.querySelectorAll('#protocol-list-manager li');
+            items.forEach((item, i) => {
+                item.classList.remove('selected');
+                if(i === index) {
+                    item.classList.add('selected');
+                }
+            });
+
+            // Atualizar detalhes
+            const protocol = protocolDatabase[area][index];
+            updateDetailsView(protocol);
+            updateManagementButtons();
+        }
+
+        function updateDetailsView(protocol) {
+            const detailsView = document.getElementById('protocol-details-view');
+            if(!detailsView) return;
+
+            if(!protocol) {
+                detailsView.innerHTML = '<p>Selecione um protocolo na lista para ver os detalhes.</p>';
+                return;
+            }
+
+            if(currentTab === 'service') {
+                detailsView.innerHTML = `<p><strong>Descrição:</strong> ${protocol.description}</p>`;
+            } else {
+                detailsView.innerHTML = `
+                    <p><strong>Images:</strong> <span>${protocol.images}</span></p>
+                    <p><strong>Scan Type:</strong> <span>${protocol.scanType}</span></p>
+                    <p><strong>Start:</strong> <span>${protocol.start}</span></p>
+                    <p><strong>End:</strong> <span>${protocol.end}</span></p>
+                    <p><strong>No. Img:</strong> <span>${protocol.noImg}</span></p>
+                    <p><strong>Thick:</strong> <span>${protocol.thick}</span></p>
+                    <p><strong>Interval:</strong> <span>${protocol.interval}</span></p>
+                    <p><strong>Tilt:</strong> <span>${protocol.tilt}</span></p>
+                    <p><strong>SFOV:</strong> <span>${protocol.sfov}</span></p>
+                    <p><strong>kV:</strong> <span>${protocol.kv}</span></p>
+                    <p><strong>mA:</strong> <span>${protocol.ma}</span></p>
+                    <p><strong>Time(s):</strong> <span>${protocol.time}</span></p>
+                `;
+            }
+        }
+
+        function updateManagementButtons() {
+            const btnEdit = document.getElementById('proto-btn-edit');
+            const btnDelete = document.getElementById('proto-btn-delete');
+
+            const hasSelection = selectedProtocolIndex >= 0;
+            const isServiceTab = currentTab === 'service';
+
+            if(btnEdit) btnEdit.disabled = !hasSelection || isServiceTab;
+            if(btnDelete) btnDelete.disabled = !hasSelection || isServiceTab;
+        }
+
+        function createNewProtocol() {
+            currentProtocol = {
+                name: "NOVO PROTOCOLO",
+                images: "1-29",
+                scanType: "Helical Full",
+                start: "I400.00",
+                end: "I200.00",
+                noImg: "29",
+                thick: "1.25",
+                interval: "1.25",
+                tilt: "0",
+                sfov: "Head",
+                kv: "120",
+                ma: "450",
+                time: "0.6",
+                ctdivol: "73.33",
+                dlp: "1164.33",
+                doseEff: "89.31"
+            };
+            
+            showProtocolEditor();
+        }
+
+        function editSelectedProtocol() {
+            if(selectedProtocolIndex < 0 || currentTab === 'service') return;
+            
+            const protocol = protocolDatabase[currentTab][selectedProtocolIndex];
+            currentProtocol = { ...protocol };
+            
+            showProtocolEditor();
+        }
+
+        function deleteSelectedProtocol() {
+            if(selectedProtocolIndex < 0 || currentTab === 'service') return;
+            
+            if(confirm('Tem certeza que deseja excluir este protocolo?')) {
+                protocolDatabase[currentTab].splice(selectedProtocolIndex, 1);
+                loadProtocolList(currentTab);
+            }
+        }
+
+        function showProtocolEditor() {
+            const listView = document.getElementById('protocolManagerListView');
+            const editorView = document.getElementById('protocolEditorView');
+            
+            if(listView) listView.classList.add('hidden-view');
+            if(editorView) editorView.classList.remove('hidden-view');
+            
+            populateEditor();
+        }
+
+        function showProtocolManagerListView() {
+            const listView = document.getElementById('protocolManagerListView');
+            const editorView = document.getElementById('protocolEditorView');
+            
+            if(listView) listView.classList.remove('hidden-view');
+            if(editorView) editorView.classList.add('hidden-view');
+        }
+
+        function populateEditor() {
+            if(!currentProtocol) return;
+
+            // Atualizar título
+            const protocolName = document.getElementById('editor-protocol-name');
+            if(protocolName) protocolName.textContent = currentProtocol.name;
+
+            // Atualizar informações de dose
+            const doseCtdi = document.getElementById('dose-ctdi');
+            const doseDlp = document.getElementById('dose-dlp');
+            const doseEff = document.getElementById('dose-eff');
+            const doseAccumulated = document.getElementById('dose-accumulated');
+
+            if(doseCtdi) doseCtdi.textContent = currentProtocol.ctdivol || '73.33';
+            if(doseDlp) doseDlp.textContent = currentProtocol.dlp || '1164.33';
+            if(doseEff) doseEff.textContent = currentProtocol.doseEff || '89.31';
+            if(doseAccumulated) doseAccumulated.textContent = currentProtocol.dlp || '1164.33';
+
+            // Resetar séries
+            currentSeries = 1;
+            seriesData = [
+                {
+                    images: currentProtocol.images || "1-29",
+                    scanType: currentProtocol.scanType || "Helical Full",
+                    start: currentProtocol.start || "I400.00",
+                    end: currentProtocol.end || "I200.00",
+                    noImg: currentProtocol.noImg || "29",
+                    thick: currentProtocol.thick || "1.25",
+                    interval: currentProtocol.interval || "1.25",
+                    tilt: currentProtocol.tilt || "0",
+                    sfov: currentProtocol.sfov || "Head",
+                    kv: currentProtocol.kv || "120",
+                    ma: currentProtocol.ma || "450",
+                    time: currentProtocol.time || "0.6"
+                }
+            ];
+
+            updateTechnicalTable();
+            updateSeriesNumber();
+            updateSplitButton();
+        }
+
+        function updateTechnicalTable() {
+            const tableBody = document.getElementById('technical-table-body');
+            if(!tableBody) return;
+
+            tableBody.innerHTML = '';
+
+            seriesData.forEach((series, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${series.images}</td>
+                    <td><button onclick="openScanTypeModal(${index})" title="Configurar tipo de aquisição">${series.scanType}</button></td>
+                    <td><input type="text" value="${series.start}" onchange="updateSeriesData(${index}, 'start', this.value)"></td>
+                    <td><input type="text" value="${series.end}" onchange="updateSeriesData(${index}, 'end', this.value)"></td>
+                    <td><input type="text" value="${series.noImg}" onchange="updateSeriesData(${index}, 'noImg', this.value)"></td>
+                    <td><button onclick="openThicknessModal(${index})" title="Configurar espessura da imagem">${series.thick}</button></td>
+                    <td><input type="text" value="${series.interval}" onchange="updateSeriesData(${index}, 'interval', this.value)"></td>
+                    <td><input type="text" value="${series.tilt}" onchange="updateSeriesData(${index}, 'tilt', this.value)"></td>
+                    <td>
+                        <select onchange="updateSeriesData(${index}, 'sfov', this.value)" title="Campo de visão">
+                            <option value="PED Head" ${series.sfov === 'PED Head' ? 'selected' : ''}>PED Head</option>
+                            <option value="PED Body" ${series.sfov === 'PED Body' ? 'selected' : ''}>PED Body</option>
+                            <option value="Small Head" ${series.sfov === 'Small Head' ? 'selected' : ''}>Small Head</option>
+                            <option value="Head" ${series.sfov === 'Head' ? 'selected' : ''}>Head</option>
+                            <option value="Small Body" ${series.sfov === 'Small Body' ? 'selected' : ''}>Small Body</option>
+                            <option value="Medium Body" ${series.sfov === 'Medium Body' ? 'selected' : ''}>Medium Body</option>
+                            <option value="Large Body" ${series.sfov === 'Large Body' ? 'selected' : ''}>Large Body</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="${series.kv}" onchange="updateSeriesData(${index}, 'kv', this.value)"></td>
+                    <td><button onclick="openMaControlModal(${index})" title="Configurar controle de mA">${series.ma}</button></td>
+                    <td><input type="text" value="${series.time}" onchange="updateSeriesData(${index}, 'time', this.value)"></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function updateSeriesData(seriesIndex, field, value) {
+            if(seriesData[seriesIndex]) {
+                seriesData[seriesIndex][field] = value;
+                
+                // Atualizar images se necessário
+                if(field === 'noImg') {
+                    const startNum = parseInt(seriesData[seriesIndex].images.split('-')[0]) || 1;
+                    const endNum = startNum + parseInt(value) - 1;
+                    seriesData[seriesIndex].images = `${startNum}-${endNum}`;
+                    updateTechnicalTable();
+                }
+            }
+        }
+
+        function updateSeriesNumber() {
+            const seriesNumber = document.getElementById('editor-series-number');
+            if(seriesNumber) seriesNumber.textContent = currentSeries;
+        }
+
+        function createNewSeries() {
+            if(seriesData.length >= maxSeries) {
+                alert(`Máximo de ${maxSeries} séries permitidas.`);
+                return;
+            }
+
+            // Calcular próximo número de imagem
+            const lastSeries = seriesData[seriesData.length - 1];
+            const lastEndNum = parseInt(lastSeries.images.split('-')[1]) || 29;
+            const newStartNum = lastEndNum + 1;
+            const newEndNum = newStartNum + parseInt(lastSeries.noImg) - 1;
+
+            const newSeries = {
+                ...lastSeries,
+                images: `${newStartNum}-${newEndNum}`
+            };
+
+            seriesData.push(newSeries);
+            updateTechnicalTable();
+            updateSplitButton();
+        }
+
+        function deleteLastSeries() {
+            if(seriesData.length <= 1) {
+                alert('Não é possível excluir a primeira série.');
+                return;
+            }
+
+            seriesData.pop();
+            updateTechnicalTable();
+            updateSplitButton();
+        }
+
+        function splitSeries() {
+            if(seriesData.length < 2) return;
+
+            // Resetar contagem da segunda série
+            const firstSeries = seriesData[0];
+            const firstEndNum = parseInt(firstSeries.images.split('-')[1]) || 29;
+            
+            for(let i = 1; i < seriesData.length; i++) {
+                const newStartNum = firstEndNum + 1;
+                const newEndNum = newStartNum + parseInt(seriesData[i].noImg) - 1;
+                seriesData[i].images = `${newStartNum}-${newEndNum}`;
+            }
+
+            updateTechnicalTable();
+        }
+
+        function updateSplitButton() {
+            const splitBtn = document.getElementById('btn-split-series');
+            if(splitBtn) {
+                splitBtn.disabled = seriesData.length < 2;
+            }
+        }
+
+        function switchIconTab(tabName) {
+            // Atualizar botões
+            const tabButtons = document.querySelectorAll('.icon-tabs-buttons button');
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-tab') === tabName) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Atualizar conteúdo
+            const tabPanes = document.querySelectorAll('.icon-tab-pane');
+            tabPanes.forEach(pane => {
+                pane.classList.remove('active');
+            });
+
+            const activePane = document.getElementById(`tab-content-${tabName}`);
+            if(activePane) {
+                activePane.classList.add('active');
+            }
+        }
+
+        function cancelEdit() {
+            if(confirm('Descartar alterações?')) {
+                showProtocolManagerListView();
+            }
+        }
+
+        function acceptEdit() {
+            // Salvar protocolo
+            if(selectedProtocolIndex >= 0 && currentTab !== 'service') {
+                // Editar protocolo existente
+                protocolDatabase[currentTab][selectedProtocolIndex] = { ...currentProtocol };
+            } else if(currentTab !== 'service') {
+                // Adicionar novo protocolo
+                protocolDatabase[currentTab].push({ ...currentProtocol });
+            }
+
+            // Mostrar modal de sucesso
+            const successModal = document.getElementById('successModal');
+            if(successModal) {
+                successModal.style.display = 'block';
+            }
+
+            setTimeout(() => {
+                showProtocolManagerListView();
+                loadProtocolList(currentTab);
+            }, 1500);
+        }
+
+        // Funções para atualização de imagem do paciente
+        function updatePatientImage() {
+            const orientation = document.getElementById('patient-orientation')?.value || 'Head First';
+            const position = document.getElementById('patient-position')?.value || 'Supine';
+            const img = document.getElementById('patient-position-image');
+            
+            if(!img) return;
+
+            let imageName = '';
+            
+            if(orientation === 'Head First') {
+                switch(position) {
+                    case 'Prone': imageName = 'hfprone.png'; break;
+                    case 'Supine': imageName = 'hfsupine.png'; break;
+                    case 'Left Lateral': imageName = 'hfllateral.png'; break;
+                    case 'Right Lateral': imageName = 'hfrlateral.png'; break;
+                    default: imageName = 'hfsupine.png';
+                }
+            } else { // Feet First
+                switch(position) {
+                    case 'Prone': imageName = 'ffprone.png'; break;
+                    case 'Supine': imageName = 'ffsupine.png'; break;
+                    case 'Left Lateral': imageName = 'ffllateral.png'; break;
+                    case 'Right Lateral': imageName = 'ffrlateral.png'; break;
+                    default: imageName = 'ffsupine.png';
+                }
+            }
+
+            img.src = `../imagens/${imageName}`;
+        }
+
+        function updatePrinterDisplay(printerName) {
+            const currentPrinter = document.getElementById('current-printer');
+            if(currentPrinter) {
+                currentPrinter.textContent = printerName;
+            }
+        }
+
+        // Funções dos modais - Scan Type
+        function openScanTypeModal(seriesIndex) {
+            const modal = document.getElementById('scanTypeModal');
+            if(modal) {
+                modal.style.display = 'block';
+                modal.setAttribute('data-series-index', seriesIndex);
+            }
+        }
+
+        function closeScanTypeModal() {
+            const modal = document.getElementById('scanTypeModal');
+            if(modal) modal.style.display = 'none';
+        }
+
+        function selectScanType(value) {
+            scanTypeConfig.scanType = value;
+            
+            // Atualizar botões
+            const buttons = document.querySelectorAll('#scanTypeButtons .toggle-button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-value') === value) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Habilitar/desabilitar cardiac mode
+            const cardiacButtons = document.getElementById('cardiacModeButtons');
+            if(value === 'Cardiac') {
+                cardiacButtons.style.opacity = '1';
+                cardiacButtons.style.pointerEvents = 'auto';
+            } else {
+                cardiacButtons.style.opacity = '0.5';
+                cardiacButtons.style.pointerEvents = 'none';
+            }
+        }
+
+        function selectCardiacMode(value) {
+            scanTypeConfig.cardiacMode = value;
+            const buttons = document.querySelectorAll('#cardiacModeButtons .toggle-button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-value') === value) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function selectRotationTime(value) {
+            scanTypeConfig.rotationTime = value;
+            const buttons = document.querySelectorAll('#rotationTimeButtons .toggle-button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-value') === value) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function selectRotationLength(value) {
+            scanTypeConfig.rotationLength = value;
+            const buttons = document.querySelectorAll('#rotationLengthButtons .toggle-button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-value') === value) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function selectShuttleMode(value) {
+            scanTypeConfig.shuttleMode = value;
+            const buttons = document.querySelectorAll('#shuttleModeButtons .toggle-button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-value') === value) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function applyScanTypeSettings() {
+            const modal = document.getElementById('scanTypeModal');
+            const seriesIndex = parseInt(modal.getAttribute('data-series-index'));
+            
+            if(seriesData[seriesIndex]) {
+                seriesData[seriesIndex].scanType = scanTypeConfig.scanType;
+                seriesData[seriesIndex].time = scanTypeConfig.rotationTime;
+                updateTechnicalTable();
+            }
+            
+            closeScanTypeModal();
+        }
+
+        // Funções dos modais - mA Control
+        function openMaControlModal(seriesIndex) {
+            const modal = document.getElementById('maControlModal');
+            if(modal) {
+                modal.style.display = 'block';
+                modal.setAttribute('data-series-index', seriesIndex);
+            }
+        }
+
+        function closeMaModal() {
+            const modal = document.getElementById('maControlModal');
+            if(modal) modal.style.display = 'none';
+        }
+
+        function toggleAutoMa() {
+            maControlConfig.autoMa = !maControlConfig.autoMa;
+            const btn = document.getElementById('autoMaToggle');
+            btn.classList.toggle('active', maControlConfig.autoMa);
+            
+            if(maControlConfig.autoMa) {
+                maControlConfig.manualMa = false;
+                document.getElementById('manualMaToggle').classList.remove('active');
+                toggleManualMaInputs(false);
+            }
+        }
+
+        function toggleManualMa() {
+            maControlConfig.manualMa = !maControlConfig.manualMa;
+            const btn = document.getElementById('manualMaToggle');
+            btn.classList.toggle('active', maControlConfig.manualMa);
+            
+            toggleManualMaInputs(maControlConfig.manualMa);
+            
+            if(maControlConfig.manualMa) {
+                maControlConfig.autoMa = false;
+                document.getElementById('autoMaToggle').classList.remove('active');
+            }
+        }
+
+        function toggleSmartMa() {
+            maControlConfig.smartMa = !maControlConfig.smartMa;
+            const btn = document.getElementById('smartMaToggle');
+            btn.classList.toggle('active', maControlConfig.smartMa);
+        }
+
+        function toggleManualMaInputs(enabled) {
+            const inputs = ['manualRef', 'manualAct', 'doseReductionManual'];
+            inputs.forEach(id => {
+                const input = document.getElementById(id);
+                if(input) input.disabled = !enabled;
+            });
+        }
+
+        function resetRefNoiseIndex() {
+            const input = document.getElementById('refNoiseIndex');
+            if(input) {
+                input.value = '21.45';
+                maControlConfig.refNoiseIndex = 21.45;
+            }
+        }
+
+        function adjustDoseSteps(delta) {
+            const input = document.getElementById('doseSteps');
+            const label = document.getElementById('doseStepsLabel');
+            
+            if(input) {
+                let value = parseFloat(input.value) + delta;
+                value = Math.max(-10, Math.min(10, value));
+                input.value = value.toFixed(2);
+                maControlConfig.doseSteps = value;
+                
+                if(label) {
+                    label.textContent = (value >= 0 ? '+' : '') + value.toFixed(2);
+                }
+            }
+        }
+
+        function applyMaSettings() {
+            const modal = document.getElementById('maControlModal');
+            const seriesIndex = parseInt(modal.getAttribute('data-series-index'));
+            
+            let maValue = '450';
+            if(maControlConfig.manualMa) {
+                maValue = document.getElementById('manualRef')?.value || '450';
+            } else if(maControlConfig.autoMa) {
+                maValue = 'Auto';
+            }
+            
+            if(seriesData[seriesIndex]) {
+                seriesData[seriesIndex].ma = maValue;
+                updateTechnicalTable();
+            }
+            
+            closeMaModal();
+        }
+
+        // Funções dos modais - Voice & Breathing Lights
+        function openVoiceLightsModal() {
+            const modal = document.getElementById('voiceLightsModal');
+            if(modal) modal.style.display = 'block';
+        }
+
+        function closeVoiceLightsModal() {
+            const modal = document.getElementById('voiceLightsModal');
+            if(modal) modal.style.display = 'none';
+        }
+
+        function adjustDelayTime(delta) {
+            const input = document.getElementById('delayTime');
+            if(input) {
+                let value = parseInt(input.value) + delta;
+                value = Math.max(0, Math.min(20, value));
+                input.value = value;
+                voiceLightsConfig.delayTime = value;
+            }
+        }
+
+        function toggleVoiceOption(option) {
+            voiceLightsConfig.voiceOptions[option] = !voiceLightsConfig.voiceOptions[option];
+            // Atualizar visual do botão seria feito aqui
+        }
+
+        function toggleVoiceControl(control) {
+            voiceLightsConfig.controls[control] = !voiceLightsConfig.controls[control];
+            // Atualizar visual do botão seria feito aqui
+        }
+
+        function applyVoiceLightsSettings() {
+            // Aplicar configurações de voz e luzes
+            closeVoiceLightsModal();
+        }
+
+        // Funções dos modais - Image Thickness
+        function openThicknessModal(seriesIndex) {
+            const modal = document.getElementById('thicknessModal');
+            if(modal) {
+                modal.style.display = 'block';
+                modal.setAttribute('data-series-index', seriesIndex);
+            }
+        }
+
+        function closeThicknessModal() {
+            const modal = document.getElementById('thicknessModal');
+            if(modal) modal.style.display = 'none';
+        }
+
+        function selectDetectorCoverage(value) {
+            thicknessConfig.detectorCoverage = value;
+            const buttons = document.querySelectorAll('[data-group="detectorCoverage"]');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-value') === value) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function selectHelicalThickness(value) {
+            thicknessConfig.helicalThickness = value;
+            const buttons = document.querySelectorAll('[data-group="helicalThickness"]');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-value') === value) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function selectPitchSpeed(value) {
+            thicknessConfig.pitchSpeed = value;
+            const buttons = document.querySelectorAll('[data-group="pitchSpeed"]');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-value') === value) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function selectRotationTimeThick(value) {
+            thicknessConfig.rotationTime = value;
+            const buttons = document.querySelectorAll('[data-group="rotationTimeThick"]');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-value') === value) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function applyThicknessSettings() {
+            const modal = document.getElementById('thicknessModal');
+            const seriesIndex = parseInt(modal.getAttribute('data-series-index'));
+            
+            if(seriesData[seriesIndex]) {
+                seriesData[seriesIndex].thick = thicknessConfig.helicalThickness;
+                seriesData[seriesIndex].interval = thicknessConfig.helicalThickness; // Geralmente igual
+                seriesData[seriesIndex].time = thicknessConfig.rotationTime;
+                updateTechnicalTable();
+            }
+            
+            closeThicknessModal();
+        }
+
+        // Funções dos modais - Smart Prep
+        function openSmartPrepModal() {
+            const modal = document.getElementById('smartPrepModal');
+            if(modal) modal.style.display = 'block';
+        }
+
+        function closeSmartPrepModal() {
+            const modal = document.getElementById('smartPrepModal');
+            if(modal) modal.style.display = 'none';
+        }
+
+        function toggleSmartPrepOption(option) {
+            smartPrepConfig[option] = !smartPrepConfig[option];
+            // Atualizar visual do botão seria feito aqui
+        }
+
+        function applySmartPrepSettings() {
+            // Aplicar configurações do Smart Prep
+            closeSmartPrepModal();
+        }
+
+        // Expor funções globalmente para uso nos event handlers inline
+        window.updatePatientImage = updatePatientImage;
+        window.updatePrinterDisplay = updatePrinterDisplay;
+        window.openScanTypeModal = openScanTypeModal;
+        window.closeScanTypeModal = closeScanTypeModal;
+        window.selectScanType = selectScanType;
+        window.selectCardiacMode = selectCardiacMode;
+        window.selectRotationTime = selectRotationTime;
+        window.selectRotationLength = selectRotationLength;
+        window.selectShuttleMode = selectShuttleMode;
+        window.applyScanTypeSettings = applyScanTypeSettings;
+        window.openMaControlModal = openMaControlModal;
+        window.closeMaModal = closeMaModal;
+        window.toggleAutoMa = toggleAutoMa;
+        window.toggleManualMa = toggleManualMa;
+        window.toggleSmartMa = toggleSmartMa;
+        window.resetRefNoiseIndex = resetRefNoiseIndex;
+        window.adjustDoseSteps = adjustDoseSteps;
+        window.applyMaSettings = applyMaSettings;
+        window.openVoiceLightsModal = openVoiceLightsModal;
+        window.closeVoiceLightsModal = closeVoiceLightsModal;
+        window.adjustDelayTime = adjustDelayTime;
+        window.toggleVoiceOption = toggleVoiceOption;
+        window.toggleVoiceControl = toggleVoiceControl;
+        window.applyVoiceLightsSettings = applyVoiceLightsSettings;
+        window.openThicknessModal = openThicknessModal;
+        window.closeThicknessModal = closeThicknessModal;
+        window.selectDetectorCoverage = selectDetectorCoverage;
+        window.selectHelicalThickness = selectHelicalThickness;
+        window.selectPitchSpeed = selectPitchSpeed;
+        window.selectRotationTimeThick = selectRotationTimeThick;
+        window.applyThicknessSettings = applyThicknessSettings;
+        window.openSmartPrepModal = openSmartPrepModal;
+        window.closeSmartPrepModal = closeSmartPrepModal;
+        window.toggleSmartPrepOption = toggleSmartPrepOption;
+        window.applySmartPrepSettings = applySmartPrepSettings;
+        window.updateSeriesData = updateSeriesData;
+    </script>
+</div>
