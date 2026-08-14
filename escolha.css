@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1c1c1c;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #f39c12;
+    margin-bottom: 40px;
+    font-size: 2em;
+    text-align: center;
+}
+
+.systems-container {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.action-btn, .sub-btn {
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    border: none; /* Reset de estilo para botões */
+    font-family: inherit; /* Garante a mesma fonte do body */
+}
+
+.action-btn {
+    background-color: #2e2e2e;
+    padding: 20px 30px;
+    font-size: 1.2em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 220px;
+    height: 80px;
+}
+
+.action-btn:hover {
+    background-color: #3f3f3f;
+    transform: translateY(-5px);
+}
+
+/* Título que parece um botão, mas não é clicável */
+.action-btn.title-only {
+    cursor: default;
+    background-color: #252525; /* Cor ligeiramente diferente para indicar inatividade */
+}
+
+.action-btn.title-only:hover {
+    transform: none; /* Remove o efeito de levantar */
+    background-color: #252525;
+}
+
+.sigma-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.sigma-versions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+}
+
+.sub-btn {
+    background-color: #4a4a4a;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 180px;
+    height: 50px;
+}
+
+.sub-btn:hover {
+    background-color: #5c5c5c;
+}
