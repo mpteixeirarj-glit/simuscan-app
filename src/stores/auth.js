@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import {
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
   onAuthStateChanged
 } from 'firebase/auth'
@@ -36,9 +38,25 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function loginWithGoogle() {
+    error.value = ''
+    const provider = new GoogleAuthProvider()
+    try {
+      await signInWithPopup(auth, provider)
+    } catch (e) {
+      const code = e?.code || ''
+      if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+        // usuário fechou — sem mensagem de erro
+      } else {
+        error.value = 'Não foi possível entrar com Google. Tente novamente.'
+      }
+      throw e
+    }
+  }
+
   async function logout() {
     await signOut(auth)
   }
 
-  return { user, loading, error, login, logout }
+  return { user, loading, error, login, loginWithGoogle, logout }
 })
