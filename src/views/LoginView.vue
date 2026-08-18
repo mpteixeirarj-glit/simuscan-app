@@ -80,6 +80,8 @@
           <button type="button" class="btn-esqueci" @click="resetMode = false; resetMsg = ''; resetError = ''">← Voltar ao login</button>
         </form>
       </template>
+
+      <p class="login-footer">SimuScan <span>{{ version }}</span> &nbsp;·&nbsp; Treinamento de Operadores</p>
     </div>
   </div>
 </template>
@@ -90,10 +92,12 @@ import { RouterLink, useRouter } from 'vue-router'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { auth as firebaseAuth } from '@/firebase'
 import { useAuthStore } from '@/stores/auth'
+import { APP_VERSION } from '@/version.js'
 
 const router = useRouter()
 const auth = useAuthStore()
 const BASE_URL = import.meta.env.BASE_URL
+const version = APP_VERSION
 
 const email = ref('')
 const senha = ref('')
@@ -276,4 +280,7 @@ async function handleReset() {
 
 .btn-esqueci { width: 100%; padding: .6rem; background: none; border: none; color: var(--cor-texto-muted); font-size: .83rem; cursor: pointer; margin-top: .6rem; transition: color .2s; }
 .btn-esqueci:hover { color: var(--cor-azul); }
+
+.login-footer { text-align: center; font-size: .72rem; color: var(--cor-texto-muted); margin-top: 1.5rem; opacity: .7; }
+.login-footer span { color: var(--cor-azul); font-weight: 600; }
 </style>

@@ -8,10 +8,11 @@
     <div id="master-container" :class="{ 'viewer-active': state.viewerMode }">
       <!-- TELA DE AQUISIÇÃO -->
       <div class="main" id="screen-acquisition">
-        <div class="header" id="header-acq">
+        <div class="header" id="header-acq" style="position:relative">
           <svg class="icon" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
           SIMULADOR DE TC : SISTEMA GAMA HEALTHCARE (MODO DE AQUISIÇÃO)
           <svg class="icon" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+          <span class="console-version">{{ version }}</span>
         </div>
 
         <div class="screen">
@@ -93,6 +94,7 @@
 <script setup>
 import { reactive, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { APP_VERSION } from '@/version.js'
 import InitialPartial from '@/components/gama/partials/InitialPartial.vue'
 import PatientPanel from '@/components/gama/PatientPanel.vue'
 import WorklistPanel from '@/components/gama/WorklistPanel.vue'
@@ -105,6 +107,7 @@ import ScannerUtilPartial from '@/components/gama/partials/ScannerUtilPartial.vu
 
 const router = useRouter()
 const BASE_URL = import.meta.env.BASE_URL
+const version = APP_VERSION
 
 const state = reactive({
   panel: 'initial',
@@ -178,4 +181,6 @@ body:has(.gama-root) { margin: 0; font-family: Arial, sans-serif; background-col
 
 .toggle-btn { background: rgba(0,0,0,.25) !important; border: 1px solid rgba(255,255,255,.2) !important; }
 .toggle-btn.active { background-color: #f39c12 !important; color: #000 !important; border-color: #f39c12 !important; }
+
+.console-version { position: absolute; right: 12px; bottom: 4px; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
 </style>
