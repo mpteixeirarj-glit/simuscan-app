@@ -193,25 +193,25 @@ const BASE_URL = import.meta.env.BASE_URL
 
 // ── Dados ───────────────────────────────────────────────────────
 const warmupScans = [
-  { kv: 80,  ma: 50,  espessura: '4.00', filtro: 'Standard', tempo: 10, tamPonto: 'Small', scanNum: 1 },
-  { kv: 100, ma: 80,  espessura: '4.00', filtro: 'Standard', tempo: 10, tamPonto: 'Small', scanNum: 2 },
-  { kv: 120, ma: 120, espessura: '4.00', filtro: 'Standard', tempo: 10, tamPonto: 'Small', scanNum: 3 },
-  { kv: 120, ma: 200, espessura: '4.00', filtro: 'Standard', tempo: 10, tamPonto: 'Small', scanNum: 4 },
+  { kv: 80,  ma: 50,  espessura: '4.00', filtro: 'Standard', tempo: 5, tamPonto: 'Small', scanNum: 1 },
+  { kv: 100, ma: 80,  espessura: '4.00', filtro: 'Standard', tempo: 5, tamPonto: 'Small', scanNum: 2 },
+  { kv: 120, ma: 120, espessura: '4.00', filtro: 'Standard', tempo: 5, tamPonto: 'Small', scanNum: 3 },
+  { kv: 120, ma: 200, espessura: '4.00', filtro: 'Standard', tempo: 5, tamPonto: 'Small', scanNum: 4 },
 ]
 
 const calibrationScans = [
-  { kv: 80,  ma: 50,  espessura: '0.5',  filtro: 'Standard', tempo: 10, tamPonto: 'Small', scanNum: 1  },
-  { kv: 80,  ma: 80,  espessura: '1.0',  filtro: 'Bone',     tempo: 10, tamPonto: 'Small', scanNum: 2  },
-  { kv: 80,  ma: 120, espessura: '2.0',  filtro: 'Lung',     tempo: 10, tamPonto: 'Large', scanNum: 3  },
-  { kv: 80,  ma: 200, espessura: '3.0',  filtro: 'Standard', tempo: 10, tamPonto: 'Large', scanNum: 4  },
-  { kv: 100, ma: 50,  espessura: '5.0',  filtro: 'Bone',     tempo: 10, tamPonto: 'Small', scanNum: 5  },
-  { kv: 100, ma: 80,  espessura: '10.0', filtro: 'Lung',     tempo: 10, tamPonto: 'Small', scanNum: 6  },
-  { kv: 100, ma: 120, espessura: '20.0', filtro: 'Standard', tempo: 10, tamPonto: 'Large', scanNum: 7  },
-  { kv: 100, ma: 200, espessura: '0.5',  filtro: 'Bone',     tempo: 10, tamPonto: 'Large', scanNum: 8  },
-  { kv: 120, ma: 50,  espessura: '1.0',  filtro: 'Lung',     tempo: 10, tamPonto: 'Small', scanNum: 9  },
-  { kv: 120, ma: 80,  espessura: '2.0',  filtro: 'Standard', tempo: 10, tamPonto: 'Small', scanNum: 10 },
-  { kv: 120, ma: 120, espessura: '3.0',  filtro: 'Bone',     tempo: 10, tamPonto: 'Large', scanNum: 11 },
-  { kv: 120, ma: 200, espessura: '5.0',  filtro: 'Lung',     tempo: 10, tamPonto: 'Large', scanNum: 12 },
+  { kv: 80,  ma: 50,  espessura: '0.5',  filtro: 'Standard', tempo: 5, tamPonto: 'Small', scanNum: 1  },
+  { kv: 80,  ma: 80,  espessura: '1.0',  filtro: 'Bone',     tempo: 5, tamPonto: 'Small', scanNum: 2  },
+  { kv: 80,  ma: 120, espessura: '2.0',  filtro: 'Lung',     tempo: 5, tamPonto: 'Large', scanNum: 3  },
+  { kv: 80,  ma: 200, espessura: '3.0',  filtro: 'Standard', tempo: 5, tamPonto: 'Large', scanNum: 4  },
+  { kv: 100, ma: 50,  espessura: '5.0',  filtro: 'Bone',     tempo: 5, tamPonto: 'Small', scanNum: 5  },
+  { kv: 100, ma: 80,  espessura: '10.0', filtro: 'Lung',     tempo: 5, tamPonto: 'Small', scanNum: 6  },
+  { kv: 100, ma: 120, espessura: '20.0', filtro: 'Standard', tempo: 5, tamPonto: 'Large', scanNum: 7  },
+  { kv: 100, ma: 200, espessura: '0.5',  filtro: 'Bone',     tempo: 5, tamPonto: 'Large', scanNum: 8  },
+  { kv: 120, ma: 50,  espessura: '1.0',  filtro: 'Lung',     tempo: 5, tamPonto: 'Small', scanNum: 9  },
+  { kv: 120, ma: 80,  espessura: '2.0',  filtro: 'Standard', tempo: 5, tamPonto: 'Small', scanNum: 10 },
+  { kv: 120, ma: 120, espessura: '3.0',  filtro: 'Bone',     tempo: 5, tamPonto: 'Large', scanNum: 11 },
+  { kv: 120, ma: 200, espessura: '5.0',  filtro: 'Lung',     tempo: 5, tamPonto: 'Large', scanNum: 12 },
 ]
 
 // ── Estado reativo ───────────────────────────────────────────────
@@ -237,8 +237,8 @@ const currentScans = computed(() =>
 let rxAudio = null
 
 function startRxSound() {
-  rxAudio = new Audio(BASE_URL + 'sons/sucesso.mp3')
-  rxAudio.loop = true
+  rxAudio = new Audio(BASE_URL + 'sons/Rx Siemens_1.mp3')
+  rxAudio.loop = false
   rxAudio.play().catch(() => {})
 }
 
@@ -300,7 +300,7 @@ function onScanComplete() {
 function runScan() {
   scanStatus.value = 'executando'
   startRxSound()
-  startCountdown(10)
+  startCountdown(5)
 }
 
 // ── Controles ────────────────────────────────────────────────────
