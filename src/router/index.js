@@ -2,28 +2,14 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const routes = [
-  {
-    path: '/',
-    name: 'landing',
-    component: () => import('@/views/LandingPage.vue')
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/views/LoginView.vue')
-  },
-  {
-    path: '/sistemas',
-    name: 'sistemas',
-    component: () => import('@/views/SystemSelect.vue'),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/simulador/gama',
-    name: 'gama',
-    component: () => import('@/views/simulator/GamaSimulator.vue'),
-    meta: { requiresAuth: true }
-  }
+  { path: '/', name: 'landing', component: () => import('@/views/LandingView.vue') },
+  { path: '/login', name: 'login', component: () => import('@/views/LoginView.vue') },
+  { path: '/escolha', name: 'escolha', component: () => import('@/views/SistemaEscolhaView.vue'), meta: { requiresAuth: true } },
+  { path: '/gama', name: 'gama', component: () => import('@/views/GamaConsoleView.vue'), meta: { requiresAuth: true } },
+  { path: '/gama/protocolos', name: 'protocolos', component: () => import('@/components/gama/ProtocolManagerFull.vue'), meta: { requiresAuth: true } },
+  // legacy redirects
+  { path: '/sistemas', redirect: '/escolha' },
+  { path: '/simulador/gama', redirect: '/gama' }
 ]
 
 const router = createRouter({
@@ -33,19 +19,12 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   const auth = useAuthStore()
-
-  // Aguarda Firebase resolver o estado de autenticação
   if (auth.loading) {
     await new Promise(resolve => {
-      const stop = setInterval(() => {
-        if (!auth.loading) { clearInterval(stop); resolve() }
-      }, 50)
+      const stop = setInterval(() => { if (!auth.loading) { clearInterval(stop); resolve() } }, 50)
     })
   }
-
-  if (to.meta.requiresAuth && !auth.user) {
-    return { name: 'login' }
-  }
+  if (to.meta.requiresAuth && !auth.user) return { name: 'login' }
 })
 
 export default router
