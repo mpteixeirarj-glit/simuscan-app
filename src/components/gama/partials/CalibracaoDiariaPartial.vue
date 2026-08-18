@@ -237,7 +237,7 @@ const currentScans = computed(() =>
 let rxAudio = null
 
 function startRxSound() {
-  rxAudio = new Audio(BASE_URL + 'sons/Rx%20Siemens_1.mp3')
+  rxAudio = new Audio(BASE_URL + 'sons/rx_siemens.mp3')
   rxAudio.loop = false
   rxAudio.play().catch(() => {})
 }
