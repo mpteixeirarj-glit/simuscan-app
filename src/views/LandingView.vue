@@ -28,13 +28,22 @@
         <button class="cta-outline" @click="scrollTo('features')">Ver funcionalidades</button>
       </div>
       <div class="hero-image-wrap">
-        <img
-          :src="BASE_URL + 'imagens/hero-scanner.jpg'"
-          alt="Console do SimuScan"
-          class="hero-image"
-          loading="eager"
-          @error="$event.target.style.display='none'"
+        <video
+          class="hero-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          :poster="BASE_URL + 'imagens/hero-scanner.jpg'"
         >
+          <source :src="BASE_URL + 'imagens/hero-scanner.webm'" type="video/webm" />
+          <source :src="BASE_URL + 'imagens/hero-scanner.mp4'" type="video/mp4" />
+          <img
+            :src="BASE_URL + 'imagens/hero-scanner.jpg'"
+            alt="SimuScan CT Scanner"
+            class="hero-image"
+          />
+        </video>
       </div>
     </section>
 
@@ -189,7 +198,8 @@ function scrollTo(id) {
 .cta-primary:hover { opacity: .85; }
 .cta-outline { padding: .85rem 2rem; background: none; border: 1.5px solid var(--cor-card-borda); border-radius: 10px; color: var(--cor-texto); font-size: 1rem; cursor: pointer; transition: border-color .2s, color .2s; }
 .cta-outline:hover { border-color: var(--cor-azul); color: var(--cor-azul); }
-.hero-image-wrap { border-radius: 16px; overflow: hidden; border: 1px solid rgba(52, 152, 219, 0.2); box-shadow: 0 0 60px rgba(52, 152, 219, 0.1); }
+.hero-image-wrap { border-radius: 16px; overflow: hidden; border: 1px solid rgba(52, 152, 219, 0.2); box-shadow: 0 0 60px rgba(52, 152, 219, 0.1); position: relative; }
+.hero-video { width: 100%; height: auto; display: block; border-radius: 16px; }
 .hero-image { width: 100%; height: auto; display: block; }
 
 /* SECTIONS */

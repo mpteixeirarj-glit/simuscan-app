@@ -566,21 +566,22 @@ const currentProtocols = computed(() => protocolDatabase[currentTab.value] || []
 const selectedProtocol = computed(() => selectedIndex.value >= 0 ? currentProtocols.value[selectedIndex.value] : null)
 
 const patientImageSrc = computed(() => {
-  const o = patientOrientation.value
-  const p = patientPos.value
-  let img = 'hfsupine.png'
-  if (o === 'Head First') {
-    if (p === 'Prone') img = 'hfprone.jpg.png'
-    else if (p === 'Left Lateral') img = 'hfllateral.png'
-    else if (p === 'Right Lateral') img = 'hfRight.png'
-    else img = 'hfsupine.png'
-  } else {
-    if (p === 'Prone') img = 'ffprone.png'
-    else if (p === 'Left Lateral') img = 'ffllateral.png'
-    else if (p === 'Right Lateral') img = 'ffrlateral.png'
-    else img = 'ffsupine.jpg.png'
+  const imageMap = {
+    'Head First': {
+      'Supine':        'HFsupine.png',
+      'Prone':         'HFprone.png',
+      'Left Lateral':  'HFLeft.png',
+      'Right Lateral': 'HFRight.png',
+    },
+    'Feet First': {
+      'Supine':        'FFsupine.png',
+      'Prone':         'FFprone.png',
+      'Left Lateral':  'FFLeft.png',
+      'Right Lateral': 'FFRight.png',
+    },
   }
-  return BASE_URL + 'imagens/' + img
+  const filename = imageMap[patientOrientation.value]?.[patientPos.value] || 'HFsupine.png'
+  return BASE_URL + 'imagens/' + filename
 })
 
 // ── List view actions ──────────────────────────────────────────────────────
