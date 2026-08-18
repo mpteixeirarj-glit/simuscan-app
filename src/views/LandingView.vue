@@ -54,7 +54,7 @@
       <div class="cards-grid">
         <div class="card">
           <div class="feature-card-image">
-            <img :src="BASE_URL + 'imagens/feature-console.jpg'" alt="Console Interativo" @error="$event.target.parentElement.style.display='none'">
+            <img :src="BASE_URL + 'imagens/feature-console.jpeg'" alt="Console Interativo" @error="$event.target.parentElement.style.display='none'">
           </div>
           <div class="card-icon">🖥️</div>
           <h3>Console interativo</h3>
@@ -62,7 +62,7 @@
         </div>
         <div class="card">
           <div class="feature-card-image">
-            <img :src="BASE_URL + 'imagens/feature-worklist.jpg'" alt="Worklist de Pacientes" @error="$event.target.parentElement.style.display='none'">
+            <img :src="BASE_URL + 'imagens/feature-worklist.jpeg'" alt="Worklist de Pacientes" @error="$event.target.parentElement.style.display='none'">
           </div>
           <div class="card-icon">📋</div>
           <h3>Worklist de pacientes</h3>
@@ -70,7 +70,7 @@
         </div>
         <div class="card">
           <div class="feature-card-image">
-            <img :src="BASE_URL + 'imagens/feature-protocols.jpg'" alt="Gerenciador de Protocolos" @error="$event.target.parentElement.style.display='none'">
+            <img :src="BASE_URL + 'imagens/feature-protocols.jpeg'" alt="Gerenciador de Protocolos" @error="$event.target.parentElement.style.display='none'">
           </div>
           <div class="card-icon">⚙️</div>
           <h3>Gerenciador de protocolos</h3>
@@ -87,7 +87,7 @@
         <div class="sistema-card available">
           <span class="badge-available">Disponível</span>
           <div class="system-icon system-icon--gama">
-            <span class="greek-letter">Γ</span>
+            <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama" class="system-icon-img">
           </div>
           <h3>Gama Healthcare</h3>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
@@ -96,7 +96,7 @@
         <div class="sistema-card locked">
           <span class="badge-soon">Em breve</span>
           <div class="system-icon system-icon--sigma">
-            <span class="greek-letter">Σ</span>
+            <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Sigma" class="system-icon-img">
           </div>
           <h3>Sigma Healthcare</h3>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
@@ -104,7 +104,7 @@
         <div class="sistema-card locked">
           <span class="badge-soon">Em breve</span>
           <div class="system-icon system-icon--kappa">
-            <span class="greek-letter">Κ</span>
+            <img :src="BASE_URL + 'imagens/icon-kappa.png'" alt="Kappa" class="system-icon-img">
           </div>
           <h3>Kappa Healthcare</h3>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
@@ -238,10 +238,7 @@ function scrollTo(id) {
 .system-icon--gama { background: rgba(46, 204, 113, 0.15); border: 1.5px solid rgba(46, 204, 113, 0.4); }
 .system-icon--sigma { background: rgba(52, 152, 219, 0.15); border: 1.5px solid rgba(52, 152, 219, 0.4); }
 .system-icon--kappa { background: rgba(243, 156, 18, 0.15); border: 1.5px solid rgba(243, 156, 18, 0.4); }
-.greek-letter { font-family: 'Rajdhani', serif; font-size: 28px; font-weight: 700; line-height: 1; }
-.system-icon--gama .greek-letter { color: #2ecc71; }
-.system-icon--sigma .greek-letter { color: #3498db; }
-.system-icon--kappa .greek-letter { color: #f39c12; }
+.system-icon-img { width: 36px; height: 36px; object-fit: contain; }
 
 /* PLANOS */
 .planos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 720px; margin: 0 auto; }
