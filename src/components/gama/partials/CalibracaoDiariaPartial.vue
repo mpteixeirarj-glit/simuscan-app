@@ -24,7 +24,7 @@
         <div class="modal-header fire">🔥 AQUECIMENTO DO TUBO</div>
         <div class="modal-body">
           <p>O aquecimento gradual do tubo de raios X é essencial para prolongar a vida útil dos filamentos.</p>
-          <p>Serão realizadas <strong>4 exposições progressivas</strong> de 10 segundos cada, aumentando gradualmente kV e mA para preparar o tubo com segurança.</p>
+          <p>Serão realizadas <strong>4 exposições progressivas</strong> de 5 segundos cada, aumentando gradualmente kV e mA para preparar o tubo com segurança.</p>
           <p><em>Não interrompa o processo durante a execução.</em></p>
         </div>
         <div class="modal-footer two-btn">
@@ -237,7 +237,7 @@ const currentScans = computed(() =>
 let rxAudio = null
 
 function startRxSound() {
-  rxAudio = new Audio(BASE_URL + 'sons/Rx Siemens_1.mp3')
+  rxAudio = new Audio(BASE_URL + 'sons/Rx%20Siemens_1.mp3')
   rxAudio.loop = false
   rxAudio.play().catch(() => {})
 }
