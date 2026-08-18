@@ -38,6 +38,11 @@ jobs:
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
 
+      - name: Copiar imagens e sons para dist
+        run: |
+          cp -r imagens/. dist/imagens/
+          [ -d sons ] && cp -r sons/. dist/sons/ || true
+
       - uses: actions/configure-pages@v4
 
       - uses: actions/upload-pages-artifact@v3
