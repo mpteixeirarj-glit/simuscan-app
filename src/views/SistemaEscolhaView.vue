@@ -16,21 +16,27 @@
       <div class="sistemas">
         <button class="sys-card available" @click="router.push({ name: 'gama' })">
           <span class="sys-badge">Disponível</span>
-          <div class="sys-icon">🟢</div>
+          <div class="sys-icon sys-icon--gama">
+            <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama" class="sys-icon-img">
+          </div>
           <h2>Gama Healthcare</h2>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
         </button>
 
         <div class="sys-card locked">
           <span class="sys-badge soon">Em breve</span>
-          <div class="sys-icon">🔵</div>
+          <div class="sys-icon sys-icon--sigma">
+            <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Sigma" class="sys-icon-img">
+          </div>
           <h2>Sigma Healthcare</h2>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
         </div>
 
         <div class="sys-card locked">
           <span class="sys-badge soon">Em breve</span>
-          <div class="sys-icon">🟠</div>
+          <div class="sys-icon sys-icon--kappa">
+            <img :src="BASE_URL + 'imagens/icon-kappa.png'" alt="Kappa" class="sys-icon-img">
+          </div>
           <h2>Kappa Healthcare</h2>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
         </div>
@@ -42,6 +48,8 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+
+const BASE_URL = import.meta.env.BASE_URL
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -93,23 +101,34 @@ h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(1.8rem,4vw,2.8rem); f
 .sys-card {
   background: var(--cor-card); border: 1px solid var(--cor-card-borda);
   border-radius: 16px; padding: 2rem;
-  text-align: left; position: relative;
+  text-align: center; position: relative;
+  display: flex; flex-direction: column; align-items: center;
   transition: transform .2s, border-color .2s;
   cursor: default;
 }
-.sys-card.available { border-color: var(--cor-pink); cursor: pointer; background: none; }
-.sys-card.available:hover { transform: translateY(-4px); }
-.sys-card.locked { opacity: .55; }
+.sys-card.available { border-color: var(--cor-azul); cursor: pointer; }
+.sys-card.available:hover { transform: translateY(-4px); border-color: var(--cor-azul); box-shadow: 0 8px 30px rgba(52,152,219,.15); }
+.sys-card.locked { opacity: .6; }
 
 .sys-badge {
   font-size: .65rem; font-weight: 800; letter-spacing: .1em;
-  text-transform: uppercase; padding: 3px 10px; border-radius: 20px;
-  display: inline-block; margin-bottom: 1rem;
-  background: rgba(233,30,140,.12); color: var(--cor-pink);
+  text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+  display: block; margin-bottom: 1.2rem;
+  background: rgba(52,152,219,.15); color: var(--cor-azul);
+  border: 1px solid rgba(52,152,219,.3);
 }
-.sys-badge.soon { background: rgba(255,255,255,.07); color: var(--cor-texto-muted); }
+.sys-badge.soon { background: rgba(255,255,255,.07); color: var(--cor-texto-muted); border-color: rgba(255,255,255,.1); }
 
-.sys-icon { font-size: 2rem; margin-bottom: .8rem; }
-h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: .3rem; }
-p { font-size: .83rem; color: var(--cor-texto-muted); }
+.sys-icon {
+  width: 80px; height: 80px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.2rem;
+}
+.sys-icon--gama { background: rgba(52,152,219,.15); border: 2px solid rgba(52,152,219,.4); }
+.sys-icon--sigma { background: rgba(46,204,113,.15); border: 2px solid rgba(46,204,113,.4); }
+.sys-icon--kappa { background: rgba(243,156,18,.15); border: 2px solid rgba(243,156,18,.4); }
+.sys-icon-img { width: 52px; height: 52px; object-fit: contain; }
+
+h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: .4rem; color: var(--cor-texto); }
+p { font-size: .85rem; color: var(--cor-texto-muted); }
 </style>

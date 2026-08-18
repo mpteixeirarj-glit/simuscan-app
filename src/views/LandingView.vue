@@ -112,6 +112,7 @@
       </div>
     </section>
 
+
     <!-- PLANOS -->
     <section class="section" id="planos">
       <p class="eyebrow">Planos</p>
@@ -119,7 +120,7 @@
       <div class="planos-grid">
         <div class="plano-card">
           <h3>Mensal</h3>
-          <div class="preco">R$ 29<span>/mês</span></div>
+          <div class="preco">R$ 59<span>/mês</span></div>
           <ul>
             <li>Acesso a todos os sistemas</li>
             <li>Atualizações incluídas</li>
@@ -130,7 +131,7 @@
         <div class="plano-card destaque">
           <span class="plano-badge">Mais popular</span>
           <h3>Anual</h3>
-          <div class="preco">R$ 19<span>/mês</span></div>
+          <div class="preco">R$ 49<span>/mês</span></div>
           <ul>
             <li>Acesso a todos os sistemas</li>
             <li>Atualizações incluídas</li>
@@ -222,23 +223,23 @@ function scrollTo(id) {
 
 /* SISTEMAS */
 .sistemas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 3rem auto 0; }
-.sistema-card { background: var(--cor-fundo); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; }
-.sistema-card.available { border-color: var(--cor-pink); }
-.sistema-card.locked { opacity: .55; }
-.sistema-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .4rem; }
+.sistema-card { background: var(--cor-fundo); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.sistema-card.available { border-color: var(--cor-azul); }
+.sistema-card.locked { opacity: .65; }
+.sistema-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: .4rem; color: var(--cor-texto); }
 .sistema-card p { font-size: .85rem; color: var(--cor-texto-muted); margin-bottom: 1.2rem; }
-.badge-available, .badge-soon { font-size: .65rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; display: inline-block; }
-.badge-available { background: rgba(233,30,140,.12); color: var(--cor-pink); }
-.badge-soon { background: rgba(255,255,255,.07); color: var(--cor-texto-muted); }
-.sistema-btn { display: inline-block; padding: .55rem 1.4rem; background: var(--cor-pink); color: #fff; border-radius: 8px; font-weight: 700; font-size: .9rem; text-decoration: none; transition: opacity .2s; }
+.badge-available, .badge-soon { font-size: .65rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; display: block; width: fit-content; margin: 0 auto 1rem; }
+.badge-available { background: rgba(52,152,219,.15); color: var(--cor-azul); border: 1px solid rgba(52,152,219,.3); }
+.badge-soon { background: rgba(255,255,255,.07); color: var(--cor-texto-muted); border: 1px solid rgba(255,255,255,.1); }
+.sistema-btn { display: inline-block; padding: .6rem 1.6rem; background: var(--cor-azul); color: #fff; border-radius: 8px; font-weight: 700; font-size: .9rem; text-decoration: none; transition: opacity .2s; margin-top: auto; }
 .sistema-btn:hover { opacity: .85; }
 
 /* SYSTEM ICONS */
-.system-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 1rem 0 .8rem; }
-.system-icon--gama { background: rgba(46, 204, 113, 0.15); border: 1.5px solid rgba(46, 204, 113, 0.4); }
-.system-icon--sigma { background: rgba(52, 152, 219, 0.15); border: 1.5px solid rgba(52, 152, 219, 0.4); }
-.system-icon--kappa { background: rgba(243, 156, 18, 0.15); border: 1.5px solid rgba(243, 156, 18, 0.4); }
-.system-icon-img { width: 36px; height: 36px; object-fit: contain; }
+.system-icon { width: 80px; height: 80px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; }
+.system-icon--gama { background: rgba(52, 152, 219, 0.15); border: 2px solid rgba(52, 152, 219, 0.4); }
+.system-icon--sigma { background: rgba(46, 204, 113, 0.15); border: 2px solid rgba(46, 204, 113, 0.4); }
+.system-icon--kappa { background: rgba(243, 156, 18, 0.15); border: 2px solid rgba(243, 156, 18, 0.4); }
+.system-icon-img { width: 52px; height: 52px; object-fit: contain; }
 
 /* PLANOS */
 .planos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 720px; margin: 0 auto; }
