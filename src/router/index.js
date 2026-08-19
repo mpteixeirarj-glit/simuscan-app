@@ -7,6 +7,7 @@ const routes = [
   { path: '/escolha', name: 'escolha', component: () => import('@/views/SistemaEscolhaView.vue'), meta: { requiresAuth: true } },
   { path: '/gama', name: 'gama', component: () => import('@/views/GamaConsoleView.vue'), meta: { requiresAuth: true } },
   { path: '/gama/protocolos', name: 'protocolos', component: () => import('@/components/gama/ProtocolManagerFull.vue'), meta: { requiresAuth: true } },
+  { path: '/sigma', name: 'sigma', component: () => import('@/views/SigmaConsoleView.vue'), meta: { requiresAuth: true } },
   // legacy redirects
   { path: '/sistemas', redirect: '/escolha' },
   { path: '/simulador/gama', redirect: '/gama' }
