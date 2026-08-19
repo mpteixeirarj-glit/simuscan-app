@@ -37,6 +37,8 @@
           <ProtocoloScoutPartial v-else-if="state.panel === 'protocolo_scout'" @back="state.panel = 'initial'" />
           <DataScreenPartial v-else-if="state.panel === 'data_screen'" @back="state.panel = 'initial'" />
           <ReconManagerPartial v-else-if="state.panel === 'recon_manager'" @back="state.panel = 'initial'" />
+          <RetroReconList v-else-if="state.panel === 'retro_recon'" @back="state.panel = 'initial'" @openViewer="state.panel = 'retro_recon_viewer'" />
+          <RetroReconViewer v-else-if="state.panel === 'retro_recon_viewer'" @back="state.panel = 'initial'" />
           <CalibracaoDiariaPartial v-else-if="state.panel === 'calibracao_diaria'" @back="state.panel = 'initial'" />
           <ScannerUtilPartial v-else-if="state.panel === 'scanner_util'" @back="state.panel = 'initial'" />
         </div>
@@ -47,7 +49,7 @@
           <button @click="state.panel = 'worklist'" data-tooltip="Visualiza a lista de agendamentos.">Patient Schedule</button>
           <button @click="router.push({ name: 'protocolos' })" data-tooltip="Gerencia protocolos de aquisição.">Protocol Manager</button>
           <button @click="state.panel = 'data_screen'" data-tooltip="Analisa as imagens.">Data Screen</button>
-          <button @click="state.panel = 'recon_manager'" data-tooltip="Gerencia reconstrução.">Recon Manager</button>
+          <button @click="state.panel = 'retro_recon'" id="btn-recon-manager" data-tooltip="Acessa a lista de exames para reconstrução retroativa.">Retro Recon</button>
           <button @click="state.panel = 'calibracao_diaria'" data-tooltip="Realiza calibração diária.">Daily Prep</button>
           <button @click="state.panel = 'scanner_util'" data-tooltip="Acessa utilitários.">Scanner Util</button>
           <button @click="router.push({ name: 'escolha' })" data-tooltip="Retorna à escolha de Sistemas.">Return System</button>
@@ -104,6 +106,8 @@ import DataScreenPartial from '@/components/gama/partials/DataScreenPartial.vue'
 import ReconManagerPartial from '@/components/gama/partials/ReconManagerPartial.vue'
 import CalibracaoDiariaPartial from '@/components/gama/partials/CalibracaoDiariaPartial.vue'
 import ScannerUtilPartial from '@/components/gama/partials/ScannerUtilPartial.vue'
+import RetroReconList from '@/components/gama/partials/RetroReconList.vue'
+import RetroReconViewer from '@/components/gama/partials/RetroReconViewer.vue'
 
 const router = useRouter()
 const BASE_URL = import.meta.env.BASE_URL
