@@ -23,14 +23,14 @@
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
         </button>
 
-        <div class="sys-card locked">
-          <span class="sys-badge soon">Em breve</span>
+        <button class="sys-card available sys-card--sigma" @click="router.push({ name: 'sigma' })">
+          <span class="sys-badge sys-badge--sigma">Disponível</span>
           <div class="sys-icon sys-icon--sigma">
             <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Sigma" class="sys-icon-img">
           </div>
           <h2>Sigma Healthcare</h2>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-        </div>
+        </button>
 
         <div class="sys-card locked">
           <span class="sys-badge soon">Em breve</span>
@@ -118,6 +118,9 @@ h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(1.8rem,4vw,2.8rem); f
   border: 1px solid rgba(52,152,219,.3);
 }
 .sys-badge.soon { background: rgba(255,255,255,.07); color: var(--cor-texto-muted); border-color: rgba(255,255,255,.1); }
+.sys-badge--sigma { background: rgba(46,204,113,.15); color: #2ecc71; border-color: rgba(46,204,113,.3); }
+.sys-card--sigma { border-color: #2ecc71; }
+.sys-card--sigma:hover { border-color: #2ecc71; box-shadow: 0 8px 30px rgba(46,204,113,.15); }
 
 .sys-icon {
   width: 80px; height: 80px; border-radius: 16px;
