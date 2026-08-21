@@ -457,14 +457,31 @@
     </div>
 
   </div>
+
+  <!-- Confirm Modal -->
+  <ConfirmModal
+    :visible="confirmModal.visible"
+    :message="confirmModal.message"
+    @confirm="confirmModal.onConfirm"
+    @cancel="confirmModal.visible = false"
+  />
 </template>
 
 <script setup>
 import { ref, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import ConfirmModal from '@/components/gama/ConfirmModal.vue'
 
 const router = useRouter()
 const BASE_URL = import.meta.env.BASE_URL
+
+// ── Confirm Modal ───────────────────────────────────────────────────────────
+const confirmModal = reactive({ visible: false, message: '', onConfirm: () => {} })
+function showConfirm(message, onConfirm) {
+  confirmModal.message = message
+  confirmModal.onConfirm = () => { confirmModal.visible = false; onConfirm() }
+  confirmModal.visible = true
+}
 
 // ── Views ──────────────────────────────────────────────────────────────────
 const showEditor = ref(false)
@@ -608,10 +625,10 @@ function createNewProtocol() {
 
 function deleteSelected() {
   if (!selectedProtocol.value || currentTab.value === 'service') return
-  if (confirm('Tem certeza que deseja excluir este protocolo?')) {
+  showConfirm('Tem certeza que deseja excluir este protocolo?', () => {
     protocolDatabase[currentTab.value].splice(selectedIndex.value, 1)
     selectedIndex.value = -1
-  }
+  })
 }
 
 // ── Editor actions ─────────────────────────────────────────────────────────
@@ -639,7 +656,7 @@ function openEditor(protocol) {
 }
 
 function cancelEdit() {
-  if (confirm('Descartar alterações?')) showEditor.value = false
+  showConfirm('Descartar alterações?', () => { showEditor.value = false })
 }
 
 function acceptEdit() {

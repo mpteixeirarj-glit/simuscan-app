@@ -1,10 +1,5 @@
 <template>
   <div class="gama-root">
-    <!-- TOGGLE SWITCH -->
-    <div id="screen-toggle-switch" @click="toggleViewMode" title="Mudar para modo de Visualização/Edição">
-      <div class="knob"></div>
-    </div>
-
     <div id="master-container" :class="{ 'viewer-active': state.viewerMode }">
       <!-- TELA DE AQUISIÇÃO -->
       <div class="main" id="screen-acquisition">
@@ -13,6 +8,7 @@
           SIMULADOR DE TC : SISTEMA GAMA HEALTHCARE (MODO DE AQUISIÇÃO)
           <svg class="icon" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
           <span class="console-version">{{ version }}</span>
+          <button class="hdr-view-toggle" @click="toggleViewMode" title="Alternar para modo de Visualização">⇌ Viewer</button>
         </div>
 
         <div class="screen">
@@ -30,6 +26,7 @@
           />
           <TopogramaPartial
             v-else-if="state.panel === 'topograma'"
+            ref="topoRef"
             :patient="state.currentPatient"
             @cancel="state.panel = 'initial'"
             @accept="state.panel = 'protocolo_scout'"
@@ -64,8 +61,8 @@
             <button class="btn-disabled" data-tooltip="Ir para a série anterior (desativado).">Prior Series</button>
             <button data-tooltip="Ir para a próxima série.">Next Series</button>
             <button @click="topoNewSeries" data-tooltip="Cria uma nova série baseada na primeira.">Create New Series</button>
-            <button @click="topoNewSeries" data-tooltip="Repete os dados da primeira série na segunda.">Repeat Series</button>
-            <button @click="topoDeleteSeries" data-tooltip="Limpa os dados da segunda série.">Delete Series</button>
+            <button @click="topoRepeatSeries" data-tooltip="Repete os dados da primeira série na segunda.">Repeat Series</button>
+            <button @click="topoDeleteSeries" data-tooltip="Remove a última série.">Delete Series</button>
             <button class="toggle-btn" :class="{ active: topoAutoTransfer }" @click="topoAutoTransfer = !topoAutoTransfer" data-tooltip="Ativa/Desativa a transferência automática.">Series Auto Transfer</button>
           </div>
           <div class="group-right">
@@ -76,10 +73,11 @@
 
       <!-- TELA DE VISUALIZAÇÃO -->
       <div class="main" id="screen-viewer">
-        <div class="header" style="background-color: #005f9e;">
+        <div class="header" style="background-color: #005f9e; position: relative;">
           <svg class="icon" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
           SIMULADOR DE TC : SISTEMA GAMA HEALTHCARE (MODO DE VISUALIZAÇÃO)
           <svg class="icon" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+          <button class="hdr-view-toggle" @click="toggleViewMode" title="Voltar ao modo de Aquisição">⇌ Aquisição</button>
         </div>
         <div class="screen">
           <h1 style="color:white;text-align:center;margin:auto;">Área de Visualização e Edição de Exames</h1>
@@ -145,7 +143,8 @@ function onStartFromWorklist(patientData) {
 // Topogram series manipulation — delegated to TopogramaPartial via a provide/inject or ref
 // The topogram component handles its own internal series state
 const topoRef = ref(null)
-function topoNewSeries() { topoRef.value?.newSeries() }
+function topoNewSeries() { topoRef.value?.createNewSeries() }
+function topoRepeatSeries() { topoRef.value?.repeatSeries() }
 function topoDeleteSeries() { topoRef.value?.deleteSeries() }
 </script>
 
@@ -179,9 +178,8 @@ body:has(.gama-root) { margin: 0; font-family: Arial, sans-serif; background-col
 .btn-accept { background: #f39c12; border-color: #c5860e; }
 .btn-accept:hover { background: #e08e0b; }
 
-#screen-toggle-switch { position: fixed; top: 50%; transform: translateY(-50%); width: 90px; height: 48px; border-radius: 24px; cursor: pointer; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,.4); transition: background-color .3s ease, right .5s cubic-bezier(.77,0,.175,1), left .5s cubic-bezier(.77,0,.175,1); right: 20px; background-color: #34c759; }
-#screen-toggle-switch .knob { position: absolute; top: 4px; left: 4px; width: 40px; height: 40px; background-color: white; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.3); transform: translateX(42px); transition: transform .3s cubic-bezier(.25,.46,.45,.94); }
-#master-container.viewer-active ~ #screen-toggle-switch, body:has(#master-container.viewer-active) #screen-toggle-switch { right: auto; left: 20px; background-color: #76767c; }
+.hdr-view-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35); color: white; padding: 4px 12px; border-radius: 5px; font-size: 12px; font-weight: bold; cursor: pointer; transition: background .2s; }
+.hdr-view-toggle:hover { background: rgba(255,255,255,.3); }
 
 .toggle-btn { background: rgba(0,0,0,.25) !important; border: 1px solid rgba(255,255,255,.2) !important; }
 .toggle-btn.active { background-color: #f39c12 !important; color: #000 !important; border-color: #f39c12 !important; }
