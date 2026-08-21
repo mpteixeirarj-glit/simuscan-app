@@ -418,14 +418,14 @@ onBeforeUnmount(() => {
   border-right: 1px solid #2a4a7c;
 }
 
-.mode-buttons { display: flex; flex-direction: column; gap: 8px; }
+.mode-buttons { display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; }
 
 .mode-btn {
-  width: 100%; padding: 10px 14px;
+  width: auto; padding: 10px 20px;
   background: #1c4e8c; border: 1px solid #3c6eac; border-radius: 8px;
   color: white; font-size: 13px; font-weight: bold; cursor: pointer;
-  text-align: left; display: flex; flex-direction: column; gap: 3px;
-  transition: background .2s;
+  text-align: left; display: inline-flex; flex-direction: column; gap: 3px;
+  transition: background .2s; white-space: nowrap;
 }
 .mode-btn .btn-label { font-size: 13px; font-weight: bold; }
 .mode-btn .btn-desc  { font-size: 11px; color: #aaa; font-weight: normal; }

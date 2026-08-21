@@ -25,10 +25,10 @@
       </div>
     </div>
 
-    <!-- Main area -->
+    <!-- Main area: patient image + video -->
     <div class="retro-viewer-main">
 
-      <!-- Left: patient image -->
+      <!-- Left: patient position image 45% -->
       <div class="retro-viewer-left">
         <div class="patient-img-label">Patient Position</div>
         <div class="patient-img-wrap">
@@ -36,24 +36,8 @@
         </div>
       </div>
 
-      <!-- Right: function buttons + video -->
+      <!-- Right: video 50% -->
       <div class="retro-viewer-right">
-
-        <!-- Function buttons (all disabled) -->
-        <div class="func-btns-grid">
-          <button class="func-btn" disabled>Copy Pt.Orient.</button>
-          <button class="func-btn" disabled>Pt.Position</button>
-          <button class="func-btn" disabled>Anat.Ref.</button>
-          <button class="func-btn" disabled>Auto Store</button>
-          <button class="func-btn" disabled>Auto Transfer PACS</button>
-          <button class="func-btn" disabled>Dose Report</button>
-          <button class="func-btn" disabled>Show Localizer</button>
-          <button class="func-btn" disabled>Auto Film</button>
-          <button class="func-btn" disabled>Impressora</button>
-          <button class="func-btn" disabled>Smart Prep Rx</button>
-        </div>
-
-        <!-- Video player -->
         <div class="retro-video-area">
           <video
             v-show="!videoError"
@@ -69,8 +53,8 @@
             <div class="placeholder-exam">{{ exam?.examDesc }}</div>
           </div>
         </div>
-
       </div>
+
     </div>
 
     <!-- Technical table (read-only) -->
@@ -98,25 +82,10 @@
       </table>
     </div>
 
-    <!-- Tabs (visual only, disabled) -->
-    <div class="retro-tabs-bar">
-      <div class="retro-tab">⏱ Scan Time</div>
-      <div class="retro-tab">◎ Topograma</div>
-      <div class="retro-tab">📷 Imagens</div>
-    </div>
-
-    <!-- Bottom bar -->
+    <!-- Bottom bar: Quit + Play only -->
     <div class="retro-viewer-bottom">
       <div class="bottom-left">
         <button class="rv-btn rv-btn-quit" @click="handleQuit">Quit</button>
-      </div>
-      <div class="bottom-center">
-        <button class="rv-btn" disabled>Prior Series</button>
-        <button class="rv-btn" disabled>Next Series</button>
-        <button class="rv-btn" disabled>Create New</button>
-        <button class="rv-btn" disabled>Delete</button>
-        <button class="rv-btn" disabled>Priority Recon</button>
-        <button class="rv-btn" disabled>Auto Scan</button>
       </div>
       <div class="bottom-right">
         <button
@@ -231,9 +200,9 @@ onBeforeUnmount(() => {
   min-height: 0;
 }
 
-/* Left: patient position image */
+/* Left: patient position image — ERRO 4: width 45% */
 .retro-viewer-left {
-  width: 160px;
+  width: 45%;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -255,47 +224,26 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   padding: 8px;
+  min-height: 200px;
 }
 .patient-img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  filter: invert(0) brightness(0.9);
+  filter: brightness(0.9);
 }
 
-/* Right: functions + video */
+/* Right: video — ERRO 3: width 50%, aspect-ratio 1/1 */
 .retro-viewer-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 0;
-}
-
-/* Function buttons grid */
-.func-btns-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
+  width: 50%;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.func-btn {
-  background: #1c3a6a;
-  border: 1px solid #3c6eac;
-  color: #777;
-  padding: 6px 4px;
-  border-radius: 4px;
-  font-size: 10px;
-  cursor: not-allowed;
-  opacity: 0.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Video player */
 .retro-video-area {
-  flex: 1;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   background: #000;
   border: 1px solid #3c6eac;
   border-radius: 6px;
@@ -303,7 +251,6 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
   position: relative;
 }
 .retro-video {
@@ -357,23 +304,6 @@ onBeforeUnmount(() => {
 .tech-table td:last-child { border-right: none; }
 .tech-table td span { color: #e0e0e0; font-weight: 500; }
 
-/* Tabs (visual only) */
-.retro-tabs-bar {
-  display: flex;
-  gap: 4px;
-  flex-shrink: 0;
-  pointer-events: none;
-}
-.retro-tab {
-  background: #0b2c5d;
-  border: 1px solid #3c6eac;
-  border-radius: 5px 5px 0 0;
-  padding: 5px 16px;
-  font-size: 11px;
-  color: #666;
-  opacity: 0.5;
-}
-
 /* Bottom bar */
 .retro-viewer-bottom {
   display: flex;
@@ -383,12 +313,6 @@ onBeforeUnmount(() => {
   flex-shrink: 0;
 }
 .bottom-left, .bottom-right { flex-shrink: 0; }
-.bottom-center {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
 .rv-btn {
   padding: 7px 14px;
@@ -401,13 +325,6 @@ onBeforeUnmount(() => {
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.2s;
-}
-.rv-btn:disabled {
-  background: #222;
-  border-color: #333;
-  color: #555;
-  cursor: not-allowed;
-  opacity: 0.4;
 }
 .rv-btn-quit { background: #dc3545; border-color: #b73a47; }
 .rv-btn-quit:hover { background: #c82333; }
