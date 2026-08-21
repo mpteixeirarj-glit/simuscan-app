@@ -35,7 +35,7 @@
           <DataScreenPartial v-else-if="state.panel === 'data_screen'" @back="state.panel = 'initial'" />
           <ReconManagerPartial v-else-if="state.panel === 'recon_manager'" @back="state.panel = 'initial'" />
           <RetroReconList v-else-if="state.panel === 'retro_recon'" @back="state.panel = 'initial'" @openViewer="state.panel = 'retro_recon_viewer'" />
-          <RetroReconViewer v-else-if="state.panel === 'retro_recon_viewer'" @back="state.panel = 'initial'" />
+          <RetroReconViewer v-else-if="state.panel === 'retro_recon_viewer'" @back="state.panel = 'retro_recon'" @quit="state.panel = 'initial'" />
           <CalibracaoDiariaPartial v-else-if="state.panel === 'calibracao_diaria'" @back="state.panel = 'initial'" />
           <ScannerUtilPartial v-else-if="state.panel === 'scanner_util'" @back="state.panel = 'initial'" />
         </div>
