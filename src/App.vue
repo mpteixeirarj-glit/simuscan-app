@@ -2,6 +2,27 @@
   <RouterView />
 </template>
 
+<script setup>
+import { watch } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const themeColors = {
+  '/':        '#111113',
+  '/login':   '#111113',
+  '/escolha': '#1c1c1f',
+  '/gama':    '#003366',
+  '/sigma':   '#2a2a2a',
+}
+
+watch(() => route.path, (path) => {
+  const color = themeColors[path] || '#003366'
+  const meta = document.querySelector('meta[name="theme-color"]')
+  if (meta) meta.setAttribute('content', color)
+}, { immediate: true })
+</script>
+
 <style>
 :root {
   --cor-fundo: #111113;

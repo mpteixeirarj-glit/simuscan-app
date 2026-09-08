@@ -184,5 +184,5 @@ body:has(.gama-root) { margin: 0; font-family: Arial, sans-serif; background-col
 .toggle-btn { background: rgba(0,0,0,.25) !important; border: 1px solid rgba(255,255,255,.2) !important; }
 .toggle-btn.active { background-color: #f39c12 !important; color: #000 !important; border-color: #f39c12 !important; }
 
-.console-version { position: absolute; right: 12px; bottom: 4px; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
+.console-version { position: absolute; left: 12px; bottom: 4px; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
 </style>
