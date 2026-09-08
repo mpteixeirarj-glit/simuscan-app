@@ -51,7 +51,7 @@
         <div class="v2-cards-grid">
           <div class="v2-feature-card" v-for="(f, i) in features" :key="f.title" :style="{ animationDelay: (i * 0.1) + 's' }">
             <div class="v2-feature-img">
-              <img :src="BASE_URL + 'imagens/hero-scanner.jpg'" :alt="f.title">
+              <img :src="BASE_URL + f.img" :alt="f.title" @error="$event.target.style.display='none'">
               <div class="v2-feature-img-overlay">
                 <span class="v2-feature-icon">{{ f.icon }}</span>
               </div>
@@ -79,13 +79,20 @@
           <div class="v2-system-card v2-system-available" v-for="sys in systems" :key="sys.name"
             :class="{ 'v2-system-available': sys.available }">
             <div class="v2-system-icon" :class="sys.iconClass">
-              <span>{{ sys.symbol }}</span>
+              <img :src="BASE_URL + sys.iconImg" :alt="sys.symbol"
+                   class="v2-sys-icon-img"
+                   @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'">
+              <span class="v2-sys-icon-fallback">{{ sys.symbol }}</span>
             </div>
             <div class="v2-system-badge" :class="sys.available ? 'available' : 'soon'">
               {{ sys.available ? 'Disponível' : 'Em breve' }}
             </div>
             <h3>{{ sys.name }}</h3>
             <p>{{ sys.desc }}</p>
+            <div v-if="sys.name === 'Sigma Healthcare'" class="sigma-versions">
+              <div class="sigma-version-badge"><span class="sigma-version-dot old"></span>Old Sigma</div>
+              <div class="sigma-version-badge"><span class="sigma-version-dot new"></span>Sigma ON</div>
+            </div>
           </div>
         </div>
       </div>
@@ -99,30 +106,45 @@
         <div class="v2-plans-grid">
           <div class="v2-plan-card">
             <div class="v2-plan-label">Mensal</div>
-            <div class="v2-plan-price"><span class="v2-plan-currency">R$</span>49<span class="v2-plan-period">/mês</span></div>
+            <div class="v2-plan-price"><span class="v2-plan-currency">R$</span>59<span class="v2-plan-period">/mês</span></div>
             <ul class="v2-plan-items">
-              <li>✓ Console Gama Healthcare</li>
-              <li>✓ Worklist de pacientes</li>
-              <li>✓ Protocolos básicos</li>
-              <li>✓ Suporte via e-mail</li>
+              <li>✓ Acesso a todos os sistemas</li>
+              <li>✓ Atualizações incluídas</li>
+              <li>✓ Suporte por e-mail</li>
             </ul>
             <RouterLink :to="{ name: 'login' }" class="v2-btn-plan">Começar agora</RouterLink>
           </div>
           <div class="v2-plan-card featured">
             <div class="v2-plan-tag">Mais popular</div>
             <div class="v2-plan-label">Anual</div>
-            <div class="v2-plan-price"><span class="v2-plan-currency">R$</span>39<span class="v2-plan-period">/mês</span></div>
-            <div class="v2-plan-saving">Economia de 20% · R$ 468/ano</div>
+            <div class="v2-plan-saving v2-plan-economy-badge">Economia de 17% · R$ 588/ano</div>
+            <div class="v2-plan-price"><span class="v2-plan-currency">R$</span>49<span class="v2-plan-period">/mês</span></div>
+            <p class="v2-plan-annual-note">Cobrado anualmente · R$ 588/ano</p>
             <ul class="v2-plan-items">
-              <li>✓ Tudo do plano Mensal</li>
-              <li>✓ Todos os sistemas</li>
-              <li>✓ Retro Recon avançado</li>
-              <li>✓ Service Mode</li>
+              <li>✓ Acesso a todos os sistemas</li>
+              <li>✓ Atualizações incluídas</li>
               <li>✓ Suporte prioritário</li>
+              <li>✓ 2 meses grátis</li>
             </ul>
             <RouterLink :to="{ name: 'login' }" class="v2-btn-plan featured">Assinar anual</RouterLink>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- AI DISCLOSURE -->
+    <section class="v2-ai-disclosure">
+      <div class="v2-ai-disclosure-inner">
+        <div class="v2-ai-disclosure-icon">🤖</div>
+        <p class="v2-ai-disclosure-text">
+          O SimuScan foi inteiramente desenvolvido com o auxílio de
+          Inteligências Artificiais, sob orientação e supervisão de um
+          profissional formado e atuante na área de Radiologia há mais
+          de 20 anos, com vasta experiência em todas as plataformas
+          simuladas. As interfaces, nomenclaturas e fluxos apresentados
+          são fictícios e criados exclusivamente para fins educacionais
+          e de treinamento.
+        </p>
       </div>
     </section>
 
@@ -140,15 +162,15 @@
 const BASE_URL = import.meta.env.BASE_URL
 
 const features = [
-  { icon: '🖥', title: 'Console interativo', desc: 'Interface fiel ao ambiente real de uma sala de TC, com painéis, botões e fluxos de trabalho autênticos.' },
-  { icon: '📋', title: 'Worklist de pacientes', desc: 'Gerencie uma lista de pacientes simulados com dados completos — nome, ID, protocolo e médico solicitante.' },
-  { icon: '⚙', title: 'Gerenciador de protocolos', desc: 'Selecione e gerencie protocolos por região anatômica, do crânio aos pés, com listas completas.' },
+  { icon: '🖥', title: 'Console interativo', desc: 'Interface fiel ao ambiente real de uma sala de TC, com painéis, botões e fluxos de trabalho autênticos.', img: 'imagens/feature-console.jpeg' },
+  { icon: '📋', title: 'Worklist de pacientes', desc: 'Gerencie uma lista de pacientes simulados com dados completos — nome, ID, protocolo e médico solicitante.', img: 'imagens/feature-worklist.jpeg' },
+  { icon: '⚙', title: 'Gerenciador de protocolos', desc: 'Selecione e gerencie protocolos por região anatômica, do crânio aos pés, com listas completas.', img: 'imagens/feature-protocols.jpeg' },
 ]
 
 const systems = [
-  { symbol: 'Γ', name: 'Gama Healthcare', desc: 'Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.', iconClass: 'v2-icon-gama', available: true },
-  { symbol: 'Σ', name: 'Sigma Healthcare', desc: 'Tomografia com fluxo avançado de protocolos e interface de alta produtividade.', iconClass: 'v2-icon-sigma', available: false },
-  { symbol: 'Κ', name: 'Kappa Healthcare', desc: 'Interface de alta produtividade para grandes volumes de exames.', iconClass: 'v2-icon-kappa', available: false },
+  { symbol: 'Γ', name: 'Gama Healthcare', desc: 'Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.', iconClass: 'v2-icon-gama', iconImg: 'imagens/icon-gama.png', available: true },
+  { symbol: 'Σ', name: 'Sigma Healthcare', desc: 'Tomografia com fluxo avançado de protocolos e interface de alta produtividade.', iconClass: 'v2-icon-sigma', iconImg: 'imagens/icon-sigma.png', available: false },
+  { symbol: 'Κ', name: 'Kappa Healthcare', desc: 'Interface de alta produtividade para grandes volumes de exames.', iconClass: 'v2-icon-kappa', iconImg: 'imagens/icon-kappa.png', available: false },
 ]
 </script>
 
@@ -390,6 +412,46 @@ const systems = [
 }
 .v2-footer-logo { height: 36px; margin-bottom: 16px; filter: brightness(0) invert(1); display: block; margin-left: auto; margin-right: auto; }
 .v2-footer p { color: rgba(255,255,255,.5); font-size: 13px; margin-top: 8px; }
+
+/* ---- SYSTEM ICON IMG ---- */
+.v2-sys-icon-img { width: 40px; height: 40px; object-fit: contain; }
+.v2-sys-icon-fallback { display: none; font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; }
+
+/* ---- SIGMA VERSIONS ---- */
+.sigma-versions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; justify-content: center; }
+.sigma-version-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; padding: 3px 10px;
+  border-radius: 100px; background: rgba(52,152,219,0.12);
+  color: #3498db; border: 1px solid rgba(52,152,219,0.25);
+}
+.sigma-version-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.sigma-version-dot.old { background: #888; }
+.sigma-version-dot.new { background: #3498db; }
+
+/* ---- PLAN ECONOMY ---- */
+.v2-plan-economy-badge {
+  display: inline-block !important;
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px;
+  background: rgba(46,204,113,0.15); color: #2ecc71;
+  border: 1px solid rgba(46,204,113,0.3);
+  margin-bottom: 8px;
+}
+.v2-plan-annual-note { font-size: 12px; color: var(--v2-text-muted); margin-top: -8px; margin-bottom: 16px; }
+
+/* ---- AI DISCLOSURE ---- */
+.v2-ai-disclosure {
+  background: var(--v2-surface-2);
+  border-top: 1px solid var(--v2-border);
+  padding: 24px 32px;
+}
+.v2-ai-disclosure-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.v2-ai-disclosure-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.v2-ai-disclosure-text { font-size: 13px; color: var(--v2-text-faint); line-height: 1.6; }
 
 /* ---- RESPONSIVE ---- */
 @media (max-width: 900px) {

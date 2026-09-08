@@ -51,7 +51,7 @@
         <div class="v3-cards-grid">
           <div class="v3-feature-card" v-for="f in features" :key="f.title">
             <div class="v3-feature-img">
-              <img :src="BASE_URL + 'imagens/hero-scanner.jpg'" :alt="f.title" />
+              <img :src="BASE_URL + f.img" :alt="f.title" @error="$event.target.style.display='none'" />
             </div>
             <div class="v3-feature-body">
               <h3>{{ f.icon }} {{ f.title }}</h3>
@@ -63,29 +63,112 @@
       </div>
     </section>
 
-    <!-- SISTEMAS -->
+    <!-- SISTEMAS — Expanding Flex Cards -->
     <section class="v3-section v3-section-white" id="sistemas">
       <div class="v3-section-inner">
         <div class="v3-section-header">
           <p class="v3-section-eyebrow">Sistemas</p>
           <h2 class="v3-section-title">Plataformas disponíveis</h2>
         </div>
-        <div class="v3-systems-grid">
-          <div
-            class="v3-system-card"
-            :class="{ available: s.available }"
-            v-for="s in systems"
-            :key="s.name"
-          >
-            <div class="v3-system-icon" :class="s.iconClass">{{ s.initial }}</div>
-            <span class="v3-system-badge" :class="s.available ? 'available' : 'soon'">
-              {{ s.available ? 'Disponível' : 'Em breve' }}
-            </span>
-            <h3 class="v3-system-name">{{ s.name }}</h3>
-            <p class="v3-system-desc">{{ s.desc }}</p>
-            <RouterLink v-if="s.available" to="/login" class="v3-btn-text">Acessar →</RouterLink>
+        <div class="v3-systems-flex">
+
+          <div class="v3-flex-card v3-flex-gama">
+            <div class="v3-flex-card-content">
+              <div class="v3-flex-icon">
+                <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Γ"
+                     @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
+                <span class="v3-greek-fallback">Γ</span>
+              </div>
+              <div class="v3-flex-badge available">Disponível</div>
+              <h3>Gama Healthcare</h3>
+              <p class="v3-flex-desc">Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+              <RouterLink to="/login" class="v3-flex-link">Acessar →</RouterLink>
+            </div>
+          </div>
+
+          <div class="v3-flex-card v3-flex-sigma">
+            <div class="v3-flex-card-content">
+              <div class="v3-flex-icon">
+                <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Σ"
+                     @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
+                <span class="v3-greek-fallback">Σ</span>
+              </div>
+              <div class="v3-flex-badge soon">Em breve</div>
+              <h3>Sigma Healthcare</h3>
+              <p class="v3-flex-desc">Tomografia com fluxo avançado de protocolos e interface de alta produtividade.</p>
+              <div class="sigma-versions">
+                <div class="sigma-version-badge"><span class="sigma-version-dot old"></span>Old Sigma</div>
+                <div class="sigma-version-badge"><span class="sigma-version-dot new"></span>Sigma ON</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="v3-flex-card v3-flex-kappa">
+            <div class="v3-flex-card-content">
+              <div class="v3-flex-icon">
+                <img :src="BASE_URL + 'imagens/icon-kappa.png'" alt="Κ"
+                     @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
+                <span class="v3-greek-fallback">Κ</span>
+              </div>
+              <div class="v3-flex-badge soon">Em breve</div>
+              <h3>Kappa Healthcare</h3>
+              <p class="v3-flex-desc">Interface de alta produtividade para grandes volumes de exames.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PLANOS -->
+    <section class="v3-section v3-section-bg" id="planos">
+      <div class="v3-section-inner">
+        <div class="v3-section-header">
+          <p class="v3-section-eyebrow">Planos</p>
+          <h2 class="v3-section-title">Escolha seu acesso</h2>
+        </div>
+        <div class="v3-plans-grid">
+          <div class="v3-plan-card">
+            <h3 class="v3-plan-name">Mensal</h3>
+            <div class="v3-plan-price"><span class="v3-plan-currency">R$</span>59<span class="v3-plan-period">/mês</span></div>
+            <ul class="v3-plan-features">
+              <li>Acesso a todos os sistemas</li>
+              <li>Atualizações incluídas</li>
+              <li>Suporte por e-mail</li>
+            </ul>
+            <RouterLink to="/login" class="v3-plan-btn">Assinar</RouterLink>
+          </div>
+          <div class="v3-plan-card v3-plan-featured">
+            <div class="v3-plan-tag">Mais popular</div>
+            <h3 class="v3-plan-name">Anual</h3>
+            <span class="v3-plan-economy-badge">Economia de 17% · R$ 588/ano</span>
+            <div class="v3-plan-price"><span class="v3-plan-currency">R$</span>49<span class="v3-plan-period">/mês</span></div>
+            <p class="v3-plan-annual-note">Cobrado anualmente · R$ 588/ano</p>
+            <ul class="v3-plan-features">
+              <li>Acesso a todos os sistemas</li>
+              <li>Atualizações incluídas</li>
+              <li>Suporte prioritário</li>
+              <li>2 meses grátis</li>
+            </ul>
+            <RouterLink to="/login" class="v3-plan-btn v3-plan-btn-featured">Assinar anual</RouterLink>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- AI DISCLOSURE -->
+    <section class="v3-ai-disclosure">
+      <div class="v3-ai-disclosure-inner">
+        <div class="v3-ai-icon">🤖</div>
+        <p class="v3-ai-text">
+          O SimuScan foi inteiramente desenvolvido com o auxílio de
+          Inteligências Artificiais, sob orientação e supervisão de um
+          profissional formado e atuante na área de Radiologia há mais
+          de 20 anos, com vasta experiência em todas as plataformas
+          simuladas. As interfaces, nomenclaturas e fluxos apresentados
+          são fictícios e criados exclusivamente para fins educacionais
+          e de treinamento.
+        </p>
       </div>
     </section>
 
@@ -127,15 +210,9 @@ import { APP_VERSION as version } from '@/version.js'
 const BASE_URL = import.meta.env.BASE_URL
 
 const features = [
-  { icon: '🖥', title: 'Console Interativo', desc: 'Interface idêntica à do equipamento real, com todos os controles e parâmetros de aquisição.' },
-  { icon: '📋', title: 'Worklist & Protocolos', desc: 'Agendamento de pacientes, seleção de protocolos e gerenciamento de exames completo.' },
-  { icon: '🔄', title: 'Retro Recon & Topograma', desc: 'Reconstrução retroativa de séries e posicionamento interativo com planejamento de cortes.' },
-]
-
-const systems = [
-  { initial: 'Γ', name: 'Gama Healthcare', desc: 'Tomógrafo de 64 canais com console completo, worklist, topograma e retro recon.', available: true, iconClass: 'v3-icon-gama' },
-  { initial: 'Σ', name: 'Sigma Healthcare', desc: 'Tomógrafo de 128 canais com perfusion e cardíaco. Em desenvolvimento.', available: false, iconClass: 'v3-icon-sigma' },
-  { initial: 'Κ', name: 'Kappa Healthcare', desc: 'Tomógrafo pediátrico de baixa dose com dose-check integrado. Em desenvolvimento.', available: false, iconClass: 'v3-icon-kappa' },
+  { icon: '🖥', title: 'Console interativo', desc: 'Interface fiel ao ambiente real de uma sala de TC, com painéis, botões e fluxos de trabalho autênticos.', img: 'imagens/feature-console.jpeg' },
+  { icon: '📋', title: 'Worklist de pacientes', desc: 'Gerencie uma lista de pacientes simulados com dados completos — nome, ID, protocolo e médico solicitante.', img: 'imagens/feature-worklist.jpeg' },
+  { icon: '⚙', title: 'Gerenciador de protocolos', desc: 'Selecione e gerencie protocolos por região anatômica, do crânio aos pés, com listas completas.', img: 'imagens/feature-protocols.jpeg' },
 ]
 </script>
 
@@ -488,6 +565,130 @@ const systems = [
 }
 .v3-footer-version { color: var(--v3-blue); }
 
+/* ── EXPANDING FLEX CARDS ── */
+.v3-systems-flex {
+  display: flex;
+  gap: 14px;
+  height: 260px;
+}
+.v3-flex-card {
+  flex: 1;
+  transition: all 0.55s ease;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid var(--v3-border);
+  display: flex;
+  align-items: flex-end;
+}
+.v3-flex-card:hover { flex: 3; transform: translateY(-8px); box-shadow: var(--v3-shadow-hover); z-index: 2; }
+.v3-flex-gama  { background: linear-gradient(135deg,#0d2b5e 0%,#1a4a8a 100%); border-top: 3px solid #3498db; }
+.v3-flex-sigma { background: linear-gradient(135deg,#0d3320 0%,#1a5c35 100%); border-top: 3px solid #2ecc71; opacity: .7; }
+.v3-flex-kappa { background: linear-gradient(135deg,#3d2000 0%,#7a4200 100%); border-top: 3px solid #f39c12; opacity: .7; }
+.v3-flex-card-content { padding: 24px; color: white; width: 100%; opacity: 0; transition: opacity 0.3s ease 0.2s; }
+.v3-flex-card:hover .v3-flex-card-content { opacity: 1; }
+.v3-flex-icon {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  margin-bottom: 12px; font-size: 22px; font-weight: 700;
+}
+.v3-flex-icon img { width: 28px; height: 28px; object-fit: contain; }
+.v3-greek-fallback { display: none; font-size: 22px; font-weight: 700; }
+.v3-flex-card h3 { font-size: 16px; font-weight: 700; color: white; margin-bottom: 6px; }
+.v3-flex-desc {
+  font-size: 13px; color: rgba(255,255,255,.7); line-height: 1.5; margin-bottom: 10px;
+  overflow: hidden; max-height: 0; transition: max-height 0.4s ease;
+}
+.v3-flex-card:hover .v3-flex-desc { max-height: 80px; }
+.v3-flex-badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; margin-bottom: 8px;
+}
+.v3-flex-badge.available { background: rgba(52,219,99,.2); color: #2ecc71; border: 1px solid rgba(52,219,99,.3); }
+.v3-flex-badge.soon      { background: rgba(255,255,255,.1); color: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.15); }
+.v3-flex-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 13px; font-weight: 600; color: white;
+  text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.4);
+  padding-bottom: 2px; transition: border-color .15s;
+  overflow: hidden; max-height: 0; transition: max-height 0.4s ease;
+}
+.v3-flex-card:hover .v3-flex-link { max-height: 30px; }
+
+/* ── SIGMA VERSIONS ── */
+.sigma-versions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.sigma-version-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; padding: 3px 10px;
+  border-radius: 100px; background: rgba(52,152,219,.15);
+  color: #3498db; border: 1px solid rgba(52,152,219,.3);
+}
+.sigma-version-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.sigma-version-dot.old { background: #888; }
+.sigma-version-dot.new { background: #3498db; }
+
+/* ── PLANS ── */
+.v3-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 400px));
+  gap: 24px;
+  justify-content: center;
+}
+.v3-plan-card {
+  background: var(--v3-surface);
+  border: 1px solid var(--v3-border);
+  padding: 40px 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.v3-plan-card.v3-plan-featured { border-top: 3px solid var(--v3-accent); }
+.v3-plan-tag {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--v3-accent); color: #fff;
+  font-size: 11px; font-weight: 700; padding: 3px 14px;
+  letter-spacing: .05em;
+}
+.v3-plan-name { font-size: 18px; font-weight: 700; color: var(--v3-text); }
+.v3-plan-economy-badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px;
+  background: rgba(46,204,113,.15); color: #2ecc71;
+  border: 1px solid rgba(46,204,113,.3);
+}
+.v3-plan-price { font-size: 48px; font-weight: 700; color: var(--v3-text); line-height: 1; }
+.v3-plan-currency { font-size: 22px; vertical-align: super; font-weight: 700; }
+.v3-plan-period { font-size: 16px; font-weight: 400; color: var(--v3-text-muted); }
+.v3-plan-annual-note { font-size: 12px; color: var(--v3-text-muted); margin-top: -8px; }
+.v3-plan-features { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.v3-plan-features li { font-size: 14px; color: var(--v3-text-muted); }
+.v3-plan-features li::before { content: '✓ '; color: #2ecc71; font-weight: 700; }
+.v3-plan-btn {
+  display: block; width: 100%; padding: 12px;
+  background: var(--v3-surface-2); color: var(--v3-text);
+  font-weight: 700; font-size: 14px; text-decoration: none;
+  text-align: center; border: 1px solid var(--v3-border);
+  transition: background .15s, color .15s; margin-top: auto;
+}
+.v3-plan-btn:hover { background: var(--v3-border-strong); }
+.v3-plan-btn.v3-plan-btn-featured { background: var(--v3-accent); color: #fff; border-color: var(--v3-accent); }
+.v3-plan-btn.v3-plan-btn-featured:hover { background: #c01575; border-color: #c01575; }
+
+/* ── AI DISCLOSURE ── */
+.v3-ai-disclosure {
+  background: var(--v3-surface-2);
+  border-top: 1px solid var(--v3-border);
+  padding: 24px 40px;
+}
+.v3-ai-disclosure-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.v3-ai-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.v3-ai-text { font-size: 13px; color: var(--v3-text-faint); line-height: 1.6; }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .v3-nav-links { display: none; }
@@ -496,9 +697,12 @@ const systems = [
   .v3-hero-inner { grid-template-columns: 1fr; gap: 40px; }
   .v3-hero-media { display: none; }
   .v3-section { padding: 48px 20px; }
-  .v3-cards-grid   { grid-template-columns: 1fr; }
-  .v3-systems-grid  { grid-template-columns: 1fr; }
-  .v3-footer-cols  { grid-template-columns: 1fr 1fr; padding: 40px 20px 24px; gap: 32px; }
-  .v3-footer-bottom{ padding: 16px 20px; flex-direction: column; gap: 4px; }
+  .v3-cards-grid    { grid-template-columns: 1fr; }
+  .v3-systems-flex  { flex-direction: column; height: auto; }
+  .v3-flex-card     { min-height: 80px; }
+  .v3-plans-grid    { grid-template-columns: 1fr; }
+  .v3-footer-cols   { grid-template-columns: 1fr 1fr; padding: 40px 20px 24px; gap: 32px; }
+  .v3-footer-bottom { padding: 16px 20px; flex-direction: column; gap: 4px; }
+  .v3-ai-disclosure { padding: 20px; }
 }
 </style>
