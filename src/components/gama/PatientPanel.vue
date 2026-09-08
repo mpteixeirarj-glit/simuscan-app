@@ -1,8 +1,8 @@
 <template>
   <div class="patient-panel">
-    <div class="panel-sections-container">
 
-      <!-- COLUNA ESQUERDA: Patient Information -->
+    <!-- SUB-VIEW: Patient Information -->
+    <div v-if="currentSubView === 'patient'" class="pv-patient">
       <div class="panel-section patient-info">
         <h3>Patient Information</h3>
         <div class="form-group">
@@ -55,10 +55,26 @@
           <input type="text" :value="selectedProtocol" readonly>
         </div>
         <div class="form-group"><label>Req. Proc. ID:</label><input type="text" v-model="form.reqProcId" @input="validate"></div>
-        <button class="btn-end" @click="$emit('cancel')">End Exam</button>
       </div>
 
-      <!-- COLUNA DIREITA: Protocol Selection -->
+      <div class="pv-patient-actions">
+        <button class="btn-end" @click="$emit('cancel')">End Exam</button>
+        <button
+          class="btn-protocol-selection"
+          :class="{ disabled: !patientInfoFilled }"
+          :disabled="!patientInfoFilled"
+          @click="openProtocolSelection"
+          :title="patientInfoFilled ? 'Selecionar protocolo de aquisição' : 'Preencha Nome, ID e Descrição do Exame primeiro'"
+        >
+          Protocol Selection
+        </button>
+      </div>
+    </div>
+
+    <!-- SUB-VIEW: Protocol Selection -->
+    <div v-else-if="currentSubView === 'protocol'" class="pv-protocol">
+      <button class="btn-voltar" @click="currentSubView = 'patient'">← Patient Information</button>
+
       <div class="panel-section protocol-selection">
         <div class="protocol-tabs">
           <span class="protocol-title">Protocol Selection</span>
@@ -99,18 +115,20 @@
           <button :disabled="!isValid" @click="handleOk">OK</button>
         </div>
       </div>
-
     </div>
+
   </div>
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch, onMounted } from 'vue'
+import { reactive, ref, computed, onMounted } from 'vue'
 
 const props = defineProps({ prefill: { type: Object, default: null } })
 const emit = defineEmits(['cancel', 'ok'])
 
 const BASE_URL = import.meta.env.BASE_URL
+
+const currentSubView = ref('patient')
 
 const allProtocols = {
   cranio:  ['1.1 CRANIO ROTINA','1.2 SEIOS DA FACE / FACE','1.3 ORBITAS','1.4 MASTOIDES','1.5 ATM','1.6 HIPOFISE'],
@@ -138,6 +156,17 @@ const form = reactive({
   physician: '', radiologist: '', operator: '',
   history: '', examDescription: '', reqProcId: ''
 })
+
+const patientInfoFilled = computed(() =>
+  form.name.trim().length > 0 &&
+  form.patientId.trim().length > 0 &&
+  form.examDescription.trim().length > 0
+)
+
+function openProtocolSelection() {
+  if (!patientInfoFilled.value) return
+  currentSubView.value = 'protocol'
+}
 
 onMounted(() => {
   if (props.prefill) {
@@ -235,9 +264,14 @@ function handleOk() {
 
 <style scoped>
 .patient-panel { background-color: #3b3b3b; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,.5); color: #e0e0e0; position: absolute; inset: 10px; padding: 15px; display: flex; flex-direction: column; }
-.panel-sections-container { display: flex; flex-grow: 1; gap: 15px; overflow: hidden; }
+
+/* Sub-views */
+.pv-patient { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+.pv-protocol { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
 .panel-section { flex: 1; padding: 15px; background-color: #4a4a4a; border-radius: 6px; display: flex; flex-direction: column; gap: 10px; box-shadow: inset 0 0 5px rgba(0,0,0,.2); overflow-y: auto; }
 .panel-section h3 { color: #f39c12; margin: 0 0 10px; text-align: center; font-size: 1.2em; padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,.1); }
+
 .form-group { display: flex; align-items: center; margin-bottom: 5px; flex-wrap: wrap; position: relative; }
 .form-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
 .form-group label, .form-row label { font-size: .9em; color: #c0c0c0; }
@@ -252,15 +286,61 @@ function handleOk() {
 .unit-label { flex-basis: 30px !important; }
 .tooltip-error { font-size: .75em; color: #e74c3c; margin-left: 5px; }
 
-.btn-end { align-self: flex-start; margin-top: 10px; background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; }
+/* Patient view bottom actions */
+.pv-patient-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0 4px;
+  border-top: 1px solid #3c6eac;
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+
+.btn-end { background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: .9em; }
+.btn-end:hover { background-color: #0056b3; }
+
+.btn-protocol-selection {
+  padding: 10px 24px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-protocol-selection:hover:not(.disabled) { background: #2980b9; }
+.btn-protocol-selection.disabled {
+  background: #2a2a2e;
+  color: #555;
+  cursor: not-allowed;
+  border: 1px solid #333;
+}
+
+/* Back button in protocol view */
+.btn-voltar {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid #3c6eac;
+  color: #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.btn-voltar:hover { background: #0b2c5d; color: white; }
 
 /* Protocol side */
-.protocol-selection { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
-.protocol-tabs { display: flex; align-items: center; width: 100%; margin-bottom: 10px; gap: 10px; }
+.protocol-selection { flex: 1; display: flex; flex-direction: column; align-items: flex-start; overflow: hidden; }
+.protocol-tabs { display: flex; align-items: center; width: 100%; margin-bottom: 10px; gap: 10px; flex-shrink: 0; }
 .protocol-title { color: #f39c12; font-size: 1.1em; font-weight: bold; margin-right: 5px; }
 .protocol-tabs button { background-color: #666; color: white; border: 1px solid #888; padding: 5px 10px; cursor: pointer; font-size: .8em; border-radius: 5px; }
 .protocol-tabs button.active { background-color: #f39c12; color: #2e2e2e; border-color: #f39c12; }
-.protocol-content-area { display: flex; flex-grow: 1; width: 100%; gap: 15px; align-items: flex-start; padding-top: 5px; }
+.protocol-content-area { display: flex; flex-grow: 1; width: 100%; gap: 15px; align-items: flex-start; padding-top: 5px; overflow: hidden; }
 .human-body-diagram { width: 150px; flex-shrink: 0; align-self: flex-start; }
 .human-body-diagram img { max-width: 100%; display: block; }
 .image-control-buttons { display: flex; gap: 5px; margin-bottom: 10px; }
@@ -271,7 +351,7 @@ function handleOk() {
 .protocol-list li { padding: 8px 10px; border-bottom: 1px solid #3b3b3b; font-size: .9em; cursor: pointer; transition: background-color .2s; text-align: right; }
 .protocol-list li:hover { background-color: #5c5c5c; }
 .protocol-list li.selected { background-color: #007bff; color: white; }
-.panel-buttons { display: flex; justify-content: flex-end; gap: 15px; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,.1); }
+.panel-buttons { display: flex; justify-content: flex-end; gap: 15px; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,.1); flex-shrink: 0; }
 .panel-buttons button { background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: .9em; }
 .panel-buttons button.cancel { background-color: #dc3545; }
 .panel-buttons button:disabled { background-color: #555; cursor: not-allowed; color: #bbb; }
