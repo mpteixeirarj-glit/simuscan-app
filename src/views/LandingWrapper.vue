@@ -34,7 +34,7 @@ watch(landingVersion, (v) => {
 
 const componentMap = {
   v1: defineAsyncComponent(() => import('@/views/LandingView.vue')),
-  v2: defineAsyncComponent(() => import('@/views/LandingPage.vue')),
+  v2: defineAsyncComponent(() => import('@/views/LandingV2.vue')),
   v3: defineAsyncComponent(() => import('@/views/LandingV3.vue')),
 }
 
