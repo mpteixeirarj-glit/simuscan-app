@@ -100,6 +100,10 @@
           </div>
           <h3>Sigma Healthcare</h3>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <div class="sigma-versions">
+            <div class="sigma-version-badge"><span class="sigma-version-dot old"></span>Old Sigma</div>
+            <div class="sigma-version-badge"><span class="sigma-version-dot new"></span>Sigma ON</div>
+          </div>
         </div>
         <div class="sistema-card locked">
           <span class="badge-soon">Em breve</span>
@@ -131,7 +135,9 @@
         <div class="plano-card destaque">
           <span class="plano-badge">Mais popular</span>
           <h3>Anual</h3>
+          <span class="plano-economy-badge">Economia de 17% · R$ 588/ano</span>
           <div class="preco">R$ 49<span>/mês</span></div>
+          <p class="plan-annual-note">Cobrado anualmente · R$ 588/ano</p>
           <ul>
             <li>Acesso a todos os sistemas</li>
             <li>Atualizações incluídas</li>
@@ -140,6 +146,22 @@
           </ul>
           <button class="plano-btn">Assinar</button>
         </div>
+      </div>
+    </section>
+
+    <!-- AI DISCLOSURE -->
+    <section class="ai-disclosure">
+      <div class="ai-disclosure-inner">
+        <div class="ai-disclosure-icon">🤖</div>
+        <p class="ai-disclosure-text">
+          O SimuScan foi inteiramente desenvolvido com o auxílio de
+          Inteligências Artificiais, sob orientação e supervisão de um
+          profissional formado e atuante na área de Radiologia há mais
+          de 20 anos, com vasta experiência em todas as plataformas
+          simuladas. As interfaces, nomenclaturas e fluxos apresentados
+          são fictícios e criados exclusivamente para fins educacionais
+          e de treinamento.
+        </p>
       </div>
     </section>
 
@@ -268,4 +290,39 @@ function scrollTo(id) {
 @media (max-width: 540px) {
   .planos-grid { grid-template-columns: 1fr; }
 }
+
+/* SIGMA VERSIONS */
+.sigma-versions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; justify-content: center; }
+.sigma-version-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; padding: 3px 10px;
+  border-radius: 100px; background: rgba(52,152,219,0.12);
+  color: #3498db; border: 1px solid rgba(52,152,219,0.25);
+}
+.sigma-version-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.sigma-version-dot.old { background: #888; }
+.sigma-version-dot.new { background: #3498db; }
+
+/* PLAN ECONOMY */
+.plano-economy-badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px;
+  background: rgba(46,204,113,0.15); color: #2ecc71;
+  border: 1px solid rgba(46,204,113,0.3); margin-bottom: 6px;
+}
+.plan-annual-note { font-size: 12px; color: var(--cor-texto-muted); margin-top: -4px; margin-bottom: 4px; }
+
+/* AI DISCLOSURE */
+.ai-disclosure {
+  background: rgba(255,255,255,0.03);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 24px 32px;
+}
+.ai-disclosure-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.ai-disclosure-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.ai-disclosure-text { font-size: 13px; color: #555; line-height: 1.6; }
 </style>
