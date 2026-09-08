@@ -31,21 +31,36 @@
 
         <!-- FORM LOGIN -->
         <form v-if="!resetMode" @submit.prevent="handleLogin">
-          <div class="field">
-            <label for="email">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-            </label>
-            <input id="email" v-model="email" type="email" placeholder="E-mail" autocomplete="email" required>
+          <div class="input-container">
+            <input
+              id="campo-email"
+              type="email"
+              placeholder=" "
+              v-model="email"
+              autocomplete="email"
+              required
+            >
+            <label for="campo-email">E-mail</label>
           </div>
-          <div class="field">
-            <label for="senha">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            </label>
-            <input id="senha" v-model="senha" :type="showSenha ? 'text' : 'password'" placeholder="Senha" autocomplete="current-password" required>
-            <button type="button" class="btn-olho" @click="showSenha = !showSenha">
-              <svg v-if="!showSenha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-            </button>
+          <div class="glow-container">
+            <div class="campo-inner">
+              <svg class="campo-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input
+                id="campo-senha"
+                v-model="senha"
+                :type="showSenha ? 'text' : 'password'"
+                placeholder="••••••••"
+                autocomplete="current-password"
+                required
+              >
+              <button type="button" class="toggle-senha" @click="showSenha = !showSenha" :title="showSenha ? 'Ocultar senha' : 'Mostrar senha'">
+                <svg v-if="!showSenha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
           </div>
 
           <transition name="err">
@@ -283,4 +298,138 @@ async function handleReset() {
 
 .login-footer { text-align: center; font-size: .72rem; color: var(--cor-texto-muted); margin-top: 1.5rem; opacity: .7; }
 .login-footer span { color: var(--cor-azul); font-weight: 600; }
+
+/* ---- FLOATING LABEL (e-mail) ---- */
+.input-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 14px 12px 10px;
+  background: var(--cor-fundo);
+  border: 1px solid #2e2e33;
+  border-radius: 8px;
+  color: var(--cor-texto);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+.input-container input:focus {
+  border-color: var(--cor-azul);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.18);
+}
+
+.input-container label {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--cor-texto-muted);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  pointer-events: none;
+  transition: all 0.25s ease;
+  padding: 0 4px;
+}
+
+.input-container input:focus ~ label,
+.input-container input:not(:placeholder-shown) ~ label {
+  top: 0;
+  font-size: 11px;
+  background-color: var(--cor-card);
+  color: var(--cor-azul);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* ---- NEON GLOW (senha) ---- */
+.glow-container {
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.glow-container::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #e91e8c, #3498db, #e91e8c);
+  background-size: 200% 200%;
+  border-radius: 10px;
+  filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+  animation: gradientShift 3s ease infinite;
+}
+
+.glow-container:focus-within::before {
+  opacity: 0.7;
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.campo-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  background: var(--cor-fundo);
+  border: 1px solid #2e2e33;
+  border-radius: 8px;
+  transition: border-color 0.25s ease;
+  overflow: hidden;
+}
+
+.glow-container:focus-within .campo-inner {
+  border-color: transparent;
+}
+
+.glow-container input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--cor-texto);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .95rem;
+  padding: 11px 8px 11px 40px;
+  outline: none;
+}
+
+.glow-container input::placeholder {
+  color: #3a3a3f;
+}
+
+.campo-icone {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: var(--cor-texto-muted);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.toggle-senha {
+  background: transparent;
+  border: none;
+  color: var(--cor-texto-muted);
+  cursor: pointer;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.toggle-senha:hover { color: var(--cor-texto); }
 </style>
