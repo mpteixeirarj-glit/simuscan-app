@@ -18,9 +18,9 @@
           <span class="logo-text"><span class="p">Simu</span><span class="b">Scan</span></span>
         </div>
         <div class="nav-links">
-          <a href="#features">Funcionalidades</a>
-          <a href="#sistemas">Sistemas</a>
-          <a href="#planos">Planos</a>
+          <a href="#funcionalidades" @click.prevent="scrollTo('funcionalidades')">Funcionalidades</a>
+          <a href="#sistemas" @click.prevent="scrollTo('sistemas')">Sistemas</a>
+          <a href="#planos" @click.prevent="scrollTo('planos')">Planos</a>
         </div>
         <RouterLink to="/login" class="btn-entrar-nav">Entrar</RouterLink>
       </div>
@@ -40,7 +40,7 @@
       </p>
       <div class="hero-ctas">
         <RouterLink to="/login" class="cta-primary">Começar agora</RouterLink>
-        <button class="cta-outline" @click="scrollTo('features')">Ver funcionalidades</button>
+        <button class="cta-outline" @click="scrollTo('funcionalidades')">Ver funcionalidades</button>
       </div>
       <div class="hero-image-wrap">
         <video
@@ -63,7 +63,7 @@
     </section>
 
     <!-- FEATURES -->
-    <section class="section" id="features">
+    <section class="section" id="funcionalidades">
       <p class="eyebrow">Funcionalidades</p>
       <h2>Tudo que você precisa para treinar</h2>
       <div class="cards-grid">
@@ -99,8 +99,7 @@
       <p class="eyebrow">Sistemas</p>
       <h2>Escolha o equipamento</h2>
       <div class="sistemas-grid">
-        <!-- GAMA: Glow Border Blue -->
-        <div class="sistema-card available anim-glow-blue">
+        <div class="sistema-card available gama-card" data-system="gama">
           <span class="badge-available">Disponível</span>
           <div class="system-icon system-icon--gama">
             <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama" class="system-icon-img" @error="$event.target.style.display='none'">
@@ -109,43 +108,25 @@
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
           <RouterLink to="/login" class="sistema-btn">Acessar</RouterLink>
         </div>
-        <!-- SIGMA: Flip Card 3D -->
-        <div class="sistema-card locked anim-flip-card">
-          <div class="flip-inner">
-            <div class="flip-front">
-              <span class="badge-soon">Em breve</span>
-              <div class="system-icon system-icon--sigma">
-                <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Sigma" class="system-icon-img" @error="$event.target.style.display='none'">
-              </div>
-              <h3>Sigma Healthcare</h3>
-              <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-              <div class="sigma-versions">
-                <div class="sigma-version-badge"><span class="sigma-version-dot old"></span>Old Sigma</div>
-                <div class="sigma-version-badge"><span class="sigma-version-dot new"></span>Sigma ON</div>
-              </div>
-            </div>
-            <div class="flip-back">
-              <p class="flip-back-label">Em desenvolvimento</p>
-              <p class="flip-back-text">O Sigma Healthcare estará disponível em breve com suporte a Old Sigma e Sigma ON.</p>
-              <p class="flip-back-notify">🔔 Aguarde novidades!</p>
-            </div>
+        <div class="sistema-card locked sigma-card" data-system="sigma">
+          <span class="badge-soon">Em breve</span>
+          <div class="system-icon system-icon--sigma">
+            <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Sigma" class="system-icon-img" @error="$event.target.style.display='none'">
+          </div>
+          <h3>Sigma Healthcare</h3>
+          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <div class="sigma-versions">
+            <div class="sigma-version-badge"><span class="sigma-version-dot old"></span>Old Sigma</div>
+            <div class="sigma-version-badge"><span class="sigma-version-dot new"></span>Sigma ON</div>
           </div>
         </div>
-        <!-- KAPPA: Slide-up reveal -->
-        <div class="sistema-card locked anim-slide-up">
-          <div class="slide-static">
-            <span class="badge-soon">Em breve</span>
-            <div class="system-icon system-icon--kappa">
-              <img :src="BASE_URL + 'imagens/icon-kappa.png'" alt="Kappa" class="system-icon-img" @error="$event.target.style.display='none'">
-            </div>
-            <h3>Kappa Healthcare</h3>
-            <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+        <div class="sistema-card locked kappa-card" data-system="kappa">
+          <span class="badge-soon">Em breve</span>
+          <div class="system-icon system-icon--kappa">
+            <img :src="BASE_URL + 'imagens/icon-kappa.png'" alt="Kappa" class="system-icon-img" @error="$event.target.style.display='none'">
           </div>
-          <div class="slide-reveal">
-            <p class="slide-reveal-label">Em desenvolvimento</p>
-            <p class="slide-reveal-text">O Kappa Healthcare chegará com interface exclusiva e novos protocolos clínicos.</p>
-            <p class="slide-reveal-notify">🔔 Aguarde novidades!</p>
-          </div>
+          <h3>Kappa Healthcare</h3>
+          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
         </div>
       </div>
     </section>
@@ -217,7 +198,7 @@
         <div class="footer-col">
           <h4 class="footer-col-title">Produto</h4>
           <ul class="footer-col-links">
-            <li><a href="#features">Funcionalidades</a></li>
+            <li><a href="#funcionalidades" @click.prevent="scrollTo('funcionalidades')">Funcionalidades</a></li>
             <li><a href="#sistemas">Sistemas</a></li>
             <li><a href="#planos">Planos</a></li>
             <li><RouterLink to="/documentacao">Documentação</RouterLink></li>
@@ -302,8 +283,8 @@ function scrollTo(id) {
 
 /* FEATURE CARDS */
 .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
-.card { background: var(--cor-card); border: 1px solid var(--cor-card-borda); border-radius: 14px; padding: 0; overflow: hidden; transition: border-color .2s; }
-.card:hover { border-color: var(--cor-azul); }
+.card { background: var(--cor-card); border: 1px solid var(--cor-card-borda); border-radius: 14px; padding: 0; overflow: hidden; transition: border-color .2s, transform .3s, box-shadow .3s; }
+.card:hover { border-color: var(--cor-azul); transform: translateY(-6px); box-shadow: 0 12px 40px rgba(233,30,140,0.15); }
 .feature-card-image { width: 100%; height: 180px; overflow: hidden; border-radius: 0; }
 .feature-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
 .card:hover .feature-card-image img { transform: scale(1.05); }
@@ -313,7 +294,7 @@ function scrollTo(id) {
 
 /* SISTEMAS */
 .sistemas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 3rem auto 0; }
-.sistema-card { background: var(--cor-fundo); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.sistema-card { background: var(--cor-fundo); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; transition: box-shadow .35s ease, transform .35s ease, border-color .35s ease; }
 .sistema-card.available { border-color: var(--cor-azul); }
 .sistema-card.locked { opacity: .65; }
 .sistema-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: .4rem; color: var(--cor-texto); }
@@ -333,8 +314,10 @@ function scrollTo(id) {
 
 /* PLANOS */
 .planos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 720px; margin: 0 auto; }
-.plano-card { background: var(--cor-card); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; display: flex; flex-direction: column; gap: 1rem; }
+.plano-card { background: var(--cor-card); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; display: flex; flex-direction: column; gap: 1rem; transition: transform .3s, box-shadow .3s; }
 .plano-card.destaque { border-color: var(--cor-azul); box-shadow: 0 0 30px rgba(52,152,219,.15); }
+.plano-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(233,30,140,0.15); }
+.plano-card.destaque:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(233,30,140,0.22); }
 .plano-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--cor-azul); color: #fff; font-size: .65rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 3px 12px; border-radius: 20px; white-space: nowrap; }
 .plano-card h3 { font-size: 1.1rem; font-weight: 700; }
 .preco { font-family: 'Rajdhani', sans-serif; font-size: 2.4rem; font-weight: 700; color: var(--cor-azul); }
@@ -369,36 +352,16 @@ function scrollTo(id) {
 }
 
 /* DEVICE NOTICE */
-.device-notice { background: rgba(52,152,219,0.08); border-bottom: 1px solid rgba(52,152,219,0.15); padding: 8px 20px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.device-notice { background: rgba(52,152,219,0.12); border-bottom: 1px solid rgba(52,152,219,0.3); padding: 10px 24px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
 .device-notice-icon { font-size: 14px; flex-shrink: 0; }
-.device-notice-text { font-size: 12px; color: var(--cor-texto-muted); line-height: 1.4; }
-.device-notice-text strong { color: var(--cor-texto); }
-.device-notice-text kbd { display: inline-block; padding: 1px 5px; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; font-size: 11px; background: rgba(255,255,255,0.07); }
+.device-notice-text { font-size: 13px; color: #aaa; line-height: 1.4; }
+.device-notice-text strong { color: #3498db; font-weight: 700; }
+.device-notice-text kbd { display: inline-block; padding: 2px 7px; border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; font-size: 12px; background: rgba(255,255,255,0.12); color: #ccc; }
 
-/* ANIMATIONS — OS CARDS */
-.anim-glow-blue { transition: box-shadow .3s, border-color .3s; }
-.anim-glow-blue:hover { box-shadow: 0 0 28px rgba(52,152,219,0.45), 0 0 8px rgba(52,152,219,0.2); border-color: var(--cor-azul); }
-
-.anim-flip-card { perspective: 1000px; padding: 0; overflow: visible; transition: opacity .3s; }
-.flip-inner { position: relative; min-height: 300px; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.4,0,.2,1); }
-.anim-flip-card:hover .flip-inner { transform: rotateY(180deg); }
-.anim-flip-card:hover { opacity: 1; }
-.flip-front, .flip-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
-.flip-front { background: var(--cor-fundo); border: 1px solid rgba(46,204,113,0.3); }
-.flip-back { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.3); transform: rotateY(180deg); justify-content: center; gap: 1rem; }
-.flip-back-label { font-weight: 700; font-size: 1rem; color: #2ecc71; }
-.flip-back-text { font-size: .88rem; color: var(--cor-texto-muted); line-height: 1.6; }
-.flip-back-notify { font-size: .9rem; }
-
-.anim-slide-up { overflow: hidden; position: relative; padding: 0; transition: opacity .3s; }
-.anim-slide-up:hover { opacity: 1; }
-.slide-static { padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform .4s cubic-bezier(.4,0,.2,1), opacity .3s; }
-.slide-reveal { position: absolute; inset: 0; background: rgba(243,156,18,0.12); border: 1px solid rgba(243,156,18,0.3); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 2rem; text-align: center; transform: translateY(100%); transition: transform .4s cubic-bezier(.4,0,.2,1); }
-.anim-slide-up:hover .slide-static { transform: translateY(-100%); opacity: 0; }
-.anim-slide-up:hover .slide-reveal { transform: translateY(0); }
-.slide-reveal-label { font-weight: 700; font-size: 1rem; color: #f39c12; }
-.slide-reveal-text { font-size: .88rem; color: var(--cor-texto-muted); line-height: 1.6; }
-.slide-reveal-notify { font-size: .9rem; }
+/* SISTEMA CARD GLOW */
+.gama-card:hover { border-color: #3498db; box-shadow: 0 0 0 1px #3498db, 0 0 20px rgba(52,152,219,0.35), 0 0 50px rgba(52,152,219,0.12); transform: translateY(-6px); }
+.sigma-card:hover { border-color: #2ecc71; box-shadow: 0 0 0 1px #2ecc71, 0 0 20px rgba(46,204,113,0.35), 0 0 50px rgba(46,204,113,0.12); transform: translateY(-6px); opacity: 1; }
+.kappa-card:hover { border-color: #f39c12; box-shadow: 0 0 0 1px #f39c12, 0 0 20px rgba(243,156,18,0.35), 0 0 50px rgba(243,156,18,0.12); transform: translateY(-6px); opacity: 1; }
 
 /* FOOTER RESPONSIVE */
 @media (max-width: 768px) {

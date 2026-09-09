@@ -33,4 +33,8 @@ router.beforeEach(async (to) => {
   if (to.meta.requiresAuth && !auth.user) return { name: 'login' }
 })
 
+router.afterEach(() => {
+  window.scrollTo({ top: 0, behavior: 'instant' })
+})
+
 export default router
