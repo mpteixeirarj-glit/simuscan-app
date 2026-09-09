@@ -18,9 +18,9 @@
           <img :src="BASE_URL + 'imagens/logopainel.png'" alt="SimuScan" class="v2-logo-img">
         </div>
         <div class="v2-nav-links">
-          <a href="#funcionalidades">Funcionalidades</a>
-          <a href="#sistemas">Sistemas</a>
-          <a href="#planos">Planos</a>
+          <a href="#funcionalidades" @click.prevent="scrollTo('funcionalidades')">Funcionalidades</a>
+          <a href="#sistemas" @click.prevent="scrollTo('sistemas')">Sistemas</a>
+          <a href="#planos" @click.prevent="scrollTo('planos')">Planos</a>
         </div>
         <RouterLink :to="{ name: 'login' }" class="v2-btn-primary">Entrar</RouterLink>
       </div>
@@ -42,7 +42,7 @@
           </p>
           <div class="v2-hero-ctas">
             <RouterLink :to="{ name: 'login' }" class="v2-btn-cta">Começar agora</RouterLink>
-            <a href="#funcionalidades" class="v2-btn-outline-white">Ver funcionalidades</a>
+            <a href="#funcionalidades" class="v2-btn-outline-white" @click.prevent="scrollTo('funcionalidades')">Ver funcionalidades</a>
           </div>
         </div>
         <div class="v2-hero-right">
@@ -87,7 +87,7 @@
         </p>
         <div class="v2-systems-grid">
           <div class="v2-system-card v2-system-available" v-for="sys in systems" :key="sys.name"
-            :class="{ 'v2-system-available': sys.available }">
+            :data-system="sys.dataKey" :class="{ 'v2-system-available': sys.available }">
             <div class="v2-system-icon" :class="sys.iconClass">
               <img :src="BASE_URL + sys.iconImg" :alt="sys.symbol"
                    class="v2-sys-icon-img"
@@ -171,6 +171,10 @@
 <script setup>
 const BASE_URL = import.meta.env.BASE_URL
 
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
 const features = [
   { icon: '🖥', title: 'Console interativo', desc: 'Interface fiel ao ambiente real de uma sala de TC, com painéis, botões e fluxos de trabalho autênticos.', img: 'imagens/feature-console.jpeg' },
   { icon: '📋', title: 'Worklist de pacientes', desc: 'Gerencie uma lista de pacientes simulados com dados completos — nome, ID, protocolo e médico solicitante.', img: 'imagens/feature-worklist.jpeg' },
@@ -178,9 +182,9 @@ const features = [
 ]
 
 const systems = [
-  { symbol: 'Γ', name: 'Gama Healthcare', desc: 'Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.', iconClass: 'v2-icon-gama', iconImg: 'imagens/icon-gama.png', available: true },
-  { symbol: 'Σ', name: 'Sigma Healthcare', desc: 'Tomografia com fluxo avançado de protocolos e interface de alta produtividade.', iconClass: 'v2-icon-sigma', iconImg: 'imagens/icon-sigma.png', available: false },
-  { symbol: 'Κ', name: 'Kappa Healthcare', desc: 'Interface de alta produtividade para grandes volumes de exames.', iconClass: 'v2-icon-kappa', iconImg: 'imagens/icon-kappa.png', available: false },
+  { symbol: 'Γ', name: 'Gama Healthcare', desc: 'Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.', iconClass: 'v2-icon-gama', iconImg: 'imagens/icon-gama.png', available: true, dataKey: 'gama' },
+  { symbol: 'Σ', name: 'Sigma Healthcare', desc: 'Tomografia com fluxo avançado de protocolos e interface de alta produtividade.', iconClass: 'v2-icon-sigma', iconImg: 'imagens/icon-sigma.png', available: false, dataKey: 'sigma' },
+  { symbol: 'Κ', name: 'Kappa Healthcare', desc: 'Interface de alta produtividade para grandes volumes de exames.', iconClass: 'v2-icon-kappa', iconImg: 'imagens/icon-kappa.png', available: false, dataKey: 'kappa' },
 ]
 </script>
 
@@ -474,9 +478,19 @@ const systems = [
 }
 
 /* ---- DEVICE NOTICE ---- */
-.device-notice { background: rgba(121,82,179,0.05); border-bottom: 1px solid rgba(121,82,179,0.12); padding: 8px 20px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.device-notice { background: rgba(52,152,219,0.1); border-bottom: 1px solid rgba(52,152,219,0.25); padding: 10px 24px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
 .device-notice-icon { font-size: 14px; flex-shrink: 0; }
-.device-notice-text { font-size: 12px; color: #888; line-height: 1.4; }
-.device-notice-text strong { color: #333; }
-.device-notice-text kbd { display: inline-block; padding: 1px 5px; border: 1px solid #ccc; border-radius: 4px; font-size: 11px; background: #f0f0f0; }
+.device-notice-text { font-size: 13px; color: #444; line-height: 1.4; }
+.device-notice-text strong { color: #2980b9; font-weight: 700; }
+.device-notice-text kbd { display: inline-block; padding: 2px 7px; border: 1px solid rgba(0,0,0,0.2); border-radius: 4px; font-size: 12px; background: rgba(0,0,0,0.08); color: #333; }
+
+/* ---- SYSTEM GLOW ---- */
+.v2-system-card { transition: box-shadow .35s, transform .35s, border-color .35s; }
+.v2-system-card[data-system="gama"]:hover { border-color: #3498db; box-shadow: 0 0 0 2px #3498db, 0 0 24px rgba(52,152,219,0.25); transform: translateY(-6px); }
+.v2-system-card[data-system="sigma"]:hover { border-color: #2ecc71; box-shadow: 0 0 0 2px #2ecc71, 0 0 24px rgba(46,204,113,0.25); transform: translateY(-6px); }
+.v2-system-card[data-system="kappa"]:hover { border-color: #f39c12; box-shadow: 0 0 0 2px #f39c12, 0 0 24px rgba(243,156,18,0.25); transform: translateY(-6px); }
+
+/* ---- PLAN CARD HOVER ---- */
+.v2-plan-card { transition: transform .3s, box-shadow .3s; }
+.v2-plan-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(97,21,221,0.12); }
 </style>

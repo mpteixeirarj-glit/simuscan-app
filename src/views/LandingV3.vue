@@ -18,9 +18,9 @@
           <img :src="BASE_URL + 'imagens/logopainel.png'" alt="SimuScan" class="v3-logo-img" />
         </div>
         <div class="v3-nav-links">
-          <a href="#funcionalidades">Funcionalidades</a>
-          <a href="#sistemas">Sistemas</a>
-          <a href="#planos">Planos</a>
+          <a href="#funcionalidades" @click.prevent="scrollTo('funcionalidades')">Funcionalidades</a>
+          <a href="#sistemas" @click.prevent="scrollTo('sistemas')">Sistemas</a>
+          <a href="#planos" @click.prevent="scrollTo('planos')">Planos</a>
         </div>
         <RouterLink to="/login" class="v3-btn-accent">Entrar →</RouterLink>
       </div>
@@ -42,7 +42,7 @@
           </p>
           <div class="v3-hero-actions">
             <RouterLink to="/login" class="v3-btn-accent-large">Começar agora →</RouterLink>
-            <a href="#funcionalidades" class="v3-btn-ghost">Ver funcionalidades</a>
+            <a href="#funcionalidades" class="v3-btn-ghost" @click.prevent="scrollTo('funcionalidades')">Ver funcionalidades</a>
           </div>
         </div>
         <div class="v3-hero-media">
@@ -218,6 +218,10 @@
 <script setup>
 import { APP_VERSION as version } from '@/version.js'
 const BASE_URL = import.meta.env.BASE_URL
+
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 
 const features = [
   { icon: '🖥', title: 'Console interativo', desc: 'Interface fiel ao ambiente real de uma sala de TC, com painéis, botões e fluxos de trabalho autênticos.', img: 'imagens/feature-console.jpeg' },
@@ -717,8 +721,17 @@ const features = [
 }
 
 /* ── DEVICE NOTICE ── */
-.v3-device-notice { background: var(--v3-surface-2); border-bottom: 1px solid var(--v3-border); padding: 8px 20px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
-.v3-device-text { font-size: 12px; color: var(--v3-text-muted); line-height: 1.4; }
-.v3-device-text strong { color: var(--v3-text); }
-.v3-device-text kbd { display: inline-block; padding: 1px 5px; border: 1px solid var(--v3-border); border-radius: 4px; font-size: 11px; background: var(--v3-surface); }
+.v3-device-notice { background: rgba(52,152,219,0.07); border-bottom: 1px solid rgba(52,152,219,0.2); padding: 10px 24px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.v3-device-text { font-size: 13px; color: #555; line-height: 1.4; }
+.v3-device-text strong { color: #2980b9; font-weight: 700; }
+.v3-device-text kbd { display: inline-block; padding: 2px 7px; border: 1px solid rgba(0,0,0,0.18); border-radius: 4px; font-size: 12px; background: rgba(0,0,0,0.06); color: #444; }
+
+/* ── FLEX CARD GLOW ── */
+.v3-flex-card.v3-flex-gama:hover  { box-shadow: 0 0 0 2px #3498db, 0 0 30px rgba(52,152,219,0.3); }
+.v3-flex-card.v3-flex-sigma:hover { box-shadow: 0 0 0 2px #2ecc71, 0 0 30px rgba(46,204,113,0.3); }
+.v3-flex-card.v3-flex-kappa:hover { box-shadow: 0 0 0 2px #f39c12, 0 0 30px rgba(243,156,18,0.3); }
+
+/* ── PLAN CARD HOVER ── */
+.v3-plan-card { transition: transform .3s, box-shadow .3s; }
+.v3-plan-card:hover { transform: translateY(-6px); box-shadow: 0 8px 32px rgba(233,30,140,0.1); }
 </style>
