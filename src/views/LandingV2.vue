@@ -1,6 +1,16 @@
 <template>
   <div class="lv2">
 
+    <!-- DEVICE NOTICE -->
+    <div class="device-notice">
+      <span class="device-notice-icon">💡</span>
+      <span class="device-notice-text">
+        Para melhor experiência, o SimuScan foi projetado para
+        <strong>tablets e computadores</strong>.
+        No PC, pressione <kbd>F11</kbd> para tela cheia.
+      </span>
+    </div>
+
     <!-- NAV -->
     <nav class="v2-nav">
       <div class="v2-nav-inner">
@@ -462,4 +472,11 @@ const systems = [
   .v2-plans-grid { grid-template-columns: 1fr; }
   .v2-nav-links { display: none; }
 }
+
+/* ---- DEVICE NOTICE ---- */
+.device-notice { background: rgba(121,82,179,0.05); border-bottom: 1px solid rgba(121,82,179,0.12); padding: 8px 20px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.device-notice-icon { font-size: 14px; flex-shrink: 0; }
+.device-notice-text { font-size: 12px; color: #888; line-height: 1.4; }
+.device-notice-text strong { color: #333; }
+.device-notice-text kbd { display: inline-block; padding: 1px 5px; border: 1px solid #ccc; border-radius: 4px; font-size: 11px; background: #f0f0f0; }
 </style>

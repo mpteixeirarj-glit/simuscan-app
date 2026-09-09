@@ -1,11 +1,26 @@
 <template>
   <div class="landing">
+    <!-- DEVICE NOTICE -->
+    <div class="device-notice">
+      <span class="device-notice-icon">💡</span>
+      <span class="device-notice-text">
+        Para melhor experiência, o SimuScan foi projetado para
+        <strong>tablets e computadores</strong>.
+        No PC, pressione <kbd>F11</kbd> para tela cheia.
+      </span>
+    </div>
+
     <!-- NAV -->
     <nav class="nav">
       <div class="nav-inner">
         <div class="logo">
           <img :src="BASE_URL + 'imagens/logopainel.png'" alt="SimuScan" class="logo-img">
           <span class="logo-text"><span class="p">Simu</span><span class="b">Scan</span></span>
+        </div>
+        <div class="nav-links">
+          <a href="#features">Funcionalidades</a>
+          <a href="#sistemas">Sistemas</a>
+          <a href="#planos">Planos</a>
         </div>
         <RouterLink to="/login" class="btn-entrar-nav">Entrar</RouterLink>
       </div>
@@ -84,34 +99,53 @@
       <p class="eyebrow">Sistemas</p>
       <h2>Escolha o equipamento</h2>
       <div class="sistemas-grid">
-        <div class="sistema-card available">
+        <!-- GAMA: Glow Border Blue -->
+        <div class="sistema-card available anim-glow-blue">
           <span class="badge-available">Disponível</span>
           <div class="system-icon system-icon--gama">
-            <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama" class="system-icon-img">
+            <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama" class="system-icon-img" @error="$event.target.style.display='none'">
           </div>
           <h3>Gama Healthcare</h3>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
           <RouterLink to="/login" class="sistema-btn">Acessar</RouterLink>
         </div>
-        <div class="sistema-card locked">
-          <span class="badge-soon">Em breve</span>
-          <div class="system-icon system-icon--sigma">
-            <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Sigma" class="system-icon-img">
-          </div>
-          <h3>Sigma Healthcare</h3>
-          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-          <div class="sigma-versions">
-            <div class="sigma-version-badge"><span class="sigma-version-dot old"></span>Old Sigma</div>
-            <div class="sigma-version-badge"><span class="sigma-version-dot new"></span>Sigma ON</div>
+        <!-- SIGMA: Flip Card 3D -->
+        <div class="sistema-card locked anim-flip-card">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="badge-soon">Em breve</span>
+              <div class="system-icon system-icon--sigma">
+                <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Sigma" class="system-icon-img" @error="$event.target.style.display='none'">
+              </div>
+              <h3>Sigma Healthcare</h3>
+              <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+              <div class="sigma-versions">
+                <div class="sigma-version-badge"><span class="sigma-version-dot old"></span>Old Sigma</div>
+                <div class="sigma-version-badge"><span class="sigma-version-dot new"></span>Sigma ON</div>
+              </div>
+            </div>
+            <div class="flip-back">
+              <p class="flip-back-label">Em desenvolvimento</p>
+              <p class="flip-back-text">O Sigma Healthcare estará disponível em breve com suporte a Old Sigma e Sigma ON.</p>
+              <p class="flip-back-notify">🔔 Aguarde novidades!</p>
+            </div>
           </div>
         </div>
-        <div class="sistema-card locked">
-          <span class="badge-soon">Em breve</span>
-          <div class="system-icon system-icon--kappa">
-            <img :src="BASE_URL + 'imagens/icon-kappa.png'" alt="Kappa" class="system-icon-img">
+        <!-- KAPPA: Slide-up reveal -->
+        <div class="sistema-card locked anim-slide-up">
+          <div class="slide-static">
+            <span class="badge-soon">Em breve</span>
+            <div class="system-icon system-icon--kappa">
+              <img :src="BASE_URL + 'imagens/icon-kappa.png'" alt="Kappa" class="system-icon-img" @error="$event.target.style.display='none'">
+            </div>
+            <h3>Kappa Healthcare</h3>
+            <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
           </div>
-          <h3>Kappa Healthcare</h3>
-          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <div class="slide-reveal">
+            <p class="slide-reveal-label">Em desenvolvimento</p>
+            <p class="slide-reveal-text">O Kappa Healthcare chegará com interface exclusiva e novos protocolos clínicos.</p>
+            <p class="slide-reveal-notify">🔔 Aguarde novidades!</p>
+          </div>
         </div>
       </div>
     </section>
@@ -166,16 +200,47 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="footer">
-      <div class="footer-inner">
-        <p class="footer-brand"><span class="p">Simu</span><span class="b">Scan</span>® 2026</p>
-        <div class="footer-meta">
-          <span>© 2026 SimuScan. Todos os direitos reservados.</span>
-          <span class="footer-version">{{ version }}</span>
+    <footer class="landing-footer">
+      <div class="landing-footer-inner">
+        <div class="footer-col footer-col-brand">
+          <div class="footer-logo-row">
+            <img :src="BASE_URL + 'imagens/logopainel.png'" alt="SimuScan" class="footer-logo-img" @error="$event.target.style.display='none'">
+            <span class="footer-logo-text"><span class="p">Simu</span><span class="b">Scan</span></span>
+          </div>
+          <p class="footer-desc">Simulador educacional de Tomografia Computadorizada, desenvolvido para técnicos e estudantes de radiologia.</p>
+          <div class="footer-social">
+            <a href="#" class="footer-social-link" aria-label="Instagram">📸</a>
+            <a href="#" class="footer-social-link" aria-label="YouTube">▶</a>
+            <a href="#" class="footer-social-link" aria-label="LinkedIn">in</a>
+          </div>
         </div>
-        <p class="footer-legal">
-          SimuScan® é uma marca registrada. As interfaces de simulação são fictícias e criadas exclusivamente para fins educacionais. Não há nenhuma afiliação com fabricantes de equipamentos de diagnóstico por imagem.
-        </p>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Produto</h4>
+          <ul class="footer-col-links">
+            <li><a href="#features">Funcionalidades</a></li>
+            <li><a href="#sistemas">Sistemas</a></li>
+            <li><a href="#planos">Planos</a></li>
+            <li><RouterLink to="/documentacao">Documentação</RouterLink></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Suporte</h4>
+          <ul class="footer-col-links">
+            <li><RouterLink to="/contato">Contato</RouterLink></li>
+            <li><RouterLink to="/documentacao">Guia de uso</RouterLink></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Legal</h4>
+          <ul class="footer-col-links">
+            <li><RouterLink to="/termos">Termos de Uso</RouterLink></li>
+            <li><RouterLink to="/privacidade">Privacidade</RouterLink></li>
+          </ul>
+        </div>
+      </div>
+      <div class="landing-footer-bottom">
+        <span>© 2026 SimuScan. Todos os direitos reservados.</span>
+        <span class="footer-version">{{ version }}</span>
       </div>
     </footer>
   </div>
@@ -206,6 +271,9 @@ function scrollTo(id) {
 .logo-text .b { color: var(--cor-azul); }
 .btn-entrar-nav { padding: .45rem 1.2rem; border: 1.5px solid var(--cor-azul); border-radius: 8px; color: var(--cor-azul); font-size: .9rem; font-weight: 500; text-decoration: none; transition: background .2s, color .2s; }
 .btn-entrar-nav:hover { background: var(--cor-azul); color: #fff; }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a { font-size: .88rem; color: var(--cor-texto-muted); text-decoration: none; font-weight: 500; transition: color .2s; }
+.nav-links a:hover { color: var(--cor-texto); }
 
 /* HERO */
 .hero { max-width: 860px; margin: 0 auto; padding: 5rem 2rem 4rem; text-align: center; }
@@ -278,17 +346,68 @@ function scrollTo(id) {
 .plano-btn:hover { background: var(--cor-azul-hover); }
 
 /* FOOTER */
-.footer { border-top: 1px solid var(--cor-card-borda); padding: 3rem 2rem; text-align: center; }
-.footer-inner { max-width: 700px; margin: 0 auto; }
-.footer-brand { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.4rem; margin-bottom: 1rem; }
-.footer-brand .p { color: var(--cor-pink); }
-.footer-brand .b { color: var(--cor-azul); }
-.footer-meta { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: .8rem; flex-wrap: wrap; font-size: .82rem; color: var(--cor-texto-muted); }
-.footer-version { color: var(--cor-azul); font-size: 11px; opacity: 0.7; }
-.footer-legal { font-size: .78rem; color: var(--cor-texto-muted); line-height: 1.7; }
+.landing-footer { background: rgba(0,0,0,0.4); border-top: 1px solid var(--cor-card-borda); padding: 4rem 2rem 0; }
+.landing-footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; }
+.footer-logo-row { display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem; }
+.footer-logo-img { height: 30px; width: auto; }
+.footer-logo-text { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.3rem; }
+.footer-logo-text .p { color: var(--cor-pink); }
+.footer-logo-text .b { color: var(--cor-azul); }
+.footer-desc { font-size: .83rem; color: var(--cor-texto-muted); line-height: 1.6; margin-bottom: 1.2rem; }
+.footer-social { display: flex; gap: .6rem; }
+.footer-social-link { width: 36px; height: 36px; background: rgba(255,255,255,0.06); border: 1px solid var(--cor-card-borda); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .85rem; color: var(--cor-texto-muted); text-decoration: none; transition: background .2s, color .2s; }
+.footer-social-link:hover { background: rgba(52,152,219,0.15); color: var(--cor-azul); }
+.footer-col-title { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--cor-texto-muted); margin-bottom: 1rem; }
+.footer-col-links { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+.footer-col-links li a, .footer-col-links a { font-size: .88rem; color: var(--cor-texto-muted); text-decoration: none; transition: color .2s; display: block; }
+.footer-col-links li a:hover, .footer-col-links a:hover { color: var(--cor-texto); }
+.landing-footer-bottom { border-top: 1px solid var(--cor-card-borda); max-width: 1100px; margin: 0 auto; padding: 1.2rem 0; display: flex; align-items: center; justify-content: space-between; font-size: .8rem; color: var(--cor-texto-muted); flex-wrap: wrap; gap: .5rem; }
+.footer-version { color: var(--cor-azul); font-size: 11px; opacity: .7; }
 
 @media (max-width: 540px) {
   .planos-grid { grid-template-columns: 1fr; }
+}
+
+/* DEVICE NOTICE */
+.device-notice { background: rgba(52,152,219,0.08); border-bottom: 1px solid rgba(52,152,219,0.15); padding: 8px 20px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.device-notice-icon { font-size: 14px; flex-shrink: 0; }
+.device-notice-text { font-size: 12px; color: var(--cor-texto-muted); line-height: 1.4; }
+.device-notice-text strong { color: var(--cor-texto); }
+.device-notice-text kbd { display: inline-block; padding: 1px 5px; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; font-size: 11px; background: rgba(255,255,255,0.07); }
+
+/* ANIMATIONS — OS CARDS */
+.anim-glow-blue { transition: box-shadow .3s, border-color .3s; }
+.anim-glow-blue:hover { box-shadow: 0 0 28px rgba(52,152,219,0.45), 0 0 8px rgba(52,152,219,0.2); border-color: var(--cor-azul); }
+
+.anim-flip-card { perspective: 1000px; padding: 0; overflow: visible; transition: opacity .3s; }
+.flip-inner { position: relative; min-height: 300px; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.4,0,.2,1); }
+.anim-flip-card:hover .flip-inner { transform: rotateY(180deg); }
+.anim-flip-card:hover { opacity: 1; }
+.flip-front, .flip-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.flip-front { background: var(--cor-fundo); border: 1px solid rgba(46,204,113,0.3); }
+.flip-back { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.3); transform: rotateY(180deg); justify-content: center; gap: 1rem; }
+.flip-back-label { font-weight: 700; font-size: 1rem; color: #2ecc71; }
+.flip-back-text { font-size: .88rem; color: var(--cor-texto-muted); line-height: 1.6; }
+.flip-back-notify { font-size: .9rem; }
+
+.anim-slide-up { overflow: hidden; position: relative; padding: 0; transition: opacity .3s; }
+.anim-slide-up:hover { opacity: 1; }
+.slide-static { padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform .4s cubic-bezier(.4,0,.2,1), opacity .3s; }
+.slide-reveal { position: absolute; inset: 0; background: rgba(243,156,18,0.12); border: 1px solid rgba(243,156,18,0.3); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 2rem; text-align: center; transform: translateY(100%); transition: transform .4s cubic-bezier(.4,0,.2,1); }
+.anim-slide-up:hover .slide-static { transform: translateY(-100%); opacity: 0; }
+.anim-slide-up:hover .slide-reveal { transform: translateY(0); }
+.slide-reveal-label { font-weight: 700; font-size: 1rem; color: #f39c12; }
+.slide-reveal-text { font-size: .88rem; color: var(--cor-texto-muted); line-height: 1.6; }
+.slide-reveal-notify { font-size: .9rem; }
+
+/* FOOTER RESPONSIVE */
+@media (max-width: 768px) {
+  .landing-footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .footer-col-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  .landing-footer-inner { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
 }
 
 /* SIGMA VERSIONS */

@@ -1,6 +1,16 @@
 <template>
   <div class="v3-page">
 
+    <!-- DEVICE NOTICE -->
+    <div class="v3-device-notice">
+      <span>💡</span>
+      <span class="v3-device-text">
+        Para melhor experiência, o SimuScan foi projetado para
+        <strong>tablets e computadores</strong>.
+        No PC, pressione <kbd>F11</kbd> para tela cheia.
+      </span>
+    </div>
+
     <!-- NAV -->
     <nav class="v3-nav">
       <div class="v3-nav-inner">
@@ -705,4 +715,10 @@ const features = [
   .v3-footer-bottom { padding: 16px 20px; flex-direction: column; gap: 4px; }
   .v3-ai-disclosure { padding: 20px; }
 }
+
+/* ── DEVICE NOTICE ── */
+.v3-device-notice { background: var(--v3-surface-2); border-bottom: 1px solid var(--v3-border); padding: 8px 20px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.v3-device-text { font-size: 12px; color: var(--v3-text-muted); line-height: 1.4; }
+.v3-device-text strong { color: var(--v3-text); }
+.v3-device-text kbd { display: inline-block; padding: 1px 5px; border: 1px solid var(--v3-border); border-radius: 4px; font-size: 11px; background: var(--v3-surface); }
 </style>
