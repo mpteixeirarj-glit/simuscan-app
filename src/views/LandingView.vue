@@ -99,34 +99,46 @@
       <p class="eyebrow">Sistemas</p>
       <h2>Escolha o equipamento</h2>
       <div class="sistemas-grid">
-        <div class="sistema-card available gama-card" data-system="gama">
-          <span class="badge-available">Disponível</span>
-          <div class="system-icon system-icon--gama">
-            <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama" class="system-icon-img" @error="$event.target.style.display='none'">
+        <!-- GAMA -->
+        <div class="sistema-card gama-card" data-system="gama">
+          <div class="system-card-icon">
+            <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama Healthcare" class="system-card-icon-img" @error="$event.target.style.display='none'">
           </div>
+          <div class="system-badge available">Disponível</div>
           <h3>Gama Healthcare</h3>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
           <RouterLink to="/login" class="sistema-btn">Acessar</RouterLink>
         </div>
-        <div class="sistema-card locked sigma-card" data-system="sigma">
-          <span class="badge-soon">Em breve</span>
-          <div class="system-icon system-icon--sigma">
-            <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Sigma" class="system-icon-img" @error="$event.target.style.display='none'">
+        <!-- SIGMA GROUP -->
+        <div class="sigma-group">
+          <div class="sistema-card sigma-on-card" data-system="sigma-on">
+            <div class="system-card-icon sigma-on-icon">
+              <img :src="BASE_URL + 'imagens/icon-sigma-on.svg'" alt="Sigma ON" class="system-card-icon-img" @error="$event.target.style.display='none'">
+            </div>
+            <div class="system-badge soon">Em breve</div>
+            <h3>Sigma ON</h3>
+            <p class="system-subtitle">Siemens syngo CT — versão atual</p>
+            <p>Interface moderna com fluxo avançado de protocolos.</p>
           </div>
-          <h3>Sigma Healthcare</h3>
-          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-          <div class="sigma-versions">
-            <div class="sigma-version-badge"><span class="sigma-version-dot old"></span>Old Sigma</div>
-            <div class="sigma-version-badge"><span class="sigma-version-dot new"></span>Sigma ON</div>
+          <div class="sistema-card sigma-old-card" data-system="sigma-old">
+            <div class="system-card-icon sigma-old-icon">
+              <img :src="BASE_URL + 'imagens/icon-sigma-old.svg'" alt="Sigma Old" class="system-card-icon-img" @error="$event.target.style.display='none'">
+            </div>
+            <div class="system-badge soon">Em breve</div>
+            <h3>Sigma Old</h3>
+            <p class="system-subtitle">Siemens syngo CT — versão legado</p>
+            <p>Interface clássica dos consoles de geração anterior.</p>
           </div>
         </div>
-        <div class="sistema-card locked kappa-card" data-system="kappa">
-          <span class="badge-soon">Em breve</span>
-          <div class="system-icon system-icon--kappa">
-            <img :src="BASE_URL + 'imagens/icon-kappa.png'" alt="Kappa" class="system-icon-img" @error="$event.target.style.display='none'">
+        <!-- KAPPA -->
+        <div class="sistema-card kappa-card" data-system="kappa">
+          <div class="system-card-icon">
+            <img :src="BASE_URL + 'imagens/icon-sigma-kappa.svg'" alt="Kappa Healthcare" class="system-card-icon-img" @error="$event.target.style.display='none'">
           </div>
+          <div class="system-badge soon">Em breve</div>
           <h3>Kappa Healthcare</h3>
-          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <p class="system-subtitle">Canon Aquilion</p>
+          <p>Interface de alta produtividade para grandes volumes de exames.</p>
         </div>
       </div>
     </section>
@@ -293,24 +305,24 @@ function scrollTo(id) {
 .card p { font-size: .9rem; color: var(--cor-texto-muted); margin: 0 2rem 2rem; }
 
 /* SISTEMAS */
-.sistemas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 3rem auto 0; }
+.sistemas-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; max-width: 1100px; margin: 3rem auto 0; align-items: start; }
 .sistema-card { background: var(--cor-fundo); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; transition: box-shadow .35s ease, transform .35s ease, border-color .35s ease; }
-.sistema-card.available { border-color: var(--cor-azul); }
-.sistema-card.locked { opacity: .65; }
-.sistema-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: .4rem; color: var(--cor-texto); }
-.sistema-card p { font-size: .85rem; color: var(--cor-texto-muted); margin-bottom: 1.2rem; }
-.badge-available, .badge-soon { font-size: .65rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; display: block; width: fit-content; margin: 0 auto 1rem; }
-.badge-available { background: rgba(52,152,219,.15); color: var(--cor-azul); border: 1px solid rgba(52,152,219,.3); }
-.badge-soon { background: rgba(255,255,255,.07); color: var(--cor-texto-muted); border: 1px solid rgba(255,255,255,.1); }
+.sigma-on-card, .sigma-old-card, .kappa-card { opacity: .75; }
+.sigma-group { display: flex; flex-direction: column; gap: 12px; }
+.sistema-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .3rem; color: var(--cor-texto); }
+.sistema-card p { font-size: .83rem; color: var(--cor-texto-muted); margin-bottom: .6rem; }
+.system-subtitle { font-size: 11px; color: rgba(255,255,255,0.35); font-style: italic; margin-bottom: 4px !important; }
+.system-badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 12px; border-radius: 100px; margin-bottom: 10px; }
+.system-badge.available { background: rgba(46,204,113,0.15); color: #2ecc71; border: 1px solid rgba(46,204,113,0.3); }
+.system-badge.soon { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1); }
 .sistema-btn { display: inline-block; padding: .6rem 1.6rem; background: var(--cor-azul); color: #fff; border-radius: 8px; font-weight: 700; font-size: .9rem; text-decoration: none; transition: opacity .2s; margin-top: auto; }
 .sistema-btn:hover { opacity: .85; }
 
-/* SYSTEM ICONS */
-.system-icon { width: 80px; height: 80px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; }
-.system-icon--gama { background: rgba(52, 152, 219, 0.15); border: 2px solid rgba(52, 152, 219, 0.4); }
-.system-icon--sigma { background: rgba(46, 204, 113, 0.15); border: 2px solid rgba(46, 204, 113, 0.4); }
-.system-icon--kappa { background: rgba(243, 156, 18, 0.15); border: 2px solid rgba(243, 156, 18, 0.4); }
-.system-icon-img { width: 52px; height: 52px; object-fit: contain; }
+/* SYSTEM CARD ICONS */
+.system-card-icon { width: 80px; height: 80px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; border-radius: 16px; overflow: hidden; }
+.system-card-icon-img { width: 80px; height: 80px; object-fit: contain; border-radius: 16px; }
+.sigma-on-icon { border: 1px solid rgba(46,204,113,0.3); box-shadow: 0 0 12px rgba(46,204,113,0.15); }
+.sigma-old-icon { border: 1px solid rgba(104,153,212,0.3); box-shadow: 0 0 12px rgba(104,153,212,0.15); }
 
 /* PLANOS */
 .planos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 720px; margin: 0 auto; }
@@ -359,9 +371,10 @@ function scrollTo(id) {
 .device-notice-text kbd { display: inline-block; padding: 2px 7px; border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; font-size: 12px; background: rgba(255,255,255,0.12); color: #ccc; }
 
 /* SISTEMA CARD GLOW */
-.gama-card:hover { border-color: #3498db; box-shadow: 0 0 0 1px #3498db, 0 0 20px rgba(52,152,219,0.35), 0 0 50px rgba(52,152,219,0.12); transform: translateY(-6px); }
-.sigma-card:hover { border-color: #2ecc71; box-shadow: 0 0 0 1px #2ecc71, 0 0 20px rgba(46,204,113,0.35), 0 0 50px rgba(46,204,113,0.12); transform: translateY(-6px); opacity: 1; }
-.kappa-card:hover { border-color: #f39c12; box-shadow: 0 0 0 1px #f39c12, 0 0 20px rgba(243,156,18,0.35), 0 0 50px rgba(243,156,18,0.12); transform: translateY(-6px); opacity: 1; }
+.gama-card:hover     { border-color: #3498db; box-shadow: 0 0 0 1px #3498db, 0 0 20px rgba(52,152,219,0.35), 0 0 50px rgba(52,152,219,0.12); transform: translateY(-6px); }
+.sigma-on-card:hover  { border-color: #2ecc71; box-shadow: 0 0 0 1px #2ecc71, 0 0 20px rgba(46,204,113,0.35), 0 0 50px rgba(46,204,113,0.12); transform: translateY(-6px); opacity: 1; }
+.sigma-old-card:hover { border-color: #6899d4; box-shadow: 0 0 0 1px #6899d4, 0 0 20px rgba(104,153,212,0.35), 0 0 50px rgba(104,153,212,0.12); transform: translateY(-6px); opacity: 1; }
+.kappa-card:hover    { border-color: #9e3d52; box-shadow: 0 0 0 1px #9e3d52, 0 0 20px rgba(90,26,46,0.5), 0 0 50px rgba(90,26,46,0.2); transform: translateY(-6px); opacity: 1; }
 
 /* FOOTER RESPONSIVE */
 @media (max-width: 768px) {
@@ -373,17 +386,7 @@ function scrollTo(id) {
   .nav-links { display: none; }
 }
 
-/* SIGMA VERSIONS */
-.sigma-versions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; justify-content: center; }
-.sigma-version-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 11px; font-weight: 600; padding: 3px 10px;
-  border-radius: 100px; background: rgba(52,152,219,0.12);
-  color: #3498db; border: 1px solid rgba(52,152,219,0.25);
-}
-.sigma-version-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.sigma-version-dot.old { background: #888; }
-.sigma-version-dot.new { background: #3498db; }
+/* SIGMA VERSIONS — kept for SistemaEscolhaView compat */
 
 /* PLAN ECONOMY */
 .plano-economy-badge {

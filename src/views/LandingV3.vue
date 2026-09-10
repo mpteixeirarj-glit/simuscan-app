@@ -96,19 +96,30 @@
             </div>
           </div>
 
-          <div class="v3-flex-card v3-flex-sigma">
-            <div class="v3-flex-card-content">
-              <div class="v3-flex-icon">
-                <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Σ"
-                     @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
-                <span class="v3-greek-fallback">Σ</span>
+          <!-- Sigma group: ON + OLD empilhados -->
+          <div class="v3-sigma-flex-group">
+            <div class="v3-flex-card v3-flex-sigma-on">
+              <div class="v3-flex-card-content">
+                <div class="v3-flex-icon">
+                  <img :src="BASE_URL + 'imagens/icon-sigma-on.svg'" alt="Σ ON"
+                       @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
+                  <span class="v3-greek-fallback">Σ</span>
+                </div>
+                <div class="v3-flex-badge soon">Em breve</div>
+                <h3>Sigma ON</h3>
+                <p class="v3-flex-desc">Interface moderna com fluxo avançado de protocolos.</p>
               </div>
-              <div class="v3-flex-badge soon">Em breve</div>
-              <h3>Sigma Healthcare</h3>
-              <p class="v3-flex-desc">Tomografia com fluxo avançado de protocolos e interface de alta produtividade.</p>
-              <div class="sigma-versions">
-                <div class="sigma-version-badge"><span class="sigma-version-dot old"></span>Old Sigma</div>
-                <div class="sigma-version-badge"><span class="sigma-version-dot new"></span>Sigma ON</div>
+            </div>
+            <div class="v3-flex-card v3-flex-sigma-old">
+              <div class="v3-flex-card-content">
+                <div class="v3-flex-icon">
+                  <img :src="BASE_URL + 'imagens/icon-sigma-old.svg'" alt="Σ Old"
+                       @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
+                  <span class="v3-greek-fallback">Σ</span>
+                </div>
+                <div class="v3-flex-badge soon">Em breve</div>
+                <h3>Sigma Old</h3>
+                <p class="v3-flex-desc">Interface clássica dos consoles de geração anterior.</p>
               </div>
             </div>
           </div>
@@ -116,9 +127,9 @@
           <div class="v3-flex-card v3-flex-kappa">
             <div class="v3-flex-card-content">
               <div class="v3-flex-icon">
-                <img :src="BASE_URL + 'imagens/icon-kappa.png'" alt="Κ"
+                <img :src="BASE_URL + 'imagens/icon-sigma-kappa.svg'" alt="κ"
                      @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
-                <span class="v3-greek-fallback">Κ</span>
+                <span class="v3-greek-fallback">κ</span>
               </div>
               <div class="v3-flex-badge soon">Em breve</div>
               <h3>Kappa Healthcare</h3>
@@ -511,7 +522,7 @@ const features = [
 }
 .v3-icon-gama  { color: #2ecc71; }
 .v3-icon-sigma { color: #3498db; }
-.v3-icon-kappa { color: #f39c12; }
+.v3-icon-kappa { color: #9e3d52; }
 .v3-system-badge {
   display: inline-block;
   font-size: 10px;
@@ -583,8 +594,15 @@ const features = [
 .v3-systems-flex {
   display: flex;
   gap: 14px;
-  height: 260px;
+  align-items: stretch;
 }
+.v3-sigma-flex-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.v3-sigma-flex-group .v3-flex-card { flex: 1; }
 .v3-flex-card {
   flex: 1;
   transition: all 0.55s ease;
@@ -594,11 +612,13 @@ const features = [
   border: 1px solid var(--v3-border);
   display: flex;
   align-items: flex-end;
+  min-height: 120px;
 }
 .v3-flex-card:hover { flex: 3; transform: translateY(-8px); box-shadow: var(--v3-shadow-hover); z-index: 2; }
-.v3-flex-gama  { background: linear-gradient(135deg,#0d2b5e 0%,#1a4a8a 100%); border-top: 3px solid #3498db; }
-.v3-flex-sigma { background: linear-gradient(135deg,#0d3320 0%,#1a5c35 100%); border-top: 3px solid #2ecc71; opacity: .7; }
-.v3-flex-kappa { background: linear-gradient(135deg,#3d2000 0%,#7a4200 100%); border-top: 3px solid #f39c12; opacity: .7; }
+.v3-flex-gama      { background: linear-gradient(135deg,#0d2b5e 0%,#1a4a8a 100%); border-top: 3px solid #3498db; }
+.v3-flex-sigma-on  { background: linear-gradient(135deg,#0a3a0e 0%,#1c6020 100%); border-top: 3px solid #2ecc71; opacity: .75; }
+.v3-flex-sigma-old { background: linear-gradient(135deg,#04080f 0%,#1c3a6e 100%); border-top: 3px solid #6899d4; opacity: .75; }
+.v3-flex-kappa     { background: linear-gradient(135deg,#0f0408 0%,#5a1a2e 100%); border-top: 3px solid #9e3d52; opacity: .75; }
 .v3-flex-card-content { padding: 24px; color: white; width: 100%; opacity: 0; transition: opacity 0.3s ease 0.2s; }
 .v3-flex-card:hover .v3-flex-card-content { opacity: 1; }
 .v3-flex-icon {
@@ -607,7 +627,7 @@ const features = [
   background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
   margin-bottom: 12px; font-size: 22px; font-weight: 700;
 }
-.v3-flex-icon img { width: 28px; height: 28px; object-fit: contain; }
+.v3-flex-icon img { width: 44px; height: 44px; object-fit: contain; border-radius: 8px; }
 .v3-greek-fallback { display: none; font-size: 22px; font-weight: 700; }
 .v3-flex-card h3 { font-size: 16px; font-weight: 700; color: white; margin-bottom: 6px; }
 .v3-flex-desc {
@@ -625,8 +645,7 @@ const features = [
   display: inline-flex; align-items: center; gap: 4px;
   font-size: 13px; font-weight: 600; color: white;
   text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.4);
-  padding-bottom: 2px; transition: border-color .15s;
-  overflow: hidden; max-height: 0; transition: max-height 0.4s ease;
+  padding-bottom: 2px; overflow: hidden; max-height: 0; transition: max-height 0.4s ease;
 }
 .v3-flex-card:hover .v3-flex-link { max-height: 30px; }
 
@@ -728,8 +747,9 @@ const features = [
 
 /* ── FLEX CARD GLOW ── */
 .v3-flex-card.v3-flex-gama:hover  { box-shadow: 0 0 0 2px #3498db, 0 0 30px rgba(52,152,219,0.3); }
-.v3-flex-card.v3-flex-sigma:hover { box-shadow: 0 0 0 2px #2ecc71, 0 0 30px rgba(46,204,113,0.3); }
-.v3-flex-card.v3-flex-kappa:hover { box-shadow: 0 0 0 2px #f39c12, 0 0 30px rgba(243,156,18,0.3); }
+.v3-flex-card.v3-flex-sigma-on:hover  { box-shadow: 0 0 0 2px #2ecc71, 0 0 30px rgba(46,204,113,0.3); }
+.v3-flex-card.v3-flex-sigma-old:hover { box-shadow: 0 0 0 2px #6899d4, 0 0 30px rgba(104,153,212,0.3); }
+.v3-flex-card.v3-flex-kappa:hover     { box-shadow: 0 0 0 2px #9e3d52, 0 0 30px rgba(90,26,46,0.4); }
 
 /* ── PLAN CARD HOVER ── */
 .v3-plan-card { transition: transform .3s, box-shadow .3s; }

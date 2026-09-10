@@ -86,23 +86,45 @@
           com fluxos e terminologias próprias.
         </p>
         <div class="v2-systems-grid">
-          <div class="v2-system-card v2-system-available" v-for="sys in systems" :key="sys.name"
-            :data-system="sys.dataKey" :class="{ 'v2-system-available': sys.available }">
-            <div class="v2-system-icon" :class="sys.iconClass">
-              <img :src="BASE_URL + sys.iconImg" :alt="sys.symbol"
-                   class="v2-sys-icon-img"
-                   @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'">
-              <span class="v2-sys-icon-fallback">{{ sys.symbol }}</span>
+          <!-- GAMA -->
+          <div class="v2-system-card gama-card" data-system="gama">
+            <div class="v2-system-icon v2-icon-gama">
+              <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
             </div>
-            <div class="v2-system-badge" :class="sys.available ? 'available' : 'soon'">
-              {{ sys.available ? 'Disponível' : 'Em breve' }}
+            <div class="v2-system-badge available">Disponível</div>
+            <h3>Gama Healthcare</h3>
+            <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          </div>
+          <!-- SIGMA GROUP -->
+          <div class="v2-sigma-group">
+            <div class="v2-system-card sigma-on-card" data-system="sigma-on">
+              <div class="v2-system-icon v2-sigma-on-icon">
+                <img :src="BASE_URL + 'imagens/icon-sigma-on.svg'" alt="Sigma ON" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
+              </div>
+              <div class="v2-system-badge soon">Em breve</div>
+              <h3>Sigma ON</h3>
+              <p class="v2-system-subtitle">Siemens syngo CT — versão atual</p>
+              <p>Interface moderna com fluxo avançado de protocolos.</p>
             </div>
-            <h3>{{ sys.name }}</h3>
-            <p>{{ sys.desc }}</p>
-            <div v-if="sys.name === 'Sigma Healthcare'" class="sigma-versions">
-              <div class="sigma-version-badge"><span class="sigma-version-dot old"></span>Old Sigma</div>
-              <div class="sigma-version-badge"><span class="sigma-version-dot new"></span>Sigma ON</div>
+            <div class="v2-system-card sigma-old-card" data-system="sigma-old">
+              <div class="v2-system-icon v2-sigma-old-icon">
+                <img :src="BASE_URL + 'imagens/icon-sigma-old.svg'" alt="Sigma Old" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
+              </div>
+              <div class="v2-system-badge soon">Em breve</div>
+              <h3>Sigma Old</h3>
+              <p class="v2-system-subtitle">Siemens syngo CT — versão legado</p>
+              <p>Interface clássica dos consoles de geração anterior.</p>
             </div>
+          </div>
+          <!-- KAPPA -->
+          <div class="v2-system-card kappa-card" data-system="kappa">
+            <div class="v2-system-icon v2-icon-kappa">
+              <img :src="BASE_URL + 'imagens/icon-sigma-kappa.svg'" alt="Kappa" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
+            </div>
+            <div class="v2-system-badge soon">Em breve</div>
+            <h3>Kappa Healthcare</h3>
+            <p class="v2-system-subtitle">Canon Aquilion</p>
+            <p>Interface de alta produtividade para grandes volumes de exames.</p>
           </div>
         </div>
       </div>
@@ -181,11 +203,6 @@ const features = [
   { icon: '⚙', title: 'Gerenciador de protocolos', desc: 'Selecione e gerencie protocolos por região anatômica, do crânio aos pés, com listas completas.', img: 'imagens/feature-protocols.jpeg' },
 ]
 
-const systems = [
-  { symbol: 'Γ', name: 'Gama Healthcare', desc: 'Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.', iconClass: 'v2-icon-gama', iconImg: 'imagens/icon-gama.png', available: true, dataKey: 'gama' },
-  { symbol: 'Σ', name: 'Sigma Healthcare', desc: 'Tomografia com fluxo avançado de protocolos e interface de alta produtividade.', iconClass: 'v2-icon-sigma', iconImg: 'imagens/icon-sigma.png', available: false, dataKey: 'sigma' },
-  { symbol: 'Κ', name: 'Kappa Healthcare', desc: 'Interface de alta produtividade para grandes volumes de exames.', iconClass: 'v2-icon-kappa', iconImg: 'imagens/icon-kappa.png', available: false, dataKey: 'kappa' },
-]
 </script>
 
 <style scoped>
@@ -352,36 +369,43 @@ const systems = [
 }
 
 /* ---- SYSTEMS ---- */
-.v2-systems-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.v2-systems-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-items: start; }
+.v2-sigma-group { display: flex; flex-direction: column; gap: 12px; }
 .v2-system-card {
   background: var(--v2-surface); border: 1px solid var(--v2-border);
-  border-radius: var(--v2-radius-card); padding: 32px 24px;
+  border-radius: var(--v2-radius-card); padding: 28px 20px;
   text-align: center; box-shadow: var(--v2-shadow-card);
-  transition: transform .2s; opacity: .6;
+  transition: box-shadow .35s, transform .35s, border-color .35s;
 }
-.v2-system-card.v2-system-available {
-  opacity: 1; border-color: var(--v2-primary);
-  box-shadow: 0 0 0 2px var(--v2-primary-light), var(--v2-shadow-card);
-}
-.v2-system-card:hover { transform: translateY(-4px); }
+.v2-system-card.gama-card { border-top: 3px solid #3498db; }
+.v2-system-card.sigma-on-card { border-top: 3px solid #2ecc71; opacity: .8; }
+.v2-system-card.sigma-old-card { border-top: 3px solid #6899d4; opacity: .8; }
+.v2-system-card.kappa-card { border-top: 3px solid #5a1a2e; opacity: .8; }
 .v2-system-icon {
-  width: 64px; height: 64px; border-radius: 16px;
+  width: 72px; height: 72px; border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px; font-family: 'Rajdhani', sans-serif;
-  font-size: 32px; font-weight: 700;
+  margin: 0 auto 14px; overflow: hidden;
 }
-.v2-icon-gama  { background: #e8f8ee; color: #2ecc71; }
-.v2-icon-sigma { background: #e8f0ff; color: #3498db; }
-.v2-icon-kappa { background: #fff8e6; color: #f39c12; }
+.v2-icon-gama  { background: #e8f4fc; border: 1px solid rgba(52,152,219,0.2); }
+.v2-sigma-on-icon { border: 1px solid rgba(46,204,113,0.3); box-shadow: 0 0 10px rgba(46,204,113,0.12); }
+.v2-sigma-old-icon { border: 1px solid rgba(104,153,212,0.3); box-shadow: 0 0 10px rgba(104,153,212,0.12); }
+.v2-icon-kappa { background: rgba(90,26,46,0.06); border: 1px solid rgba(90,26,46,0.2); }
+.v2-sys-icon-img { width: 72px; height: 72px; object-fit: contain; border-radius: 14px; }
 .v2-system-badge {
   display: inline-block; font-size: 11px; font-weight: 700;
   letter-spacing: 1px; text-transform: uppercase;
-  padding: 3px 12px; border-radius: 100px; margin-bottom: 12px;
+  padding: 3px 12px; border-radius: 100px; margin-bottom: 10px;
 }
 .v2-system-badge.available { background: #e8f8ee; color: #16a34a; }
 .v2-system-badge.soon      { background: var(--v2-surface-2); color: var(--v2-text-faint); }
-.v2-system-card h3 { font-size: 18px; font-weight: 700; color: var(--v2-text); margin-bottom: 8px; }
-.v2-system-card p  { font-size: 14px; color: var(--v2-text-muted); line-height: 1.5; }
+.v2-system-card h3 { font-size: 16px; font-weight: 700; color: var(--v2-text); margin-bottom: 6px; }
+.v2-system-card p  { font-size: 13px; color: var(--v2-text-muted); line-height: 1.5; margin-bottom: 4px; }
+.v2-system-subtitle { font-size: 11px; color: var(--v2-text-faint); font-style: italic; margin-bottom: 4px !important; }
+/* Hover glow */
+.v2-system-card.gama-card:hover     { border-color: #3498db; box-shadow: 0 0 0 2px #3498db, 0 0 24px rgba(52,152,219,0.2); transform: translateY(-6px); }
+.v2-system-card.sigma-on-card:hover  { border-color: #2ecc71; box-shadow: 0 0 0 2px #2ecc71, 0 0 24px rgba(46,204,113,0.2); transform: translateY(-6px); opacity: 1; }
+.v2-system-card.sigma-old-card:hover { border-color: #6899d4; box-shadow: 0 0 0 2px #6899d4, 0 0 24px rgba(104,153,212,0.2); transform: translateY(-6px); opacity: 1; }
+.v2-system-card.kappa-card:hover    { border-color: #9e3d52; box-shadow: 0 0 0 2px #9e3d52, 0 0 24px rgba(90,26,46,0.25); transform: translateY(-6px); opacity: 1; }
 
 /* ---- PLANS ---- */
 .v2-plans-grid {
@@ -427,21 +451,6 @@ const systems = [
 .v2-footer-logo { height: 36px; margin-bottom: 16px; filter: brightness(0) invert(1); display: block; margin-left: auto; margin-right: auto; }
 .v2-footer p { color: rgba(255,255,255,.5); font-size: 13px; margin-top: 8px; }
 
-/* ---- SYSTEM ICON IMG ---- */
-.v2-sys-icon-img { width: 40px; height: 40px; object-fit: contain; }
-.v2-sys-icon-fallback { display: none; font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; }
-
-/* ---- SIGMA VERSIONS ---- */
-.sigma-versions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; justify-content: center; }
-.sigma-version-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 11px; font-weight: 600; padding: 3px 10px;
-  border-radius: 100px; background: rgba(52,152,219,0.12);
-  color: #3498db; border: 1px solid rgba(52,152,219,0.25);
-}
-.sigma-version-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.sigma-version-dot.old { background: #888; }
-.sigma-version-dot.new { background: #3498db; }
 
 /* ---- PLAN ECONOMY ---- */
 .v2-plan-economy-badge {
@@ -484,11 +493,6 @@ const systems = [
 .device-notice-text strong { color: #2980b9; font-weight: 700; }
 .device-notice-text kbd { display: inline-block; padding: 2px 7px; border: 1px solid rgba(0,0,0,0.2); border-radius: 4px; font-size: 12px; background: rgba(0,0,0,0.08); color: #333; }
 
-/* ---- SYSTEM GLOW ---- */
-.v2-system-card { transition: box-shadow .35s, transform .35s, border-color .35s; }
-.v2-system-card[data-system="gama"]:hover { border-color: #3498db; box-shadow: 0 0 0 2px #3498db, 0 0 24px rgba(52,152,219,0.25); transform: translateY(-6px); }
-.v2-system-card[data-system="sigma"]:hover { border-color: #2ecc71; box-shadow: 0 0 0 2px #2ecc71, 0 0 24px rgba(46,204,113,0.25); transform: translateY(-6px); }
-.v2-system-card[data-system="kappa"]:hover { border-color: #f39c12; box-shadow: 0 0 0 2px #f39c12, 0 0 24px rgba(243,156,18,0.25); transform: translateY(-6px); }
 
 /* ---- PLAN CARD HOVER ---- */
 .v2-plan-card { transition: transform .3s, box-shadow .3s; }

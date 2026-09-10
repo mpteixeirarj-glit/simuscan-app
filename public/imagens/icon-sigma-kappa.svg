@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <defs>
+    <clipPath id="clip-kappa">
+      <rect width="80" height="80" rx="14"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip-kappa)">
+    <rect width="80" height="80" fill="#0f0408"/>
+    <rect width="38" height="80" fill="#5a1a2e"/>
+    <line x1="45" y1="12" x2="74" y2="12" stroke="rgba(158,61,82,0.2)" stroke-width="0.5"/>
+    <line x1="45" y1="24" x2="74" y2="24" stroke="rgba(158,61,82,0.2)" stroke-width="0.5"/>
+    <line x1="45" y1="36" x2="74" y2="36" stroke="rgba(158,61,82,0.2)" stroke-width="0.5"/>
+    <line x1="45" y1="48" x2="74" y2="48" stroke="rgba(158,61,82,0.2)" stroke-width="0.5"/>
+    <line x1="45" y1="60" x2="74" y2="60" stroke="rgba(158,61,82,0.2)" stroke-width="0.5"/>
+    <line x1="38" y1="0" x2="38" y2="80" stroke="rgba(158,61,82,0.45)" stroke-width="1"/>
+    <text x="19" y="48" text-anchor="middle" font-family="Georgia, serif" font-weight="700" font-size="30" fill="rgba(255,255,255,0.88)">κ</text>
+    <text x="59" y="43" text-anchor="middle" font-family="'Courier New', monospace" font-weight="700" font-size="9" fill="#8a2a42">Canon</text>
+    <text x="59" y="54" text-anchor="middle" font-family="'Courier New', monospace" font-weight="700" font-size="9" fill="#8a2a42">Aquilion</text>
+    <rect width="80" height="2.5" fill="#9e3d52" opacity="0.8"/>
+  </g>
+  <rect width="80" height="80" rx="14" fill="none" stroke="#9e3d52" stroke-width="1.5" opacity="0.55"/>
+</svg>
