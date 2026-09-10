@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <defs>
+    <clipPath id="clip-on">
+      <rect width="80" height="80" rx="14"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip-on)">
+    <rect width="80" height="80" fill="#04100a"/>
+    <rect width="38" height="80" fill="#1c6020"/>
+    <line x1="45" y1="12" x2="74" y2="12" stroke="rgba(46,204,113,0.15)" stroke-width="0.5"/>
+    <line x1="45" y1="24" x2="74" y2="24" stroke="rgba(46,204,113,0.15)" stroke-width="0.5"/>
+    <line x1="45" y1="36" x2="74" y2="36" stroke="rgba(46,204,113,0.15)" stroke-width="0.5"/>
+    <line x1="45" y1="48" x2="74" y2="48" stroke="rgba(46,204,113,0.15)" stroke-width="0.5"/>
+    <line x1="45" y1="60" x2="74" y2="60" stroke="rgba(46,204,113,0.15)" stroke-width="0.5"/>
+    <line x1="38" y1="0" x2="38" y2="80" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+    <text x="19" y="46" text-anchor="middle" font-family="Georgia, serif" font-weight="700" font-size="26" fill="rgba(255,255,255,0.88)">Σ</text>
+    <text x="59" y="46" text-anchor="middle" font-family="'Courier New', monospace" font-weight="900" font-size="14" fill="#2d8a34">ON</text>
+    <rect width="80" height="2.5" fill="rgba(255,255,255,0.55)"/>
+  </g>
+  <rect width="80" height="80" rx="14" fill="none" stroke="rgba(255,255,255,0.38)" stroke-width="1.5"/>
+</svg>

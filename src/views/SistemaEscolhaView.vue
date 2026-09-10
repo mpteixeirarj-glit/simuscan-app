@@ -23,22 +23,34 @@
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
         </button>
 
-        <button class="sys-card available sys-card--sigma" @click="router.push({ name: 'sigma' })">
-          <span class="sys-badge sys-badge--sigma">Disponível</span>
-          <div class="sys-icon sys-icon--sigma">
-            <img :src="BASE_URL + 'imagens/icon-sigma.png'" alt="Sigma" class="sys-icon-img">
+        <div class="sigma-block">
+          <div class="sigma-header">
+            <span class="sigma-title">Sigma Healthcare</span>
           </div>
-          <h2>Sigma Healthcare</h2>
-          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-        </button>
+          <div class="sigma-versions">
+            <div class="sigma-version-item">
+              <img :src="BASE_URL + 'imagens/icon-sigma-on.svg'" class="sigma-version-icon" alt="Sigma ON">
+              <button data-system="sigma-on" class="sub-btn sub-btn-on" disabled title="Em breve">
+                Sigma ON <span class="coming-soon-badge">Em breve</span>
+              </button>
+            </div>
+            <div class="sigma-version-item">
+              <img :src="BASE_URL + 'imagens/icon-sigma-old.svg'" class="sigma-version-icon" alt="Sigma Old">
+              <button data-system="sigma-old" class="sub-btn sub-btn-old" disabled title="Em breve">
+                Sigma Old <span class="coming-soon-badge">Em breve</span>
+              </button>
+            </div>
+          </div>
+        </div>
 
-        <div class="sys-card locked">
-          <span class="sys-badge soon">Em breve</span>
+        <div class="sys-card locked kappa-card">
+          <span class="sys-badge soon kappa-badge">Em breve</span>
           <div class="sys-icon sys-icon--kappa">
-            <img :src="BASE_URL + 'imagens/icon-kappa.png'" alt="Kappa" class="sys-icon-img">
+            <img :src="BASE_URL + 'imagens/icon-sigma-kappa.svg'" alt="Kappa" class="sys-icon-img sys-icon-img--svg">
           </div>
           <h2>Kappa Healthcare</h2>
-          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <p class="sys-subtitle">Canon Aquilion</p>
+          <p>Interface de alta produtividade para grandes volumes de exames.</p>
         </div>
       </div>
     </main>
@@ -118,9 +130,6 @@ h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(1.8rem,4vw,2.8rem); f
   border: 1px solid rgba(52,152,219,.3);
 }
 .sys-badge.soon { background: rgba(255,255,255,.07); color: var(--cor-texto-muted); border-color: rgba(255,255,255,.1); }
-.sys-badge--sigma { background: rgba(46,204,113,.15); color: #2ecc71; border-color: rgba(46,204,113,.3); }
-.sys-card--sigma { border-color: #2ecc71; }
-.sys-card--sigma:hover { border-color: #2ecc71; box-shadow: 0 8px 30px rgba(46,204,113,.15); }
 
 .sys-icon {
   width: 80px; height: 80px; border-radius: 16px;
@@ -129,9 +138,46 @@ h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(1.8rem,4vw,2.8rem); f
 }
 .sys-icon--gama { background: rgba(52,152,219,.15); border: 2px solid rgba(52,152,219,.4); }
 .sys-icon--sigma { background: rgba(46,204,113,.15); border: 2px solid rgba(46,204,113,.4); }
-.sys-icon--kappa { background: rgba(243,156,18,.15); border: 2px solid rgba(243,156,18,.4); }
+.sys-icon--kappa { background: rgba(90,26,46,.15); border: 2px solid rgba(158,61,82,.4); }
 .sys-icon-img { width: 52px; height: 52px; object-fit: contain; }
+.sys-icon-img--svg { width: 80px; height: 80px; border-radius: 14px; }
 
 h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: .4rem; color: var(--cor-texto); }
 p { font-size: .85rem; color: var(--cor-texto-muted); }
+.sys-subtitle { font-size: .75rem; color: rgba(255,255,255,.35); font-style: italic; margin-bottom: 2px !important; }
+
+/* Kappa card */
+.kappa-card { border-color: rgba(158,61,82,.35); }
+.kappa-badge { background: rgba(90,26,46,.18); color: #9e3d52; border-color: rgba(158,61,82,.35); }
+
+/* Sigma block */
+.sigma-block {
+  background: var(--cor-card); border: 1px solid var(--cor-card-borda);
+  border-radius: 16px; padding: 1.4rem 1.6rem;
+  display: flex; flex-direction: column; gap: .9rem;
+}
+.sigma-header { text-align: center; }
+.sigma-title {
+  font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--cor-texto-muted);
+}
+.sigma-versions { display: flex; flex-direction: column; gap: .6rem; }
+.sigma-version-item {
+  display: flex; align-items: center; gap: .75rem;
+}
+.sigma-version-icon { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
+.sub-btn {
+  flex: 1; display: flex; align-items: center; justify-content: space-between;
+  padding: .6rem 1rem; border-radius: 10px; font-size: .88rem; font-weight: 600;
+  border: 1px solid; cursor: not-allowed; opacity: .6; text-align: left;
+  background: transparent;
+}
+.sub-btn-on  { border-color: rgba(46,204,113,.35); color: #2ecc71; }
+.sub-btn-old { border-color: rgba(104,153,212,.35); color: #6899d4; }
+.coming-soon-badge {
+  font-size: .6rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 12px;
+  background: rgba(255,255,255,.07); color: var(--cor-texto-muted);
+  border: 1px solid rgba(255,255,255,.1);
+}
 </style>
