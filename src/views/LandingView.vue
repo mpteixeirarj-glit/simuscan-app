@@ -71,7 +71,9 @@
           <div class="feature-card-image">
             <img :src="BASE_URL + 'imagens/feature-console.jpeg'" alt="Console Interativo" @error="$event.target.parentElement.style.display='none'">
           </div>
-          <div class="card-icon">🖥️</div>
+          <div class="feature-card-icon">
+            <img :src="BASE_URL + 'imagens/monitor.png'" alt="Console interativo" class="feature-icon-img" />
+          </div>
           <h3>Console interativo</h3>
           <p>Interface que simula fielmente o console de um tomógrafo moderno, com todos os controles e feedbacks visuais.</p>
         </div>
@@ -79,7 +81,9 @@
           <div class="feature-card-image">
             <img :src="BASE_URL + 'imagens/feature-worklist.jpeg'" alt="Worklist de Pacientes" @error="$event.target.parentElement.style.display='none'">
           </div>
-          <div class="card-icon">📋</div>
+          <div class="feature-card-icon">
+            <img :src="BASE_URL + 'imagens/prancheta.png'" alt="Worklist de pacientes" class="feature-icon-img" />
+          </div>
           <h3>Worklist de pacientes</h3>
           <p>Lista de agendamentos com dados realistas para praticar o fluxo completo de recepção e início de exame.</p>
         </div>
@@ -87,7 +91,9 @@
           <div class="feature-card-image">
             <img :src="BASE_URL + 'imagens/feature-protocols.jpeg'" alt="Gerenciador de Protocolos" @error="$event.target.parentElement.style.display='none'">
           </div>
-          <div class="card-icon">⚙️</div>
+          <div class="feature-card-icon">
+            <img :src="BASE_URL + 'imagens/engrenagem.png'" alt="Gerenciador de protocolos" class="feature-icon-img" />
+          </div>
           <h3>Gerenciador de protocolos</h3>
           <p>Selecione, visualize e edite protocolos de aquisição organizados por região anatômica.</p>
         </div>
@@ -102,7 +108,7 @@
         <!-- GAMA -->
         <div class="sistema-card gama-card" data-system="gama">
           <div class="system-card-icon">
-            <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama Healthcare" class="system-card-icon-img" @error="$event.target.style.display='none'">
+            <img :src="BASE_URL + 'imagens/gamma-icone.png'" alt="Gama Healthcare" class="system-icon-img" @error="$event.target.style.display='none'">
           </div>
           <div class="system-badge available">Disponível</div>
           <h3>Gama Healthcare</h3>
@@ -112,8 +118,8 @@
         <!-- SIGMA GROUP -->
         <div class="sigma-group">
           <div class="sistema-card sigma-on-card" data-system="sigma-on">
-            <div class="system-card-icon sigma-on-icon">
-              <img :src="BASE_URL + 'imagens/icon-sigma-on.svg'" alt="Sigma ON" class="system-card-icon-img" @error="$event.target.style.display='none'">
+            <div class="system-card-icon">
+              <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma ON" class="system-icon-img" @error="$event.target.style.display='none'">
             </div>
             <div class="system-badge soon">Em breve</div>
             <h3>Sigma ON</h3>
@@ -121,8 +127,8 @@
             <p>Interface moderna com fluxo avançado de protocolos.</p>
           </div>
           <div class="sistema-card sigma-old-card" data-system="sigma-old">
-            <div class="system-card-icon sigma-old-icon">
-              <img :src="BASE_URL + 'imagens/icon-sigma-old.svg'" alt="Sigma Old" class="system-card-icon-img" @error="$event.target.style.display='none'">
+            <div class="system-card-icon">
+              <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma Old" class="system-icon-img" @error="$event.target.style.display='none'">
             </div>
             <div class="system-badge soon">Em breve</div>
             <h3>Sigma Old</h3>
@@ -133,7 +139,7 @@
         <!-- KAPPA -->
         <div class="sistema-card kappa-card" data-system="kappa">
           <div class="system-card-icon">
-            <img :src="BASE_URL + 'imagens/icon-sigma-kappa.svg'" alt="Kappa Healthcare" class="system-card-icon-img" @error="$event.target.style.display='none'">
+            <img :src="BASE_URL + 'imagens/kappa-icone.png'" alt="Kappa Healthcare" class="system-icon-img" @error="$event.target.style.display='none'">
           </div>
           <div class="system-badge soon">Em breve</div>
           <h3>Kappa Healthcare</h3>
@@ -202,9 +208,18 @@
           </div>
           <p class="footer-desc">Simulador educacional de Tomografia Computadorizada, desenvolvido para técnicos e estudantes de radiologia.</p>
           <div class="footer-social">
-            <a href="#" class="footer-social-link" aria-label="Instagram">📸</a>
-            <a href="#" class="footer-social-link" aria-label="YouTube">▶</a>
-            <a href="#" class="footer-social-link" aria-label="LinkedIn">in</a>
+            <a href="mailto:mpteixeira.rj@gmail.com" class="footer-social-link" title="E-mail">
+              <img :src="BASE_URL + 'imagens/email.png'" alt="E-mail" class="social-icon-img" />
+            </a>
+            <a href="#" class="footer-social-link" title="Facebook">
+              <img :src="BASE_URL + 'imagens/face.png'" alt="Facebook" class="social-icon-img" />
+            </a>
+            <a href="#" class="footer-social-link" title="Instagram">
+              <img :src="BASE_URL + 'imagens/insta.png'" alt="Instagram" class="social-icon-img" />
+            </a>
+            <a href="#" class="footer-social-link" title="LinkedIn">
+              <img :src="BASE_URL + 'imagens/link.png'" alt="LinkedIn" class="social-icon-img" />
+            </a>
           </div>
         </div>
         <div class="footer-col">
@@ -300,7 +315,8 @@ function scrollTo(id) {
 .feature-card-image { width: 100%; height: 180px; overflow: hidden; border-radius: 0; }
 .feature-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
 .card:hover .feature-card-image img { transform: scale(1.05); }
-.card-icon { font-size: 2rem; margin: 1.5rem 2rem .8rem; }
+.feature-card-icon { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; margin: 1.2rem auto .8rem; }
+.feature-icon-img { width: 48px; height: 48px; object-fit: contain; }
 .card h3 { font-size: 1.1rem; font-weight: 700; margin: 0 2rem .6rem; }
 .card p { font-size: .9rem; color: var(--cor-texto-muted); margin: 0 2rem 2rem; }
 
@@ -320,7 +336,7 @@ function scrollTo(id) {
 
 /* SYSTEM CARD ICONS */
 .system-card-icon { width: 80px; height: 80px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; border-radius: 16px; overflow: hidden; }
-.system-card-icon-img { width: 80px; height: 80px; object-fit: contain; border-radius: 16px; }
+.system-icon-img { width: 72px; height: 72px; object-fit: contain; border-radius: 12px; display: block; }
 .sigma-on-icon { border: 1px solid rgba(46,204,113,0.3); box-shadow: 0 0 12px rgba(46,204,113,0.15); }
 .sigma-old-icon { border: 1px solid rgba(104,153,212,0.3); box-shadow: 0 0 12px rgba(104,153,212,0.15); }
 
@@ -352,6 +368,8 @@ function scrollTo(id) {
 .footer-social { display: flex; gap: .6rem; }
 .footer-social-link { width: 36px; height: 36px; background: rgba(255,255,255,0.06); border: 1px solid var(--cor-card-borda); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .85rem; color: var(--cor-texto-muted); text-decoration: none; transition: background .2s, color .2s; }
 .footer-social-link:hover { background: rgba(52,152,219,0.15); color: var(--cor-azul); }
+.social-icon-img { width: 22px; height: 22px; object-fit: contain; display: block; filter: brightness(0.7); transition: filter .2s; }
+.footer-social-link:hover .social-icon-img { filter: brightness(1); }
 .footer-col-title { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--cor-texto-muted); margin-bottom: 1rem; }
 .footer-col-links { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
 .footer-col-links li a, .footer-col-links a { font-size: .88rem; color: var(--cor-texto-muted); text-decoration: none; transition: color .2s; display: block; }

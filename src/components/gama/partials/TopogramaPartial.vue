@@ -66,7 +66,7 @@
             <td class="grid-header">Lights</td>
             <td class="grid-header">WW/WL</td>
           </tr>
-          <tr v-for="(row, ri) in seriesData" :key="ri">
+          <tr v-for="(row, ri) in seriesData" :key="row.id">
             <td><input type="text" :value="ri + 1" readonly></td>
             <td><input type="text" v-model="row.scanType"></td>
             <td><input type="text" v-model="row.startLoc"></td>
@@ -137,14 +137,16 @@ function cyclePosition() {
   patientPosIdx.value = (patientPosIdx.value + 1) % POSITIONS.length
 }
 
-const defaultRow = () => ({ scanType: 'Scout', startLoc: 'S150.00', endLoc: 'I100.00', kv: '120', ma: '10', scoutPlane: '90', voice: 'N', lights: 'N', wwwl: '400/50' })
+let _rowId = 0
+const defaultRow = () => ({ id: ++_rowId, scanType: 'Scout', startLoc: 'S150.00', endLoc: 'I100.00', kv: '120', ma: '10', scoutPlane: '90', voice: 'N', lights: 'N', wwwl: '400/50' })
 
 const seriesData = ref([defaultRow(), defaultRow()])
 seriesData.value[1].scoutPlane = '0'
 
 function createNewSeries() {
   if (seriesData.value.length >= 4) return
-  seriesData.value.push({ ...seriesData.value[seriesData.value.length - 1] })
+  const last = seriesData.value[seriesData.value.length - 1]
+  seriesData.value.push({ ...last, id: ++_rowId })
 }
 
 function repeatSeries() {
@@ -165,17 +167,17 @@ defineExpose({ createNewSeries, repeatSeries, deleteSeries })
 
 <style scoped>
 .topo-wrapper { width: 100%; height: 100%; display: flex; flex-direction: column; gap: 2px; padding: 12px; box-sizing: border-box; overflow: auto; }
-.center-strip { display: flex; align-items: stretch; gap: 24px; flex-grow: 1; margin-bottom: 2px; min-height: 180px; }
+.center-strip { display: flex; align-items: stretch; gap: 24px; flex-grow: 1; margin-bottom: 2px; min-height: 180px; overflow: hidden; position: relative; }
 .side-box { flex: 1 1 0; border-radius: 10px; background: rgba(0,0,0,.25); outline: 1px dashed rgba(255,255,255,.3); outline-offset: -4px; padding: 10px; }
 
 /* Patient data panel — ERRO 8 fix */
-.topo-patient-data { font-size: 14px; color: #ccc; height: 100%; overflow-y: auto; padding-right: 4px; }
+.topo-patient-data { font-size: 11px; line-height: 1.4; color: #ccc; height: 100%; overflow-y: auto; padding: 6px 10px; }
 .topo-patient-data::-webkit-scrollbar { width: 4px; }
 .topo-patient-data::-webkit-scrollbar-track { background: transparent; }
 .topo-patient-data::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
-.data-item { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
-.data-item span:first-child { font-weight: bold; }
-.data-item span:last-child { color: #f39c12; font-weight: bold; }
+.data-item { display: flex; justify-content: space-between; gap: 4px; padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,.05); white-space: nowrap; overflow: hidden; }
+.data-item span:first-child { color: #aaa; font-size: 10px; flex-shrink: 0; min-width: 60px; }
+.data-item span:last-child { color: #f39c12; font-size: 11px; font-weight: bold; text-align: right; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
 
 /* Mesa interactive — ERRO 7 */
 .mesa-box { display: flex; flex-direction: column; gap: 6px; }
@@ -195,15 +197,15 @@ defineExpose({ createNewSeries, repeatSeries, deleteSeries })
 .toggle-btn { width: 100%; height: 100%; background: rgba(0,0,0,.25); border-radius: 8px; border: 1px solid rgba(255,255,255,.2); color: #fff; font-size: 11px; font-weight: bold; cursor: pointer; transition: background-color .2s; }
 .toggle-btn.active { background-color: #f39c12; color: #000; border-color: #f39c12; }
 
-.series-row { display: flex; align-items: center; gap: 10px; margin-bottom: 2px; flex-shrink: 0; }
-.series-row label { color: #fff; font-size: 13px; white-space: nowrap; }
-.series-row input { flex: 1; min-width: 240px; max-width: 720px; height: 32px; border-radius: 6px; border: 1px solid #ddd; background: #fff; color: #000; padding: 0 10px; outline: none; }
+.series-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; flex-shrink: 0; }
+.series-row label { color: #fff; font-size: 12px; white-space: nowrap; flex-shrink: 0; }
+.series-row input { width: 160px; max-width: 200px; height: 28px; border-radius: 6px; border: 1px solid #ddd; background: #fff; color: #000; padding: 4px 8px; font-size: 12px; outline: none; box-sizing: border-box; }
 
 .series-grid-wrap { flex-shrink: 0; overflow: auto; }
 .series-grid { border-collapse: separate; border-spacing: 4px; margin: 0 auto; }
-.series-grid td { width: 68px; height: 80px; padding: 0; text-align: center; vertical-align: middle; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 8px; color: #fff; font-size: 12px; }
-.series-grid td.scout { white-space: nowrap; padding: 0 8px; font-weight: bold; }
-.series-grid input, .series-grid select { appearance: none; -webkit-appearance: none; width: 100%; height: 100%; background-color: transparent; border: none; color: white; text-align: center; font-size: 12px; font-family: Arial, sans-serif; padding: 0 4px; }
+.series-grid td { width: 68px; height: 56px; padding: 4px 6px; text-align: center; vertical-align: middle; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 8px; color: #fff; font-size: 11px; }
+.series-grid td.scout { white-space: nowrap; padding: 4px 6px; font-weight: bold; }
+.series-grid input, .series-grid select { appearance: none; -webkit-appearance: none; width: 100%; height: 26px; background-color: transparent; border: none; color: white; text-align: center; font-size: 11px; font-family: Arial, sans-serif; padding: 3px 4px; min-width: 40px; }
 .series-grid input:focus, .series-grid select:focus { outline: 1px solid #f39c12; background-color: #2e2e2e; }
-.grid-header { font-weight: bold; color: #f39c12; font-size: 11px; text-align: center; vertical-align: middle; }
+.grid-header { font-weight: bold; color: #f39c12; font-size: 10px; text-align: center; vertical-align: middle; padding: 4px 6px; white-space: nowrap; }
 </style>
