@@ -113,13 +113,13 @@ const patientPosLabel = computed(() => POSITIONS[patientPosIdx.value])
 
 const IMG_MAP = {
   'HF-Supine':        'HFsupine.png',
-  'HF-Left Lateral':  'HFlateral_L.png',
+  'HF-Left Lateral':  'HFLeft.png',
   'HF-Prone':         'HFprone.png',
-  'HF-Right Lateral': 'HFlateral_R.png',
+  'HF-Right Lateral': 'HFRight.png',
   'FF-Supine':        'FFsupine.png',
-  'FF-Left Lateral':  'FFlateral_L.png',
+  'FF-Left Lateral':  'FFLeft.png',
   'FF-Prone':         'FFprone.png',
-  'FF-Right Lateral': 'FFlateral_R.png',
+  'FF-Right Lateral': 'FFRight.png',
 }
 
 const patientImgSrc = computed(() => {
