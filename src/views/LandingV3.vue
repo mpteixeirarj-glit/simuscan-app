@@ -64,7 +64,10 @@
               <img :src="BASE_URL + f.img" :alt="f.title" @error="$event.target.style.display='none'" />
             </div>
             <div class="v3-feature-body">
-              <h3>{{ f.icon }} {{ f.title }}</h3>
+              <div class="feature-card-icon">
+                <img :src="BASE_URL + f.iconImg" :alt="f.title" class="feature-icon-img" />
+              </div>
+              <h3>{{ f.title }}</h3>
               <p>{{ f.desc }}</p>
               <RouterLink to="/login" class="v3-btn-text">Explorar →</RouterLink>
             </div>
@@ -85,7 +88,7 @@
           <div class="v3-flex-card v3-flex-gama">
             <div class="v3-flex-card-content">
               <div class="v3-flex-icon">
-                <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Γ"
+                <img :src="BASE_URL + 'imagens/gamma-icone.png'" alt="Γ"
                      @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
                 <span class="v3-greek-fallback">Γ</span>
               </div>
@@ -101,7 +104,7 @@
             <div class="v3-flex-card v3-flex-sigma-on">
               <div class="v3-flex-card-content">
                 <div class="v3-flex-icon">
-                  <img :src="BASE_URL + 'imagens/icon-sigma-on.svg'" alt="Σ ON"
+                  <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Σ ON"
                        @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
                   <span class="v3-greek-fallback">Σ</span>
                 </div>
@@ -113,7 +116,7 @@
             <div class="v3-flex-card v3-flex-sigma-old">
               <div class="v3-flex-card-content">
                 <div class="v3-flex-icon">
-                  <img :src="BASE_URL + 'imagens/icon-sigma-old.svg'" alt="Σ Old"
+                  <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Σ Old"
                        @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
                   <span class="v3-greek-fallback">Σ</span>
                 </div>
@@ -127,7 +130,7 @@
           <div class="v3-flex-card v3-flex-kappa">
             <div class="v3-flex-card-content">
               <div class="v3-flex-icon">
-                <img :src="BASE_URL + 'imagens/icon-sigma-kappa.svg'" alt="κ"
+                <img :src="BASE_URL + 'imagens/kappa-icone.png'" alt="κ"
                      @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
                 <span class="v3-greek-fallback">κ</span>
               </div>
@@ -199,6 +202,20 @@
         <div>
           <img :src="BASE_URL + 'imagens/logopainel.png'" alt="SimuScan" class="v3-footer-logo" />
           <p class="v3-footer-desc">Simulador educacional de tomografia computadorizada.</p>
+          <div class="v3-footer-social">
+            <a href="mailto:mpteixeira.rj@gmail.com" class="v3-footer-social-link" title="E-mail">
+              <img :src="BASE_URL + 'imagens/email.png'" alt="E-mail" class="social-icon-img" />
+            </a>
+            <a href="#" class="v3-footer-social-link" title="Facebook">
+              <img :src="BASE_URL + 'imagens/face.png'" alt="Facebook" class="social-icon-img" />
+            </a>
+            <a href="#" class="v3-footer-social-link" title="Instagram">
+              <img :src="BASE_URL + 'imagens/insta.png'" alt="Instagram" class="social-icon-img" />
+            </a>
+            <a href="#" class="v3-footer-social-link" title="LinkedIn">
+              <img :src="BASE_URL + 'imagens/link.png'" alt="LinkedIn" class="social-icon-img" />
+            </a>
+          </div>
         </div>
         <div>
           <strong>Produto</strong>
@@ -235,9 +252,9 @@ function scrollTo(id) {
 }
 
 const features = [
-  { icon: '🖥', title: 'Console interativo', desc: 'Interface fiel ao ambiente real de uma sala de TC, com painéis, botões e fluxos de trabalho autênticos.', img: 'imagens/feature-console.jpeg' },
-  { icon: '📋', title: 'Worklist de pacientes', desc: 'Gerencie uma lista de pacientes simulados com dados completos — nome, ID, protocolo e médico solicitante.', img: 'imagens/feature-worklist.jpeg' },
-  { icon: '⚙', title: 'Gerenciador de protocolos', desc: 'Selecione e gerencie protocolos por região anatômica, do crânio aos pés, com listas completas.', img: 'imagens/feature-protocols.jpeg' },
+  { title: 'Console interativo', desc: 'Interface fiel ao ambiente real de uma sala de TC, com painéis, botões e fluxos de trabalho autênticos.', img: 'imagens/feature-console.jpeg', iconImg: 'imagens/monitor.png' },
+  { title: 'Worklist de pacientes', desc: 'Gerencie uma lista de pacientes simulados com dados completos — nome, ID, protocolo e médico solicitante.', img: 'imagens/feature-worklist.jpeg', iconImg: 'imagens/prancheta.png' },
+  { title: 'Gerenciador de protocolos', desc: 'Selecione e gerencie protocolos por região anatômica, do crânio aos pés, com listas completas.', img: 'imagens/feature-protocols.jpeg', iconImg: 'imagens/engrenagem.png' },
 ]
 </script>
 
@@ -484,6 +501,8 @@ const features = [
   transition: transform 0.4s;
 }
 .v3-feature-card:hover .v3-feature-img img { transform: scale(1.04); }
+.feature-card-icon { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.feature-icon-img { width: 48px; height: 48px; object-fit: contain; }
 .v3-feature-body {
   padding: 28px 24px;
   border-top: 1px solid var(--v3-border);
@@ -560,6 +579,11 @@ const features = [
   display: block;
 }
 .v3-footer-desc { font-size: 13px; line-height: 1.6; max-width: 260px; }
+.v3-footer-social { display: flex; gap: 8px; margin-top: 16px; }
+.v3-footer-social-link { width: 34px; height: 34px; background: rgba(255,255,255,.06); border: 1px solid var(--v3-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background .2s; }
+.v3-footer-social-link:hover { background: rgba(255,255,255,.12); }
+.social-icon-img { width: 22px; height: 22px; object-fit: contain; display: block; filter: brightness(0.7); transition: filter .2s; }
+.v3-footer-social-link:hover .social-icon-img { filter: brightness(1); }
 .v3-footer-cols strong {
   display: block;
   font-size: 12px;

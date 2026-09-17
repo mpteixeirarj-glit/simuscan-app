@@ -63,7 +63,7 @@
             <div class="v2-feature-img">
               <img :src="BASE_URL + f.img" :alt="f.title" @error="$event.target.style.display='none'">
               <div class="v2-feature-img-overlay">
-                <span class="v2-feature-icon">{{ f.icon }}</span>
+                <img :src="BASE_URL + f.iconImg" :alt="f.title" class="v2-feature-icon-img" />
               </div>
             </div>
             <div class="v2-feature-body">
@@ -89,7 +89,7 @@
           <!-- GAMA -->
           <div class="v2-system-card gama-card" data-system="gama">
             <div class="v2-system-icon v2-icon-gama">
-              <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
+              <img :src="BASE_URL + 'imagens/gamma-icone.png'" alt="Gama" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
             </div>
             <div class="v2-system-badge available">Disponível</div>
             <h3>Gama Healthcare</h3>
@@ -98,8 +98,8 @@
           <!-- SIGMA GROUP -->
           <div class="v2-sigma-group">
             <div class="v2-system-card sigma-on-card" data-system="sigma-on">
-              <div class="v2-system-icon v2-sigma-on-icon">
-                <img :src="BASE_URL + 'imagens/icon-sigma-on.svg'" alt="Sigma ON" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
+              <div class="v2-system-icon">
+                <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma ON" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
               </div>
               <div class="v2-system-badge soon">Em breve</div>
               <h3>Sigma ON</h3>
@@ -107,8 +107,8 @@
               <p>Interface moderna com fluxo avançado de protocolos.</p>
             </div>
             <div class="v2-system-card sigma-old-card" data-system="sigma-old">
-              <div class="v2-system-icon v2-sigma-old-icon">
-                <img :src="BASE_URL + 'imagens/icon-sigma-old.svg'" alt="Sigma Old" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
+              <div class="v2-system-icon">
+                <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma Old" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
               </div>
               <div class="v2-system-badge soon">Em breve</div>
               <h3>Sigma Old</h3>
@@ -119,7 +119,7 @@
           <!-- KAPPA -->
           <div class="v2-system-card kappa-card" data-system="kappa">
             <div class="v2-system-icon v2-icon-kappa">
-              <img :src="BASE_URL + 'imagens/icon-sigma-kappa.svg'" alt="Kappa" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
+              <img :src="BASE_URL + 'imagens/kappa-icone.png'" alt="Kappa" class="v2-sys-icon-img" @error="$event.target.style.display='none'">
             </div>
             <div class="v2-system-badge soon">Em breve</div>
             <h3>Kappa Healthcare</h3>
@@ -185,6 +185,20 @@
       <img :src="BASE_URL + 'imagens/logopainel.png'" alt="SimuScan" class="v2-footer-logo">
       <p>SimuScan · Simulador de Tomografia Computadorizada</p>
       <p>Treinamento de Operadores · Uso educacional</p>
+      <div class="v2-footer-social">
+        <a href="mailto:mpteixeira.rj@gmail.com" class="v2-footer-social-link" title="E-mail">
+          <img :src="BASE_URL + 'imagens/email.png'" alt="E-mail" class="social-icon-img" />
+        </a>
+        <a href="#" class="v2-footer-social-link" title="Facebook">
+          <img :src="BASE_URL + 'imagens/face.png'" alt="Facebook" class="social-icon-img" />
+        </a>
+        <a href="#" class="v2-footer-social-link" title="Instagram">
+          <img :src="BASE_URL + 'imagens/insta.png'" alt="Instagram" class="social-icon-img" />
+        </a>
+        <a href="#" class="v2-footer-social-link" title="LinkedIn">
+          <img :src="BASE_URL + 'imagens/link.png'" alt="LinkedIn" class="social-icon-img" />
+        </a>
+      </div>
     </footer>
 
   </div>
@@ -198,9 +212,9 @@ function scrollTo(id) {
 }
 
 const features = [
-  { icon: '🖥', title: 'Console interativo', desc: 'Interface fiel ao ambiente real de uma sala de TC, com painéis, botões e fluxos de trabalho autênticos.', img: 'imagens/feature-console.jpeg' },
-  { icon: '📋', title: 'Worklist de pacientes', desc: 'Gerencie uma lista de pacientes simulados com dados completos — nome, ID, protocolo e médico solicitante.', img: 'imagens/feature-worklist.jpeg' },
-  { icon: '⚙', title: 'Gerenciador de protocolos', desc: 'Selecione e gerencie protocolos por região anatômica, do crânio aos pés, com listas completas.', img: 'imagens/feature-protocols.jpeg' },
+  { icon: '🖥', title: 'Console interativo', desc: 'Interface fiel ao ambiente real de uma sala de TC, com painéis, botões e fluxos de trabalho autênticos.', img: 'imagens/feature-console.jpeg', iconImg: 'imagens/monitor.png' },
+  { icon: '📋', title: 'Worklist de pacientes', desc: 'Gerencie uma lista de pacientes simulados com dados completos — nome, ID, protocolo e médico solicitante.', img: 'imagens/feature-worklist.jpeg', iconImg: 'imagens/prancheta.png' },
+  { icon: '⚙', title: 'Gerenciador de protocolos', desc: 'Selecione e gerencie protocolos por região anatômica, do crânio aos pés, com listas completas.', img: 'imagens/feature-protocols.jpeg', iconImg: 'imagens/engrenagem.png' },
 ]
 
 </script>
@@ -350,7 +364,7 @@ const features = [
   background: linear-gradient(135deg, rgba(43,20,100,.7), rgba(97,21,221,.4));
   display: flex; align-items: center; justify-content: center;
 }
-.v2-feature-icon { font-size: 3rem; }
+.v2-feature-icon-img { width: 48px; height: 48px; object-fit: contain; display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
 .v2-feature-body { padding: 24px; display: flex; flex-direction: column; gap: 10px; }
 .v2-feature-body h3 { font-size: 18px; font-weight: 700; color: var(--v2-text); }
 .v2-feature-body p { font-size: 15px; color: var(--v2-text-muted); line-height: 1.6; }
@@ -387,8 +401,6 @@ const features = [
   margin: 0 auto 14px; overflow: hidden;
 }
 .v2-icon-gama  { background: #e8f4fc; border: 1px solid rgba(52,152,219,0.2); }
-.v2-sigma-on-icon { border: 1px solid rgba(46,204,113,0.3); box-shadow: 0 0 10px rgba(46,204,113,0.12); }
-.v2-sigma-old-icon { border: 1px solid rgba(104,153,212,0.3); box-shadow: 0 0 10px rgba(104,153,212,0.12); }
 .v2-icon-kappa { background: rgba(90,26,46,0.06); border: 1px solid rgba(90,26,46,0.2); }
 .v2-sys-icon-img { width: 72px; height: 72px; object-fit: contain; border-radius: 14px; }
 .v2-system-badge {
@@ -450,6 +462,11 @@ const features = [
 }
 .v2-footer-logo { height: 36px; margin-bottom: 16px; filter: brightness(0) invert(1); display: block; margin-left: auto; margin-right: auto; }
 .v2-footer p { color: rgba(255,255,255,.5); font-size: 13px; margin-top: 8px; }
+.v2-footer-social { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+.v2-footer-social-link { width: 36px; height: 36px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background .2s; }
+.v2-footer-social-link:hover { background: rgba(255,255,255,.18); }
+.social-icon-img { width: 22px; height: 22px; object-fit: contain; display: block; filter: brightness(0.7); transition: filter .2s; }
+.v2-footer-social-link:hover .social-icon-img { filter: brightness(1); }
 
 
 /* ---- PLAN ECONOMY ---- */

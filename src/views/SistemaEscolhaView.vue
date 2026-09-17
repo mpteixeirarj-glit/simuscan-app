@@ -17,7 +17,7 @@
         <button class="sys-card available" @click="router.push({ name: 'gama' })">
           <span class="sys-badge">Disponível</span>
           <div class="sys-icon sys-icon--gama">
-            <img :src="BASE_URL + 'imagens/icon-gama.png'" alt="Gama" class="sys-icon-img">
+            <img :src="BASE_URL + 'imagens/gamma-icone.png'" alt="Gama" class="sys-icon-img sistema-btn-icon">
           </div>
           <h2>Gama Healthcare</h2>
           <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
@@ -29,13 +29,13 @@
           </div>
           <div class="sigma-versions">
             <div class="sigma-version-item">
-              <img :src="BASE_URL + 'imagens/icon-sigma-on.svg'" class="sigma-version-icon" alt="Sigma ON">
+              <img :src="BASE_URL + 'imagens/sigma-icone.png'" class="sigma-version-icon" alt="Sigma ON">
               <button data-system="sigma-on" class="sub-btn sub-btn-on" disabled title="Em breve">
                 Sigma ON <span class="coming-soon-badge">Em breve</span>
               </button>
             </div>
             <div class="sigma-version-item">
-              <img :src="BASE_URL + 'imagens/icon-sigma-old.svg'" class="sigma-version-icon" alt="Sigma Old">
+              <img :src="BASE_URL + 'imagens/sigma-icone.png'" class="sigma-version-icon" alt="Sigma Old">
               <button data-system="sigma-old" class="sub-btn sub-btn-old" disabled title="Em breve">
                 Sigma Old <span class="coming-soon-badge">Em breve</span>
               </button>
@@ -46,7 +46,7 @@
         <div class="sys-card locked kappa-card">
           <span class="sys-badge soon kappa-badge">Em breve</span>
           <div class="sys-icon sys-icon--kappa">
-            <img :src="BASE_URL + 'imagens/icon-sigma-kappa.svg'" alt="Kappa" class="sys-icon-img sys-icon-img--svg">
+            <img :src="BASE_URL + 'imagens/kappa-icone.png'" alt="Kappa" class="sys-icon-img sistema-btn-icon">
           </div>
           <h2>Kappa Healthcare</h2>
           <p class="sys-subtitle">Canon Aquilion</p>
@@ -140,7 +140,7 @@ h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(1.8rem,4vw,2.8rem); f
 .sys-icon--sigma { background: rgba(46,204,113,.15); border: 2px solid rgba(46,204,113,.4); }
 .sys-icon--kappa { background: rgba(90,26,46,.15); border: 2px solid rgba(158,61,82,.4); }
 .sys-icon-img { width: 52px; height: 52px; object-fit: contain; }
-.sys-icon-img--svg { width: 80px; height: 80px; border-radius: 14px; }
+.sistema-btn-icon { width: 64px; height: 64px; object-fit: contain; border-radius: 12px; }
 
 h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: .4rem; color: var(--cor-texto); }
 p { font-size: .85rem; color: var(--cor-texto-muted); }
