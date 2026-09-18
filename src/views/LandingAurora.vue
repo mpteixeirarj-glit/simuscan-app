@@ -208,8 +208,8 @@
           <h4>Produto</h4>
           <ul>
             <li><a href="#funcionalidades" @click.prevent="scrollTo('funcionalidades')">Funcionalidades</a></li>
-            <li><a href="#sistemas">Sistemas</a></li>
-            <li><a href="#planos">Planos</a></li>
+            <li><a href="#sistemas" @click.prevent="scrollTo('sistemas')">Sistemas</a></li>
+            <li><a href="#planos" @click.prevent="scrollTo('planos')">Planos</a></li>
             <li><RouterLink to="/documentacao">Documentação</RouterLink></li>
           </ul>
         </div>
