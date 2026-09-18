@@ -8,6 +8,9 @@ const routes = [
   { path: '/gama', name: 'gama', component: () => import('@/views/GamaConsoleView.vue'), meta: { requiresAuth: true } },
   { path: '/gama/protocolos', name: 'protocolos', component: () => import('@/components/gama/ProtocolManagerFull.vue'), meta: { requiresAuth: true } },
   { path: '/sigma', name: 'sigma', component: () => import('@/views/SigmaConsoleView.vue'), meta: { requiresAuth: true } },
+  { path: '/sigma-on', name: 'SigmaOn', component: () => import('@/views/SigmaOnConsoleView.vue'), meta: { requiresAuth: true } },
+  { path: '/sigma-old', name: 'SigmaOld', component: () => import('@/views/SigmaOldConsoleView.vue'), meta: { requiresAuth: true } },
+  { path: '/kappa', name: 'Kappa', component: () => import('@/views/KappaConsoleView.vue'), meta: { requiresAuth: true } },
   // Public pages
   { path: '/documentacao', name: 'Documentacao', component: () => import('@/views/pages/DocumentacaoView.vue') },
   { path: '/contato', name: 'Contato', component: () => import('@/views/pages/ContatoView.vue') },
