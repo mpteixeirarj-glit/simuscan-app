@@ -8,7 +8,7 @@
         v-for="v in versions"
         :key="v.key"
         class="version-btn"
-        :class="{ active: landingVersion === v.key }"
+        :class="['version-btn-' + v.key, { active: landingVersion === v.key }]"
         @click="landingVersion = v.key"
       >
         {{ v.label }}
@@ -21,11 +21,9 @@
 import { ref, computed, watch, defineAsyncComponent } from 'vue'
 
 const versions = [
-  { key: 'dark',   label: 'Dark' },
-  { key: 'light',  label: 'Light' },
-  { key: 'clean',  label: 'Clean' },
-  { key: 'lumina', label: 'Lumina' },
-  { key: 'aurora', label: 'Aurora' },
+  { key: 'dark',  label: 'Dark' },
+  { key: 'sigma', label: 'Sigma' },
+  { key: 'kappa', label: 'Kappa' },
 ]
 
 const landingVersion = ref(localStorage.getItem('landingVersion') || 'dark')
@@ -36,11 +34,9 @@ watch(landingVersion, (v) => {
 })
 
 const componentMap = {
-  dark:   defineAsyncComponent(() => import('@/views/LandingView.vue')),
-  light:  defineAsyncComponent(() => import('@/views/LandingLight.vue')),
-  clean:  defineAsyncComponent(() => import('@/views/LandingClean.vue')),
-  lumina: defineAsyncComponent(() => import('@/views/LandingLumina.vue')),
-  aurora: defineAsyncComponent(() => import('@/views/LandingAurora.vue')),
+  dark:  defineAsyncComponent(() => import('@/views/LandingView.vue')),
+  sigma: defineAsyncComponent(() => import('@/views/LandingLumina.vue')),
+  kappa: defineAsyncComponent(() => import('@/views/LandingAurora.vue')),
 }
 
 const currentComponent = computed(() => componentMap[landingVersion.value])
@@ -98,5 +94,16 @@ const currentComponent = computed(() => componentMap[landingVersion.value])
 .version-btn.active {
   background: #e91e8c;
   color: white;
+}
+
+.version-btn-sigma.active {
+  background: #3498db !important;
+  color: white !important;
+}
+
+.version-btn-kappa.active {
+  background: #5a1a2e !important;
+  color: #f0d0d8 !important;
+  border: 1px solid #9e3d52;
 }
 </style>

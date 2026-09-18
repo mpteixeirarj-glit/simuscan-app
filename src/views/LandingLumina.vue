@@ -205,15 +205,8 @@
           </ul>
         </div>
       </div>
-      <div class="footer-bottom">
-        <span>© 2026 SimuScan. Todos os direitos reservados.</span>
-        <span class="footer-version">{{ version }}</span>
-      </div>
-      <div class="footer-legal-bottom">
-        <p>© 2026 SimuScan. Simulador educacional — interfaces fictícias para fins de treinamento.</p>
-      </div>
-      <div class="footer-legal-final">
-        <p>SimuScan é um simulador educacional. Todas as interfaces, marcas e equipamentos representados são fictícios e criados exclusivamente para fins de treinamento.</p>
+      <div class="footer-final-line">
+        © 2026 SimuScan. Todos os direitos reservados — Simulador educacional — interfaces fictícias para fins de treinamento. — {{ version }}
       </div>
     </footer>
   </div>
@@ -403,12 +396,7 @@ function scrollTo(id) {
 .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
 .footer-col ul li a, .footer-col ul a { font-size: .85rem; color: rgba(232,234,242,0.4); text-decoration: none; transition: color .2s; }
 .footer-col ul li a:hover, .footer-col ul a:hover { color: #e8eaf2; }
-.footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); max-width: 1100px; margin: 0 auto; padding: 1.2rem 0; display: flex; justify-content: space-between; font-size: .78rem; color: rgba(232,234,242,0.3); flex-wrap: wrap; gap: .5rem; }
-.footer-version { color: #5eaee0; font-size: 11px; opacity: .7; }
-.footer-legal-bottom { padding: 10px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.04); }
-.footer-legal-bottom p { font-size: 12px; color: rgba(232,234,242,0.18); margin: 0; }
-.footer-legal-final { padding: 8px 0 16px; text-align: center; }
-.footer-legal-final p { font-size: 11px; color: rgba(232,234,242,0.1); margin: 0; }
+.footer-final-line { border-top: 1px solid rgba(255,255,255,0.05); padding: 14px 32px; text-align: center; font-size: 12px; color: rgba(232,234,242,0.2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; }

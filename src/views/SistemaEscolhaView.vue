@@ -13,44 +13,51 @@
       <h1>Escolha o sistema</h1>
       <p class="sub">Selecione o equipamento que deseja praticar hoje.</p>
 
-      <div class="sistemas">
-        <button class="sys-card available" @click="router.push({ name: 'gama' })">
-          <span class="sys-badge">Disponível</span>
-          <div class="sys-icon sys-icon--gama">
-            <img :src="BASE_URL + 'imagens/gamma-icone.png'" alt="Gama" class="sys-icon-img sistema-btn-icon">
+      <div class="systems-escolha-grid">
+        <!-- GAMA -->
+        <div class="system-card gama-card" @click="router.push('/gama')">
+          <div class="system-card-icon">
+            <img :src="BASE_URL + 'imagens/gamma-icone.png'" alt="Gama Healthcare" class="system-icon-img" @error="$event.target.style.display='none'" />
           </div>
-          <h2>Gama Healthcare</h2>
-          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-        </button>
-
-        <div class="sigma-block">
-          <div class="sigma-header">
-            <span class="sigma-title">Sigma Healthcare</span>
-          </div>
-          <div class="sigma-versions">
-            <div class="sigma-version-item">
-              <img :src="BASE_URL + 'imagens/sigma-icone.png'" class="sigma-version-icon" alt="Sigma ON">
-              <button data-system="sigma-on" class="sub-btn sub-btn-on" disabled title="Em breve">
-                Sigma ON <span class="coming-soon-badge">Em breve</span>
-              </button>
-            </div>
-            <div class="sigma-version-item">
-              <img :src="BASE_URL + 'imagens/sigma-icone.png'" class="sigma-version-icon" alt="Sigma Old">
-              <button data-system="sigma-old" class="sub-btn sub-btn-old" disabled title="Em breve">
-                Sigma Old <span class="coming-soon-badge">Em breve</span>
-              </button>
-            </div>
-          </div>
+          <div class="system-badge available">Disponível</div>
+          <h3 class="system-name">Gama Healthcare</h3>
+          <p class="system-desc">Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <button class="system-btn-active">Acessar</button>
         </div>
 
-        <div class="sys-card locked kappa-card">
-          <span class="sys-badge soon kappa-badge">Em breve</span>
-          <div class="sys-icon sys-icon--kappa">
-            <img :src="BASE_URL + 'imagens/kappa-icone.png'" alt="Kappa" class="sys-icon-img sistema-btn-icon">
+        <!-- SIGMA ON -->
+        <div class="system-card sigma-on-card">
+          <div class="system-card-icon">
+            <img :src="BASE_URL + 'imagens/sigma-on.png'" alt="Sigma ON" class="system-icon-img" @error="$event.target.style.display='none'" />
           </div>
-          <h2>Kappa Healthcare</h2>
-          <p class="sys-subtitle">Canon Aquilion</p>
-          <p>Interface de alta produtividade para grandes volumes de exames.</p>
+          <div class="system-badge soon">Em breve</div>
+          <h3 class="system-name">Sigma ON</h3>
+          <p class="system-subtitle-italic">Sigma ON CT — versão atual</p>
+          <p class="system-desc">Interface moderna com fluxo avançado completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <button class="system-btn-access" disabled>Acessar</button>
+        </div>
+
+        <!-- SIGMA OLD -->
+        <div class="system-card sigma-old-card">
+          <div class="system-card-icon">
+            <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma Old" class="system-icon-img" @error="$event.target.style.display='none'" />
+          </div>
+          <div class="system-badge soon">Em breve</div>
+          <h3 class="system-name">Sigma Old</h3>
+          <p class="system-subtitle-italic">Sigma Old CT — versão legado</p>
+          <p class="system-desc">Interface clássica do console de geração anterior, com fluxo completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <button class="system-btn-access" disabled>Acessar</button>
+        </div>
+
+        <!-- KAPPA -->
+        <div class="system-card kappa-card">
+          <div class="system-card-icon">
+            <img :src="BASE_URL + 'imagens/kappa-icone.png'" alt="Kappa Healthcare" class="system-icon-img" @error="$event.target.style.display='none'" />
+          </div>
+          <div class="system-badge soon">Em breve</div>
+          <h3 class="system-name">Kappa Healthcare</h3>
+          <p class="system-desc">Interface de alta produtividade completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <button class="system-btn-access" disabled>Acessar</button>
         </div>
       </div>
     </main>
@@ -62,7 +69,6 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const BASE_URL = import.meta.env.BASE_URL
-
 const router = useRouter()
 const auth = useAuthStore()
 
@@ -75,6 +81,7 @@ async function handleLogout() {
 <style scoped>
 .escolha-page { min-height: 100vh; background: var(--cor-fundo); display: flex; flex-direction: column; }
 
+/* HEADER */
 .top {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 clamp(20px,5vw,72px); height: 64px;
@@ -83,7 +90,6 @@ async function handleLogout() {
 .logo { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.04em; }
 .logo .p { color: var(--cor-pink); }
 .logo .b { color: var(--cor-azul); }
-
 .user-area { display: flex; align-items: center; gap: 1rem; }
 .user-email { font-size: .8rem; color: var(--cor-texto-muted); }
 .btn-sair {
@@ -94,90 +100,98 @@ async function handleLogout() {
 }
 .btn-sair:hover { border-color: var(--cor-pink); color: var(--cor-pink); }
 
+/* MAIN */
 .content {
   flex: 1; display: flex; flex-direction: column; align-items: center;
   justify-content: center; padding: 3rem clamp(20px,5vw,72px);
   text-align: center;
 }
-
 .eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--cor-azul); margin-bottom: .6rem; }
 h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: .5rem; }
 .sub { color: var(--cor-texto-muted); margin-bottom: 3rem; }
 
-.sistemas {
+/* GRID */
+.systems-escolha-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.3rem; max-width: 860px; width: 100%;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: stretch;
+  max-width: 1100px;
+  width: 100%;
 }
 
-.sys-card {
-  background: var(--cor-card); border: 1px solid var(--cor-card-borda);
-  border-radius: 16px; padding: 2rem;
-  text-align: center; position: relative;
-  display: flex; flex-direction: column; align-items: center;
-  transition: transform .2s, border-color .2s;
-  cursor: default;
+/* CARDS */
+.system-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 300px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 24px 20px;
+  background: var(--cor-card);
+  transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
 }
-.sys-card.available { border-color: var(--cor-azul); cursor: pointer; }
-.sys-card.available:hover { transform: translateY(-4px); border-color: var(--cor-azul); box-shadow: 0 8px 30px rgba(52,152,219,.15); }
-.sys-card.locked { opacity: .6; }
+.sigma-on-card, .sigma-old-card, .kappa-card { opacity: .75; }
 
-.sys-badge {
-  font-size: .65rem; font-weight: 800; letter-spacing: .1em;
-  text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
-  display: block; margin-bottom: 1.2rem;
-  background: rgba(52,152,219,.15); color: var(--cor-azul);
-  border: 1px solid rgba(52,152,219,.3);
-}
-.sys-badge.soon { background: rgba(255,255,255,.07); color: var(--cor-texto-muted); border-color: rgba(255,255,255,.1); }
-
-.sys-icon {
-  width: 80px; height: 80px; border-radius: 16px;
+/* ICONS — no box, no border */
+.system-card-icon {
+  width: 80px; height: 80px;
+  margin: 0 auto 16px;
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: 1.2rem;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
-.sys-icon--gama { background: rgba(52,152,219,.15); border: 2px solid rgba(52,152,219,.4); }
-.sys-icon--sigma { background: rgba(46,204,113,.15); border: 2px solid rgba(46,204,113,.4); }
-.sys-icon--kappa { background: rgba(90,26,46,.15); border: 2px solid rgba(158,61,82,.4); }
-.sys-icon-img { width: 52px; height: 52px; object-fit: contain; }
-.sistema-btn-icon { width: 64px; height: 64px; object-fit: contain; border-radius: 12px; }
+.system-icon-img {
+  width: 72px; height: 72px;
+  object-fit: contain;
+  filter: none;
+}
 
-h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: .4rem; color: var(--cor-texto); }
-p { font-size: .85rem; color: var(--cor-texto-muted); }
-.sys-subtitle { font-size: .75rem; color: rgba(255,255,255,.35); font-style: italic; margin-bottom: 2px !important; }
+/* BADGE */
+.system-badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 3px 12px; border-radius: 100px; margin-bottom: 10px;
+}
+.system-badge.available { background: rgba(46,204,113,0.15); color: #2ecc71; border: 1px solid rgba(46,204,113,0.3); }
+.system-badge.soon { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1); }
 
-/* Kappa card */
-.kappa-card { border-color: rgba(158,61,82,.35); }
-.kappa-badge { background: rgba(90,26,46,.18); color: #9e3d52; border-color: rgba(158,61,82,.35); }
+/* CARD TEXT */
+.system-name { font-size: 1.05rem; font-weight: 700; color: var(--cor-texto); margin-bottom: .3rem; }
+.system-subtitle-italic { font-size: 12px; font-style: italic; color: rgba(255,255,255,0.45); margin-bottom: 8px; }
+.system-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 16px; flex: 1; }
 
-/* Sigma block */
-.sigma-block {
-  background: var(--cor-card); border: 1px solid var(--cor-card-borda);
-  border-radius: 16px; padding: 1.4rem 1.6rem;
-  display: flex; flex-direction: column; gap: .9rem;
+/* BUTTONS */
+.system-btn-active {
+  display: inline-block; padding: 7px 20px;
+  background: var(--cor-azul); color: #fff;
+  border: none; border-radius: 6px; font-size: 13px; font-weight: 700;
+  cursor: pointer; width: 100%; text-align: center; margin-top: auto;
+  transition: opacity .2s;
 }
-.sigma-header { text-align: center; }
-.sigma-title {
-  font-size: .72rem; font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--cor-texto-muted);
+.system-btn-active:hover { opacity: .85; }
+.system-btn-access {
+  display: inline-block; padding: 7px 20px;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
+  font-size: 13px; font-weight: 600; cursor: not-allowed;
+  width: 100%; text-align: center; margin-top: auto;
 }
-.sigma-versions { display: flex; flex-direction: column; gap: .6rem; }
-.sigma-version-item {
-  display: flex; align-items: center; gap: .75rem;
+
+/* GLOW PER SYSTEM */
+.gama-card { border-color: rgba(52,152,219,0.3); cursor: pointer; }
+.gama-card:hover { border-color: #3498db; box-shadow: 0 0 0 1px #3498db, 0 0 20px rgba(52,152,219,0.35); transform: translateY(-4px); }
+.sigma-on-card:hover { border-color: #2ecc71; box-shadow: 0 0 0 1px #2ecc71, 0 0 20px rgba(46,204,113,0.3); transform: translateY(-4px); opacity: 1; }
+.sigma-old-card:hover { border-color: #6899d4; box-shadow: 0 0 0 1px #6899d4, 0 0 20px rgba(104,153,212,0.3); transform: translateY(-4px); opacity: 1; }
+.kappa-card:hover { border-color: #9e3d52; box-shadow: 0 0 0 1px #9e3d52, 0 0 20px rgba(90,26,46,0.45); transform: translateY(-4px); opacity: 1; }
+
+@media (max-width: 900px) {
+  .systems-escolha-grid { grid-template-columns: repeat(2, 1fr); }
 }
-.sigma-version-icon { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
-.sub-btn {
-  flex: 1; display: flex; align-items: center; justify-content: space-between;
-  padding: .6rem 1rem; border-radius: 10px; font-size: .88rem; font-weight: 600;
-  border: 1px solid; cursor: not-allowed; opacity: .6; text-align: left;
-  background: transparent;
-}
-.sub-btn-on  { border-color: rgba(46,204,113,.35); color: #2ecc71; }
-.sub-btn-old { border-color: rgba(104,153,212,.35); color: #6899d4; }
-.coming-soon-badge {
-  font-size: .6rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
-  padding: 2px 8px; border-radius: 12px;
-  background: rgba(255,255,255,.07); color: var(--cor-texto-muted);
-  border: 1px solid rgba(255,255,255,.1);
+@media (max-width: 480px) {
+  .systems-escolha-grid { grid-template-columns: 1fr; }
 }
 </style>

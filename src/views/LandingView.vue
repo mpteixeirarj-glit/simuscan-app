@@ -235,8 +235,8 @@
           <h4 class="footer-col-title">Produto</h4>
           <ul class="footer-col-links">
             <li><a href="#funcionalidades" @click.prevent="scrollTo('funcionalidades')">Funcionalidades</a></li>
-            <li><a href="#sistemas">Sistemas</a></li>
-            <li><a href="#planos">Planos</a></li>
+            <li><a href="#sistemas" @click.prevent="scrollTo('sistemas')">Sistemas</a></li>
+            <li><a href="#planos" @click.prevent="scrollTo('planos')">Planos</a></li>
             <li><RouterLink to="/documentacao">Documentação</RouterLink></li>
           </ul>
         </div>
@@ -255,15 +255,8 @@
           </ul>
         </div>
       </div>
-      <div class="landing-footer-bottom">
-        <span>© 2026 SimuScan. Todos os direitos reservados.</span>
-        <span class="footer-version">{{ version }}</span>
-      </div>
-      <div class="footer-legal-bottom">
-        <p>© 2026 SimuScan. Simulador educacional — interfaces fictícias para fins de treinamento.</p>
-      </div>
-      <div class="footer-legal-final">
-        <p>SimuScan é um simulador educacional. Todas as interfaces, marcas e equipamentos representados são fictícios e criados exclusivamente para fins de treinamento.</p>
+      <div class="footer-final-line">
+        © 2026 SimuScan. Todos os direitos reservados — Simulador educacional — interfaces fictícias para fins de treinamento. — {{ version }}
       </div>
     </footer>
   </div>
@@ -336,8 +329,8 @@ function scrollTo(id) {
 .card p { font-size: .9rem; color: var(--cor-texto-muted); margin: 0 2rem 2rem; }
 
 /* SISTEMAS */
-.sistemas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1100px; margin: 3rem auto 0; align-items: start; }
-.sistema-card { background: var(--cor-fundo); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; transition: box-shadow .35s ease, transform .35s ease, border-color .35s ease; }
+.sistemas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1100px; margin: 3rem auto 0; align-items: stretch; }
+.sistema-card { background: var(--cor-fundo); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 320px; height: 100%; transition: box-shadow .35s ease, transform .35s ease, border-color .35s ease; }
 .sigma-on-card, .sigma-old-card, .kappa-card { opacity: .75; }
 .sigma-group { display: flex; flex-direction: column; gap: 12px; }
 .sistema-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .3rem; color: var(--cor-texto); }
@@ -388,8 +381,7 @@ function scrollTo(id) {
 .footer-col-links { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
 .footer-col-links li a, .footer-col-links a { font-size: .88rem; color: var(--cor-texto-muted); text-decoration: none; transition: color .2s; display: block; }
 .footer-col-links li a:hover, .footer-col-links a:hover { color: var(--cor-texto); }
-.landing-footer-bottom { border-top: 1px solid var(--cor-card-borda); max-width: 1100px; margin: 0 auto; padding: 1.2rem 0; display: flex; align-items: center; justify-content: space-between; font-size: .8rem; color: var(--cor-texto-muted); flex-wrap: wrap; gap: .5rem; }
-.footer-version { color: var(--cor-azul); font-size: 11px; opacity: .7; }
+.footer-final-line { border-top: 1px solid rgba(255,255,255,0.06); padding: 14px 32px; text-align: center; font-size: 12px; color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 @media (max-width: 540px) {
   .planos-grid { grid-template-columns: 1fr; }
@@ -432,8 +424,8 @@ function scrollTo(id) {
 /* SYSTEM CARD NEW ELEMENTS */
 .system-name { font-size: 1.05rem; font-weight: 700; margin-bottom: .3rem; color: var(--cor-texto); }
 .system-subtitle-italic { font-size: 12px; font-style: italic; color: rgba(255,255,255,0.45); margin-bottom: 8px; margin-top: 2px; }
-.system-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 16px; }
-.system-btn-access { display: inline-block; padding: 7px 20px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; font-size: 13px; font-weight: 600; cursor: not-allowed; width: 100%; text-align: center; }
+.system-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 16px; flex: 1; }
+.system-btn-access { display: inline-block; padding: 7px 20px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; font-size: 13px; font-weight: 600; cursor: not-allowed; width: 100%; text-align: center; margin-top: auto; }
 
 /* AI DISCLOSURE */
 .ai-disclosure {
@@ -451,9 +443,4 @@ function scrollTo(id) {
 .ai-disclosure-title { font-size: 15px; font-weight: 700; color: #e8e8ea; margin-bottom: 10px; }
 .ai-disclosure-text { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 6px; }
 
-/* FOOTER LEGAL BOTTOM */
-.footer-legal-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 14px 32px; text-align: center; }
-.footer-legal-bottom p { font-size: 12px; color: #444; margin: 0; }
-.footer-legal-final { padding: 10px 32px 16px; text-align: center; }
-.footer-legal-final p { font-size: 11px; color: #333; margin: 0; }
 </style>
