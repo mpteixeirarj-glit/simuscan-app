@@ -275,7 +275,8 @@ function scrollTo(id) {
 </script>
 
 <style scoped>
-.landing { min-height: 100vh; background: var(--cor-fundo); color: var(--cor-texto); }
+.landing { min-height: 100vh; background: var(--cor-fundo); color: var(--cor-texto); overflow-x: hidden; max-width: 100vw; }
+.section, .section-alt { overflow-x: hidden; }
 
 /* NAV */
 .nav { position: sticky; top: 0; z-index: 50; background: rgba(17,17,19,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--cor-card-borda); }
@@ -400,14 +401,31 @@ function scrollTo(id) {
 .sigma-old-card:hover { border-color: #6899d4; box-shadow: 0 0 0 1px #6899d4, 0 0 20px rgba(104,153,212,0.35), 0 0 50px rgba(104,153,212,0.12); transform: translateY(-6px); opacity: 1; }
 .kappa-card:hover    { border-color: #9e3d52; box-shadow: 0 0 0 1px #9e3d52, 0 0 20px rgba(90,26,46,0.5), 0 0 50px rgba(90,26,46,0.2); transform: translateY(-6px); opacity: 1; }
 
-/* FOOTER RESPONSIVE */
+/* MOBILE */
 @media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-inner { padding: 0 16px; }
+  .hero { padding: 3rem 1rem 2rem; }
+  .hero-image-wrap { max-width: 100%; }
+  .cards-grid { grid-template-columns: 1fr !important; gap: 16px; }
+  .sistemas-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+  .sistema-card { min-height: auto; }
+  .system-icon-img { width: 52px; height: 52px; }
+  .planos-grid { grid-template-columns: 1fr !important; max-width: 400px; margin: 0 auto; }
+  .ai-disclosure-inner { flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+  .landing-footer-inner { grid-template-columns: 1fr !important; gap: 24px; }
+  .footer-col-brand { grid-column: auto; }
+  .footer-social { justify-content: center; }
+  .footer-final-line { white-space: normal; font-size: 11px; padding: 12px 16px; }
+  .device-notice { padding: 8px 12px; }
+}
+
+/* TABLET portrait */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .sistemas-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .landing-footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
   .footer-col-brand { grid-column: 1 / -1; }
-}
-@media (max-width: 480px) {
-  .landing-footer-inner { grid-template-columns: 1fr; }
-  .nav-links { display: none; }
 }
 
 /* SIGMA VERSIONS — kept for SistemaEscolhaView compat */

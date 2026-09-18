@@ -1,5 +1,30 @@
 <template>
   <div class="gama-root">
+    <div v-if="isMobile && isPortrait" class="rotate-overlay">
+      <div class="rotate-content">
+        <div class="rotate-icon">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="28" y="8" width="24" height="40" rx="3"
+                  stroke="#3498db" stroke-width="2.5" fill="none"/>
+            <rect x="32" y="12" width="16" height="28" rx="1"
+                  fill="rgba(52,152,219,0.1)"/>
+            <circle cx="40" cy="44" r="2" fill="#3498db"/>
+            <path d="M16 40 A24 24 0 0 1 64 40"
+                  stroke="#e91e8c" stroke-width="2.5"
+                  stroke-linecap="round" fill="none"
+                  stroke-dasharray="6 3"/>
+            <polyline points="60,34 64,40 58,42"
+                      stroke="#e91e8c" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2 class="rotate-title">Gire o dispositivo</h2>
+        <p class="rotate-desc">O console Gama Healthcare foi projetado para uso em <strong>modo paisagem</strong>.</p>
+        <p class="rotate-hint">Gire seu dispositivo horizontalmente para continuar.</p>
+        <button class="rotate-btn-back" @click="$router.push('/escolha')">← Voltar à escolha de sistema</button>
+      </div>
+    </div>
+    <template v-else>
     <div id="master-container" :class="{ 'viewer-active': state.viewerMode }">
       <!-- TELA DE AQUISIÇÃO -->
       <div class="main" id="screen-acquisition">
@@ -88,11 +113,12 @@
 
     <audio ref="sndIn" :src="BASE_URL + 'sons/swoosh_in.mp3'" preload="auto"></audio>
     <audio ref="sndOut" :src="BASE_URL + 'sons/swoosh_out.mp3'" preload="auto"></audio>
+    </template>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref, computed } from 'vue'
+import { reactive, ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { APP_VERSION } from '@/version.js'
 import InitialPartial from '@/components/gama/partials/InitialPartial.vue'
@@ -122,6 +148,27 @@ const topoAutoTransfer = ref(false)
 const sndIn = ref(null)
 const sndOut = ref(null)
 
+const isPortrait = ref(false)
+const isMobile   = ref(false)
+
+function checkOrientation() {
+  const w = window.innerWidth
+  const h = window.innerHeight
+  isMobile.value   = w < 1024
+  isPortrait.value = h > w
+}
+
+onMounted(() => {
+  checkOrientation()
+  window.addEventListener('resize', checkOrientation)
+  window.addEventListener('orientationchange', checkOrientation)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkOrientation)
+  window.removeEventListener('orientationchange', checkOrientation)
+})
+
 const isTopoBar = computed(() => ['topograma', 'protocolo_scout'].includes(state.panel))
 
 function toggleViewMode() {
@@ -149,6 +196,16 @@ function topoDeleteSeries() { topoRef.value?.deleteSeries() }
 </script>
 
 <style>
+@import '@/assets/css/rotate-overlay.css';
+
+/* Tablet landscape */
+@media (max-width: 1023px) and (orientation: landscape) {
+  .bottom-bar button { font-size: 11px !important; padding: 6px 8px !important; }
+  .header { font-size: 13px !important; }
+  .screen { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  input, select, textarea { font-size: 16px !important; }
+}
+
 /* Estilos globais do simulador Gama */
 .gama-root { margin: 0; padding: 0; overflow: hidden; height: 100vh; }
 body:has(.gama-root) { margin: 0; font-family: Arial, sans-serif; background-color: #f0f0f0; height: 100vh; overflow: hidden; }

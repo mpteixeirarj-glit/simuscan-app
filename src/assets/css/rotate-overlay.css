@@ -1,0 +1,68 @@
+.rotate-overlay {
+  position: fixed;
+  inset: 0;
+  background: #111113;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 24px;
+}
+
+.rotate-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  max-width: 320px;
+}
+
+.rotate-icon {
+  width: 80px;
+  height: 80px;
+  animation: rotateHint 2s ease-in-out infinite;
+}
+
+@keyframes rotateHint {
+  0%, 100% { transform: rotate(0deg); }
+  30%       { transform: rotate(-15deg); }
+  70%       { transform: rotate(15deg); }
+}
+
+.rotate-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #e8e8ea;
+  margin: 0;
+}
+
+.rotate-desc {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.6;
+  margin: 0;
+}
+.rotate-desc strong { color: #3498db; }
+
+.rotate-hint {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+}
+
+.rotate-btn-back {
+  margin-top: 8px;
+  padding: 10px 24px;
+  background: transparent;
+  border: 1px solid #2a2a2e;
+  border-radius: 8px;
+  color: #666;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.rotate-btn-back:hover {
+  border-color: #3498db;
+  color: #3498db;
+}
