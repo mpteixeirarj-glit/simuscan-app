@@ -116,15 +116,15 @@
           <RouterLink to="/login" class="sistema-btn">Acessar</RouterLink>
         </div>
         <!-- SIGMA ON -->
-        <div class="sistema-card sigma-on-card">
+        <div class="sistema-card sigma-on-card" @click="$router.push('/login')">
           <div class="system-card-icon">
             <img :src="BASE_URL + 'imagens/sigma-on.png'" alt="Sigma ON" class="system-icon-img" @error="$event.target.style.display='none'" />
           </div>
-          <div class="system-badge soon">Em breve</div>
+          <div class="system-badge available">Disponível</div>
           <h3 class="system-name">Sigma ON</h3>
           <p class="system-subtitle-italic">Sigma ON CT — versão atual</p>
           <p class="system-desc">Interface moderna com fluxo avançado completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-          <button class="system-btn-access" disabled>Acessar</button>
+          <RouterLink to="/login" class="sistema-btn sigma-on-active">Acessar</RouterLink>
         </div>
         <!-- SIGMA OLD -->
         <div class="sistema-card sigma-old-card">
@@ -332,7 +332,9 @@ function scrollTo(id) {
 /* SISTEMAS */
 .sistemas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1100px; margin: 3rem auto 0; align-items: stretch; }
 .sistema-card { background: var(--cor-fundo); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 320px; height: 100%; transition: box-shadow .35s ease, transform .35s ease, border-color .35s ease; }
-.sigma-on-card, .sigma-old-card, .kappa-card { opacity: .75; }
+.sigma-old-card, .kappa-card { opacity: .75; }
+.sigma-on-card { cursor: pointer; }
+.sigma-on-active { background: #2ecc71 !important; color: #000 !important; }
 .sigma-group { display: flex; flex-direction: column; gap: 12px; }
 .sistema-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .3rem; color: var(--cor-texto); }
 .sistema-card p { font-size: .83rem; color: var(--cor-texto-muted); margin-bottom: .6rem; }

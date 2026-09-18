@@ -26,15 +26,15 @@
         </div>
 
         <!-- SIGMA ON -->
-        <div class="system-card sigma-on-card">
+        <div class="system-card sigma-on-card" @click="router.push('/sigma-on')">
           <div class="system-card-icon">
             <img :src="BASE_URL + 'imagens/sigma-on.png'" alt="Sigma ON" class="system-icon-img" @error="$event.target.style.display='none'" />
           </div>
-          <div class="system-badge soon">Em breve</div>
+          <div class="system-badge available">Disponível</div>
           <h3 class="system-name">Sigma ON</h3>
           <p class="system-subtitle-italic">Sigma ON CT — versão atual</p>
           <p class="system-desc">Interface moderna com fluxo avançado completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-          <button class="system-btn-access" disabled>Acessar</button>
+          <button class="system-btn-active sigma-on-active">Acessar</button>
         </div>
 
         <!-- SIGMA OLD -->
@@ -133,7 +133,9 @@ h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(1.8rem,4vw,2.8rem); f
   background: var(--cor-card);
   transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
 }
-.sigma-on-card, .sigma-old-card, .kappa-card { opacity: .75; }
+.sigma-old-card, .kappa-card { opacity: .75; }
+.sigma-on-card { cursor: pointer; }
+.sigma-on-active { background: #2ecc71 !important; color: #000 !important; }
 
 /* ICONS — no box, no border */
 .system-card-icon {
