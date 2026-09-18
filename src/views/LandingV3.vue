@@ -104,13 +104,15 @@
             <div class="v3-flex-card v3-flex-sigma-on">
               <div class="v3-flex-card-content">
                 <div class="v3-flex-icon">
-                  <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Σ ON"
+                  <img :src="BASE_URL + 'imagens/sigma-on.png'" alt="Σ ON"
                        @error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='block'" />
                   <span class="v3-greek-fallback">Σ</span>
                 </div>
                 <div class="v3-flex-badge soon">Em breve</div>
                 <h3>Sigma ON</h3>
-                <p class="v3-flex-desc">Interface moderna com fluxo avançado de protocolos.</p>
+                <p class="system-subtitle-italic">Sigma ON CT — versão atual</p>
+                <p class="v3-flex-desc">Interface moderna com fluxo avançado completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+                <button class="system-btn-access" disabled>Acessar</button>
               </div>
             </div>
             <div class="v3-flex-card v3-flex-sigma-old">
@@ -122,7 +124,9 @@
                 </div>
                 <div class="v3-flex-badge soon">Em breve</div>
                 <h3>Sigma Old</h3>
-                <p class="v3-flex-desc">Interface clássica dos consoles de geração anterior.</p>
+                <p class="system-subtitle-italic">Sigma Old CT — versão legado</p>
+                <p class="v3-flex-desc">Interface clássica do console de geração anterior, com fluxo completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+                <button class="system-btn-access" disabled>Acessar</button>
               </div>
             </div>
           </div>
@@ -136,7 +140,8 @@
               </div>
               <div class="v3-flex-badge soon">Em breve</div>
               <h3>Kappa Healthcare</h3>
-              <p class="v3-flex-desc">Interface de alta produtividade para grandes volumes de exames.</p>
+              <p class="v3-flex-desc">Interface de alta produtividade completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+              <button class="system-btn-access" disabled>Acessar</button>
             </div>
           </div>
 
@@ -181,18 +186,26 @@
     </section>
 
     <!-- AI DISCLOSURE -->
-    <section class="v3-ai-disclosure">
-      <div class="v3-ai-disclosure-inner">
-        <div class="v3-ai-icon">🤖</div>
-        <p class="v3-ai-text">
-          O SimuScan foi inteiramente desenvolvido com o auxílio de
-          Inteligências Artificiais, sob orientação e supervisão de um
-          profissional formado e atuante na área de Radiologia há mais
-          de 20 anos, com vasta experiência em todas as plataformas
-          simuladas. As interfaces, nomenclaturas e fluxos apresentados
-          são fictícios e criados exclusivamente para fins educacionais
-          e de treinamento.
-        </p>
+    <section class="ai-disclosure v3-ai-disclosure">
+      <div class="ai-disclosure-inner">
+        <div class="ai-disclosure-icon-wrap">
+          <img :src="BASE_URL + 'imagens/AI.png'" alt="Inteligência Artificial" class="ai-icon-img" @error="$event.target.style.display='none'" />
+        </div>
+        <div class="ai-disclosure-text-wrap">
+          <h4 class="ai-disclosure-title">Desenvolvimento com Inteligência Artificial</h4>
+          <p class="ai-disclosure-text">
+            O SimuScan foi inteiramente desenvolvido com o auxílio de
+            Inteligências Artificiais, sob orientação e supervisão de um
+            profissional formado e atuante na área de Radiologia há mais
+            de 20 anos, com vasta experiência nas plataformas de tomografia
+            simuladas.
+          </p>
+          <p class="ai-disclosure-text">
+            As interfaces, nomenclaturas e fluxos apresentados são fictícios
+            e foram criados exclusivamente para fins educacionais e de
+            treinamento.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -237,6 +250,9 @@
       <div class="v3-footer-bottom">
         <span>© 2026 SimuScan. Todos os direitos reservados.</span>
         <span class="v3-footer-version">{{ version }}</span>
+      </div>
+      <div class="footer-legal-bottom v3-footer-legal">
+        <p>© 2026 SimuScan. Simulador educacional — interfaces fictícias para fins de treinamento.</p>
       </div>
     </footer>
 
@@ -580,10 +596,25 @@ const features = [
 }
 .v3-footer-desc { font-size: 13px; line-height: 1.6; max-width: 260px; }
 .v3-footer-social { display: flex; gap: 8px; margin-top: 16px; }
-.v3-footer-social-link { width: 34px; height: 34px; background: rgba(255,255,255,.06); border: 1px solid var(--v3-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background .2s; }
-.v3-footer-social-link:hover { background: rgba(255,255,255,.12); }
-.social-icon-img { width: 22px; height: 22px; object-fit: contain; display: block; filter: brightness(0.7); transition: filter .2s; }
-.v3-footer-social-link:hover .social-icon-img { filter: brightness(1); }
+.v3-footer-social-link { display: inline-flex; align-items: center; justify-content: center; background: none !important; border: none !important; box-shadow: none !important; padding: 4px; text-decoration: none; transition: opacity .2s, transform .2s; }
+.v3-footer-social-link:hover { opacity: .75; transform: translateY(-2px); background: none !important; }
+.social-icon-img { width: 32px; height: 32px; object-fit: contain; display: block; filter: none; }
+/* System card new elements */
+.system-subtitle-italic { font-size: 12px; font-style: italic; color: rgba(255,255,255,0.4); margin-bottom: 8px; margin-top: 2px; overflow: hidden; max-height: 0; transition: max-height 0.4s ease; }
+.v3-flex-card:hover .system-subtitle-italic { max-height: 30px; }
+.system-btn-access { display: inline-block; padding: 7px 20px; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; font-size: 13px; font-weight: 600; cursor: not-allowed; width: 100%; text-align: center; overflow: hidden; max-height: 0; transition: max-height 0.4s ease; margin-top: 0; }
+.v3-flex-card:hover .system-btn-access { max-height: 44px; }
+/* AI Disclosure */
+.ai-disclosure { padding: 32px; border-top: 1px solid var(--v3-border); border-bottom: 1px solid var(--v3-border); background: var(--v3-surface-2); }
+.ai-disclosure-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: flex-start; gap: 20px; }
+.ai-disclosure-icon-wrap { flex-shrink: 0; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; }
+.ai-icon-img { width: 48px; height: 48px; object-fit: contain; }
+.ai-disclosure-text-wrap { flex: 1; }
+.ai-disclosure-title { font-size: 15px; font-weight: 700; color: var(--v3-text); margin-bottom: 10px; }
+.ai-disclosure-text { font-size: 13px; color: var(--v3-text-muted); line-height: 1.7; margin-bottom: 6px; }
+/* Footer legal bottom */
+.footer-legal-bottom { border-top: 1px solid var(--v3-border); padding: 14px 32px; text-align: center; }
+.footer-legal-bottom p { font-size: 12px; color: #7d7669; margin: 0; }
 .v3-footer-cols strong {
   display: block;
   font-size: 12px;
@@ -733,18 +764,7 @@ const features = [
 .v3-plan-btn.v3-plan-btn-featured { background: var(--v3-accent); color: #fff; border-color: var(--v3-accent); }
 .v3-plan-btn.v3-plan-btn-featured:hover { background: #c01575; border-color: #c01575; }
 
-/* ── AI DISCLOSURE ── */
-.v3-ai-disclosure {
-  background: var(--v3-surface-2);
-  border-top: 1px solid var(--v3-border);
-  padding: 24px 40px;
-}
-.v3-ai-disclosure-inner {
-  max-width: 1280px; margin: 0 auto;
-  display: flex; align-items: flex-start; gap: 14px;
-}
-.v3-ai-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
-.v3-ai-text { font-size: 13px; color: var(--v3-text-faint); line-height: 1.6; }
+/* ── AI DISCLOSURE ── (styles now in shared .ai-disclosure above) */
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {

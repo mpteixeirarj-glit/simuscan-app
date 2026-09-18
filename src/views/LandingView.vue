@@ -119,21 +119,23 @@
         <div class="sigma-group">
           <div class="sistema-card sigma-on-card" data-system="sigma-on">
             <div class="system-card-icon">
-              <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma ON" class="system-icon-img" @error="$event.target.style.display='none'">
+              <img :src="BASE_URL + 'imagens/sigma-on.png'" alt="Sigma ON" class="system-icon-img" @error="$event.target.style.display='none'" />
             </div>
             <div class="system-badge soon">Em breve</div>
-            <h3>Sigma ON</h3>
-            <p class="system-subtitle">Siemens syngo CT — versão atual</p>
-            <p>Interface moderna com fluxo avançado de protocolos.</p>
+            <h3 class="system-name">Sigma ON</h3>
+            <p class="system-subtitle-italic">Sigma ON CT — versão atual</p>
+            <p class="system-desc">Interface moderna com fluxo avançado completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+            <button class="system-btn-access" disabled>Acessar</button>
           </div>
           <div class="sistema-card sigma-old-card" data-system="sigma-old">
             <div class="system-card-icon">
-              <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma Old" class="system-icon-img" @error="$event.target.style.display='none'">
+              <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma Old" class="system-icon-img" @error="$event.target.style.display='none'" />
             </div>
             <div class="system-badge soon">Em breve</div>
-            <h3>Sigma Old</h3>
-            <p class="system-subtitle">Siemens syngo CT — versão legado</p>
-            <p>Interface clássica dos consoles de geração anterior.</p>
+            <h3 class="system-name">Sigma Old</h3>
+            <p class="system-subtitle-italic">Sigma Old CT — versão legado</p>
+            <p class="system-desc">Interface clássica do console de geração anterior, com fluxo completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+            <button class="system-btn-access" disabled>Acessar</button>
           </div>
         </div>
         <!-- KAPPA -->
@@ -142,9 +144,9 @@
             <img :src="BASE_URL + 'imagens/kappa-icone.png'" alt="Kappa Healthcare" class="system-icon-img" @error="$event.target.style.display='none'">
           </div>
           <div class="system-badge soon">Em breve</div>
-          <h3>Kappa Healthcare</h3>
-          <p class="system-subtitle">Canon Aquilion</p>
-          <p>Interface de alta produtividade para grandes volumes de exames.</p>
+          <h3 class="system-name">Kappa Healthcare</h3>
+          <p class="system-desc">Interface de alta produtividade completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <button class="system-btn-access" disabled>Acessar</button>
         </div>
       </div>
     </section>
@@ -185,16 +187,24 @@
     <!-- AI DISCLOSURE -->
     <section class="ai-disclosure">
       <div class="ai-disclosure-inner">
-        <div class="ai-disclosure-icon">🤖</div>
-        <p class="ai-disclosure-text">
-          O SimuScan foi inteiramente desenvolvido com o auxílio de
-          Inteligências Artificiais, sob orientação e supervisão de um
-          profissional formado e atuante na área de Radiologia há mais
-          de 20 anos, com vasta experiência em todas as plataformas
-          simuladas. As interfaces, nomenclaturas e fluxos apresentados
-          são fictícios e criados exclusivamente para fins educacionais
-          e de treinamento.
-        </p>
+        <div class="ai-disclosure-icon-wrap">
+          <img :src="BASE_URL + 'imagens/AI.png'" alt="Inteligência Artificial" class="ai-icon-img" @error="$event.target.style.display='none'" />
+        </div>
+        <div class="ai-disclosure-text-wrap">
+          <h4 class="ai-disclosure-title">Desenvolvimento com Inteligência Artificial</h4>
+          <p class="ai-disclosure-text">
+            O SimuScan foi inteiramente desenvolvido com o auxílio de
+            Inteligências Artificiais, sob orientação e supervisão de um
+            profissional formado e atuante na área de Radiologia há mais
+            de 20 anos, com vasta experiência nas plataformas de tomografia
+            simuladas.
+          </p>
+          <p class="ai-disclosure-text">
+            As interfaces, nomenclaturas e fluxos apresentados são fictícios
+            e foram criados exclusivamente para fins educacionais e de
+            treinamento.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -249,6 +259,9 @@
       <div class="landing-footer-bottom">
         <span>© 2026 SimuScan. Todos os direitos reservados.</span>
         <span class="footer-version">{{ version }}</span>
+      </div>
+      <div class="footer-legal-bottom">
+        <p>© 2026 SimuScan. Simulador educacional — interfaces fictícias para fins de treinamento.</p>
       </div>
     </footer>
   </div>
@@ -366,10 +379,9 @@ function scrollTo(id) {
 .footer-logo-text .b { color: var(--cor-azul); }
 .footer-desc { font-size: .83rem; color: var(--cor-texto-muted); line-height: 1.6; margin-bottom: 1.2rem; }
 .footer-social { display: flex; gap: .6rem; }
-.footer-social-link { width: 36px; height: 36px; background: rgba(255,255,255,0.06); border: 1px solid var(--cor-card-borda); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .85rem; color: var(--cor-texto-muted); text-decoration: none; transition: background .2s, color .2s; }
-.footer-social-link:hover { background: rgba(52,152,219,0.15); color: var(--cor-azul); }
-.social-icon-img { width: 22px; height: 22px; object-fit: contain; display: block; filter: brightness(0.7); transition: filter .2s; }
-.footer-social-link:hover .social-icon-img { filter: brightness(1); }
+.footer-social-link { display: inline-flex; align-items: center; justify-content: center; background: none !important; border: none !important; box-shadow: none !important; padding: 4px; text-decoration: none; transition: opacity .2s, transform .2s; }
+.footer-social-link:hover { opacity: .75; transform: translateY(-2px); background: none !important; }
+.social-icon-img { width: 32px; height: 32px; object-fit: contain; display: block; filter: none; }
 .footer-col-title { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--cor-texto-muted); margin-bottom: 1rem; }
 .footer-col-links { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
 .footer-col-links li a, .footer-col-links a { font-size: .88rem; color: var(--cor-texto-muted); text-decoration: none; transition: color .2s; display: block; }
@@ -415,17 +427,29 @@ function scrollTo(id) {
 }
 .plan-annual-note { font-size: 12px; color: var(--cor-texto-muted); margin-top: -4px; margin-bottom: 4px; }
 
+/* SYSTEM CARD NEW ELEMENTS */
+.system-name { font-size: 1.05rem; font-weight: 700; margin-bottom: .3rem; color: var(--cor-texto); }
+.system-subtitle-italic { font-size: 12px; font-style: italic; color: rgba(255,255,255,0.45); margin-bottom: 8px; margin-top: 2px; }
+.system-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 16px; }
+.system-btn-access { display: inline-block; padding: 7px 20px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; font-size: 13px; font-weight: 600; cursor: not-allowed; width: 100%; text-align: center; }
+
 /* AI DISCLOSURE */
 .ai-disclosure {
-  background: rgba(255,255,255,0.03);
+  padding: 32px;
   border-top: 1px solid rgba(255,255,255,0.06);
   border-bottom: 1px solid rgba(255,255,255,0.06);
-  padding: 24px 32px;
 }
 .ai-disclosure-inner {
-  max-width: 1100px; margin: 0 auto;
-  display: flex; align-items: flex-start; gap: 14px;
+  max-width: 900px; margin: 0 auto;
+  display: flex; align-items: flex-start; gap: 20px;
 }
-.ai-disclosure-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
-.ai-disclosure-text { font-size: 13px; color: #555; line-height: 1.6; }
+.ai-disclosure-icon-wrap { flex-shrink: 0; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; }
+.ai-icon-img { width: 48px; height: 48px; object-fit: contain; }
+.ai-disclosure-text-wrap { flex: 1; }
+.ai-disclosure-title { font-size: 15px; font-weight: 700; color: #e8e8ea; margin-bottom: 10px; }
+.ai-disclosure-text { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 6px; }
+
+/* FOOTER LEGAL BOTTOM */
+.footer-legal-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 14px 32px; text-align: center; }
+.footer-legal-bottom p { font-size: 12px; color: #444; margin: 0; }
 </style>
