@@ -82,15 +82,15 @@
           <p class="sys-desc">Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
           <RouterLink to="/login" class="sys-btn">Acessar</RouterLink>
         </div>
-        <div class="sistema-card sigma-on-card">
+        <div class="sistema-card sigma-on-card" @click="$router.push('/login')">
           <div class="sys-icon-wrap">
             <img :src="BASE_URL + 'imagens/sigma-on.png'" alt="Sigma ON" class="sys-icon" @error="$event.target.style.display='none'" />
           </div>
-          <span class="sys-badge soon">Em breve</span>
+          <span class="sys-badge available">Disponível</span>
           <h3 class="sys-name">Sigma ON</h3>
           <p class="sys-subtitle">Sigma ON CT — versão atual</p>
           <p class="sys-desc">Interface moderna com fluxo avançado completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-          <button class="sys-btn-disabled" disabled>Acessar</button>
+          <RouterLink to="/login" class="sys-btn sigma-on-active">Acessar</RouterLink>
         </div>
         <div class="sistema-card sigma-old-card">
           <div class="sys-icon-wrap">
@@ -335,7 +335,9 @@ function scrollTo(id) {
 /* SISTEMAS */
 .sistemas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
 .sistema-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 2rem; text-align: center; display: flex; flex-direction: column; align-items: center; transition: border-color .3s, transform .3s, box-shadow .3s; }
-.sigma-on-card, .sigma-old-card, .kappa-card { opacity: .75; }
+.sigma-old-card, .kappa-card { opacity: .75; }
+.sigma-on-card { cursor: pointer; }
+.sigma-on-active { background: #2ecc71 !important; color: #000 !important; }
 .sys-icon-wrap { width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
 .sys-icon { width: 72px; height: 72px; object-fit: contain; border-radius: 14px; }
 .sys-badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 12px; border-radius: 100px; margin-bottom: .8rem; }

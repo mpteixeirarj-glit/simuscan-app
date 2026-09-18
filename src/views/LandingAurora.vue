@@ -102,16 +102,16 @@
           <p class="sys-desc">Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
           <RouterLink to="/login" class="sys-btn">Acessar</RouterLink>
         </div>
-        <div class="sistema-card sigma-on-card">
+        <div class="sistema-card sigma-on-card" @click="$router.push('/login')">
           <div class="shimmer-border"></div>
           <div class="sys-icon-wrap">
             <img :src="BASE_URL + 'imagens/sigma-on.png'" alt="Sigma ON" class="sys-icon" @error="$event.target.style.display='none'" />
           </div>
-          <span class="sys-badge soon">Em breve</span>
+          <span class="sys-badge available">Disponível</span>
           <h3 class="sys-name">Sigma ON</h3>
           <p class="sys-subtitle">Sigma ON CT — versão atual</p>
           <p class="sys-desc">Interface moderna com fluxo avançado completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-          <button class="sys-btn-disabled" disabled>Acessar</button>
+          <RouterLink to="/login" class="sys-btn sigma-on-active">Acessar</RouterLink>
         </div>
         <div class="sistema-card sigma-old-card">
           <div class="shimmer-border"></div>
@@ -458,7 +458,9 @@ function scrollTo(id) {
   pointer-events: none;
 }
 .sistema-card:hover .shimmer-border { opacity: 1; }
-.sigma-on-card, .sigma-old-card, .kappa-card { opacity: .75; }
+.sigma-old-card, .kappa-card { opacity: .75; }
+.sigma-on-card { cursor: pointer; }
+.sigma-on-active { background: #2ecc71 !important; color: #000 !important; }
 .sistema-card { transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease !important; }
 .sistema-card:hover { transform: translateY(-5px); opacity: 1; }
 .gama-card:hover { border-color: #3498db !important; box-shadow: 0 0 0 1px #3498db, 0 0 20px rgba(52,152,219,0.35), 0 0 50px rgba(52,152,219,0.12) !important; transform: translateY(-6px); }
