@@ -21,31 +21,31 @@
     <div class="contact-main">
       <div class="contact-info-block">
         <div class="contact-info-item">
-          <span class="contact-info-icon">📧</span>
+          <img :src="BASE_URL + 'imagens/email.png'" alt="E-mail" class="contact-channel-icon" @error="$event.target.style.display='none'" />
           <div>
-            <p class="contact-info-title">E-mail</p>
-            <p class="contact-info-text">contato@simuscan.app<br>Respondemos em até 48h úteis.</p>
+            <span class="contact-info-label">E-mail</span>
+            <a href="mailto:mpteixeira.rj@gmail.com" class="contact-info-value">mpteixeira.rj@gmail.com</a>
           </div>
         </div>
         <div class="contact-info-item">
-          <span class="contact-info-icon">📸</span>
+          <img :src="BASE_URL + 'imagens/insta.png'" alt="Instagram" class="contact-channel-icon" @error="$event.target.style.display='none'" />
           <div>
-            <p class="contact-info-title">Instagram</p>
-            <p class="contact-info-text">@simuscan<br>Novidades e atualizações.</p>
+            <span class="contact-info-label">Instagram</span>
+            <a href="#" class="contact-info-value">@simuscan</a>
           </div>
         </div>
         <div class="contact-info-item">
-          <span class="contact-info-icon">▶</span>
+          <img :src="BASE_URL + 'imagens/tube.png'" alt="YouTube" class="contact-channel-icon" @error="$event.target.style.display='none'" />
           <div>
-            <p class="contact-info-title">YouTube</p>
-            <p class="contact-info-text">SimuScan<br>Tutoriais e demonstrações.</p>
+            <span class="contact-info-label">YouTube</span>
+            <a href="#" class="contact-info-value">SimuScan</a>
           </div>
         </div>
         <div class="contact-info-item">
-          <span class="contact-info-icon">🔗</span>
+          <img :src="BASE_URL + 'imagens/face.png'" alt="Facebook" class="contact-channel-icon" @error="$event.target.style.display='none'" />
           <div>
-            <p class="contact-info-title">LinkedIn</p>
-            <p class="contact-info-text">SimuScan<br>Atualizações profissionais.</p>
+            <span class="contact-info-label">Facebook</span>
+            <a href="#" class="contact-info-value">SimuScan</a>
           </div>
         </div>
       </div>
