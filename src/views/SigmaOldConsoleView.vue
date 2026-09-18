@@ -1,5 +1,23 @@
 <template>
   <div class="sigma-old-console">
+    <div v-if="isMobile && isPortrait" class="rotate-overlay">
+      <div class="rotate-content">
+        <div class="rotate-icon">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="28" y="8" width="24" height="40" rx="3" stroke="#3498db" stroke-width="2.5" fill="none"/>
+            <rect x="32" y="12" width="16" height="28" rx="1" fill="rgba(52,152,219,0.1)"/>
+            <circle cx="40" cy="44" r="2" fill="#3498db"/>
+            <path d="M16 40 A24 24 0 0 1 64 40" stroke="#e91e8c" stroke-width="2.5" stroke-linecap="round" fill="none" stroke-dasharray="6 3"/>
+            <polyline points="60,34 64,40 58,42" stroke="#e91e8c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2 class="rotate-title">Gire o dispositivo</h2>
+        <p class="rotate-desc">O console Sigma Old CT foi projetado para uso em <strong>modo paisagem</strong>.</p>
+        <p class="rotate-hint">Gire seu dispositivo horizontalmente para continuar.</p>
+        <button class="rotate-btn-back" @click="$router.push('/escolha')">← Voltar à escolha de sistema</button>
+      </div>
+    </div>
+    <template v-else>
     <div class="sigma-old-menubar">
       <div class="menubar-left">
         <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma Old" class="console-logo-sm" @error="$event.target.style.display='none'" />
@@ -27,15 +45,39 @@
         <span class="coming-soon-badge">Em breve</span>
       </div>
     </div>
+    </template>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 const BASE_URL = import.meta.env.BASE_URL
+
+const isPortrait = ref(false)
+const isMobile   = ref(false)
+
+function checkOrientation() {
+  const w = window.innerWidth
+  const h = window.innerHeight
+  isMobile.value   = w < 1024
+  isPortrait.value = h > w
+}
+
+onMounted(() => {
+  checkOrientation()
+  window.addEventListener('resize', checkOrientation)
+  window.addEventListener('orientationchange', checkOrientation)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkOrientation)
+  window.removeEventListener('orientationchange', checkOrientation)
+})
 </script>
 
 <style scoped>
 @import '@/assets/css/coming-soon.css';
+@import '@/assets/css/rotate-overlay.css';
 
 .sigma-old-console {
   width: 100vw;
