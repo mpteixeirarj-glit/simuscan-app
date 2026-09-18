@@ -2,7 +2,7 @@
   <component :is="currentComponent" />
 
   <div class="version-switcher">
-    <span class="version-label">Versão</span>
+    <span class="version-label">Tema</span>
     <div class="version-btns">
       <button
         v-for="v in versions"
@@ -21,21 +21,26 @@
 import { ref, computed, watch, defineAsyncComponent } from 'vue'
 
 const versions = [
-  { key: 'v1', label: 'Dark' },
-  { key: 'v2', label: 'Light' },
-  { key: 'v3', label: 'Clean' },
+  { key: 'dark',   label: 'Dark' },
+  { key: 'light',  label: 'Light' },
+  { key: 'clean',  label: 'Clean' },
+  { key: 'lumina', label: 'Lumina' },
+  { key: 'aurora', label: 'Aurora' },
 ]
 
-const landingVersion = ref(localStorage.getItem('landingVersion') || 'v1')
+const landingVersion = ref(localStorage.getItem('landingVersion') || 'dark')
 
 watch(landingVersion, (v) => {
   localStorage.setItem('landingVersion', v)
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 })
 
 const componentMap = {
-  v1: defineAsyncComponent(() => import('@/views/LandingView.vue')),
-  v2: defineAsyncComponent(() => import('@/views/LandingV2.vue')),
-  v3: defineAsyncComponent(() => import('@/views/LandingV3.vue')),
+  dark:   defineAsyncComponent(() => import('@/views/LandingView.vue')),
+  light:  defineAsyncComponent(() => import('@/views/LandingLight.vue')),
+  clean:  defineAsyncComponent(() => import('@/views/LandingClean.vue')),
+  lumina: defineAsyncComponent(() => import('@/views/LandingLumina.vue')),
+  aurora: defineAsyncComponent(() => import('@/views/LandingAurora.vue')),
 }
 
 const currentComponent = computed(() => componentMap[landingVersion.value])

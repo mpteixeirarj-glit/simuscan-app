@@ -106,40 +106,39 @@
       <h2>Escolha o equipamento</h2>
       <div class="sistemas-grid">
         <!-- GAMA -->
-        <div class="sistema-card gama-card" data-system="gama">
+        <div class="sistema-card gama-card">
           <div class="system-card-icon">
             <img :src="BASE_URL + 'imagens/gamma-icone.png'" alt="Gama Healthcare" class="system-icon-img" @error="$event.target.style.display='none'">
           </div>
           <div class="system-badge available">Disponível</div>
-          <h3>Gama Healthcare</h3>
-          <p>Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <h3 class="system-name">Gama Healthcare</h3>
+          <p class="system-desc">Console completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
           <RouterLink to="/login" class="sistema-btn">Acessar</RouterLink>
         </div>
-        <!-- SIGMA GROUP -->
-        <div class="sigma-group">
-          <div class="sistema-card sigma-on-card" data-system="sigma-on">
-            <div class="system-card-icon">
-              <img :src="BASE_URL + 'imagens/sigma-on.png'" alt="Sigma ON" class="system-icon-img" @error="$event.target.style.display='none'" />
-            </div>
-            <div class="system-badge soon">Em breve</div>
-            <h3 class="system-name">Sigma ON</h3>
-            <p class="system-subtitle-italic">Sigma ON CT — versão atual</p>
-            <p class="system-desc">Interface moderna com fluxo avançado completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-            <button class="system-btn-access" disabled>Acessar</button>
+        <!-- SIGMA ON -->
+        <div class="sistema-card sigma-on-card">
+          <div class="system-card-icon">
+            <img :src="BASE_URL + 'imagens/sigma-on.png'" alt="Sigma ON" class="system-icon-img" @error="$event.target.style.display='none'" />
           </div>
-          <div class="sistema-card sigma-old-card" data-system="sigma-old">
-            <div class="system-card-icon">
-              <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma Old" class="system-icon-img" @error="$event.target.style.display='none'" />
-            </div>
-            <div class="system-badge soon">Em breve</div>
-            <h3 class="system-name">Sigma Old</h3>
-            <p class="system-subtitle-italic">Sigma Old CT — versão legado</p>
-            <p class="system-desc">Interface clássica do console de geração anterior, com fluxo completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
-            <button class="system-btn-access" disabled>Acessar</button>
+          <div class="system-badge soon">Em breve</div>
+          <h3 class="system-name">Sigma ON</h3>
+          <p class="system-subtitle-italic">Sigma ON CT — versão atual</p>
+          <p class="system-desc">Interface moderna com fluxo avançado completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <button class="system-btn-access" disabled>Acessar</button>
+        </div>
+        <!-- SIGMA OLD -->
+        <div class="sistema-card sigma-old-card">
+          <div class="system-card-icon">
+            <img :src="BASE_URL + 'imagens/sigma-icone.png'" alt="Sigma Old" class="system-icon-img" @error="$event.target.style.display='none'" />
           </div>
+          <div class="system-badge soon">Em breve</div>
+          <h3 class="system-name">Sigma Old</h3>
+          <p class="system-subtitle-italic">Sigma Old CT — versão legado</p>
+          <p class="system-desc">Interface clássica do console de geração anterior, com fluxo completo com gerenciador de protocolos, worklist, topograma e fluxo de aquisição.</p>
+          <button class="system-btn-access" disabled>Acessar</button>
         </div>
         <!-- KAPPA -->
-        <div class="sistema-card kappa-card" data-system="kappa">
+        <div class="sistema-card kappa-card">
           <div class="system-card-icon">
             <img :src="BASE_URL + 'imagens/kappa-icone.png'" alt="Kappa Healthcare" class="system-icon-img" @error="$event.target.style.display='none'">
           </div>
@@ -263,6 +262,9 @@
       <div class="footer-legal-bottom">
         <p>© 2026 SimuScan. Simulador educacional — interfaces fictícias para fins de treinamento.</p>
       </div>
+      <div class="footer-legal-final">
+        <p>SimuScan é um simulador educacional. Todas as interfaces, marcas e equipamentos representados são fictícios e criados exclusivamente para fins de treinamento.</p>
+      </div>
     </footer>
   </div>
 </template>
@@ -334,7 +336,7 @@ function scrollTo(id) {
 .card p { font-size: .9rem; color: var(--cor-texto-muted); margin: 0 2rem 2rem; }
 
 /* SISTEMAS */
-.sistemas-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; max-width: 1100px; margin: 3rem auto 0; align-items: start; }
+.sistemas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1100px; margin: 3rem auto 0; align-items: start; }
 .sistema-card { background: var(--cor-fundo); border: 1px solid var(--cor-card-borda); border-radius: 16px; padding: 2rem; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; transition: box-shadow .35s ease, transform .35s ease, border-color .35s ease; }
 .sigma-on-card, .sigma-old-card, .kappa-card { opacity: .75; }
 .sigma-group { display: flex; flex-direction: column; gap: 12px; }
@@ -452,4 +454,6 @@ function scrollTo(id) {
 /* FOOTER LEGAL BOTTOM */
 .footer-legal-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 14px 32px; text-align: center; }
 .footer-legal-bottom p { font-size: 12px; color: #444; margin: 0; }
+.footer-legal-final { padding: 10px 32px 16px; text-align: center; }
+.footer-legal-final p { font-size: 11px; color: #333; margin: 0; }
 </style>
