@@ -695,7 +695,7 @@ const bootMessages = [
 const bootStatusText = ref(bootMessages[0])
 function startBoot() {
   let step = 0
-  const total = 2000
+  const total = 6000
   const interval = 40
   const steps = total / interval
   const timer = setInterval(() => {
