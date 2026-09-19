@@ -22,23 +22,172 @@
     <template v-else>
       <!-- ══════════ BOOT SCREEN ══════════ -->
       <div v-if="currentScreen === 'boot'" class="boot-screen">
+        <!-- Painel esquerdo — verde, 50% -->
         <div class="boot-left">
-          <div class="boot-on-watermark">ON</div>
-          <img :src="BASE_URL + 'imagens/sigma-on.png'" alt="Sigma ON" class="boot-logo" @error="$event.target.style.display='none'" />
-          <div class="boot-brand">Sigma ON CT</div>
-          <div class="boot-brand-sub">Sigma Healthcare Imaging Systems</div>
+          <!-- Logo SimuScan no canto superior esquerdo -->
+          <div class="boot-logo-wrap">
+            <img :src="BASE_URL + 'imagens/logo.png'" alt="SimuScan"
+                 class="boot-logo-icon"
+                 @error="$event.target.style.display='none'" />
+            <span class="boot-logo-text">
+              <span class="t-simu">Simu</span><span class="t-scan">Scan</span>
+            </span>
+          </div>
+          <!-- Esfera decorativa radial -->
+          <div class="boot-sphere"></div>
+          <!-- Marca d'água ON — canto inferior esquerdo -->
+          <div class="boot-on-watermark">On</div>
         </div>
+
+        <!-- Painel direito — escuro, 50% -->
         <div class="boot-right">
           <div class="boot-right-inner">
-            <div class="boot-sys-label">SISTEMA</div>
-            <div class="boot-sys-name">Sigma ON CT Console</div>
-            <div class="boot-sys-version">{{ version }}</div>
+            <div class="boot-product-name">Sigma ON CT</div>
+            <div class="boot-product-version">VS10A · SimuScan Edition</div>
             <div class="boot-progress-wrap">
               <div class="boot-progress-bar" :style="{ width: bootProgress + '%' }"></div>
             </div>
             <div class="boot-status-text">{{ bootStatusText }}</div>
-            <div class="boot-copyright">© Sigma Healthcare Imaging Systems</div>
           </div>
+          <div class="boot-copyright">
+            © 2026 SimuScan. Interfaces fictícias para fins de treinamento.
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ HOME ══════════ -->
+      <div v-else-if="currentScreen === 'home'" class="home-root" @click="openDropdown = null">
+        <!-- Header -->
+        <header class="home-header" @click.stop>
+          <div class="home-header-left">
+            <img :src="BASE_URL + 'imagens/logo.png'" alt="SimuScan"
+                 class="home-logo-icon"
+                 @error="$event.target.style.display='none'" />
+            <span class="home-logo-text">
+              <span class="t-simu">Simu</span><span class="t-scan">Scan</span>
+            </span>
+          </div>
+
+          <div class="home-header-right">
+            <!-- Ajuda -->
+            <div class="home-icon-btn" @click.stop="toggleDropdown('help')">
+              <img :src="BASE_URL + 'imagens/interrogacao.png'" alt="Ajuda"
+                   class="home-icon-img" @error="$event.target.style.display='none'" />
+              <div v-if="openDropdown === 'help'" class="home-dropdown">
+                <div class="home-dropdown-item" @click.stop="showHelpModal = true; openDropdown = null">Help</div>
+                <div class="home-dropdown-item" @click.stop="showAboutModal = true; openDropdown = null">About</div>
+              </div>
+            </div>
+
+            <!-- Expert-i -->
+            <div class="home-icon-btn" @click.stop="toggleDropdown('expert')"
+                 title="Acesso remoto do fabricante — sem função no simulador">
+              <img :src="BASE_URL + 'imagens/remoto.png'" alt="Expert-i"
+                   class="home-icon-img" @error="$event.target.style.display='none'" />
+              <div v-if="openDropdown === 'expert'" class="home-dropdown">
+                <div class="home-dropdown-item disabled">Provide Expert-i Access</div>
+                <div class="home-dropdown-item disabled">Expert-i Connect</div>
+              </div>
+            </div>
+
+            <!-- Configurações -->
+            <div class="home-icon-btn" @click.stop="showSettingsPanel = !showSettingsPanel; openDropdown = null">
+              <img :src="BASE_URL + 'imagens/config.png'" alt="Configurações"
+                   class="home-icon-img" @error="$event.target.style.display='none'" />
+            </div>
+
+            <!-- Job View -->
+            <div class="home-icon-btn" @click.stop="showJobView = true; openDropdown = null">
+              <img :src="BASE_URL + 'imagens/maleta.png'" alt="Job View"
+                   class="home-icon-img" @error="$event.target.style.display='none'" />
+            </div>
+
+            <!-- Usuário -->
+            <div class="home-icon-btn" @click.stop="toggleDropdown('user')">
+              <img :src="BASE_URL + 'imagens/usuario.png'" alt="Usuário"
+                   class="home-icon-img" @error="$event.target.style.display='none'" />
+              <div v-if="openDropdown === 'user'" class="home-dropdown">
+                <div class="home-dropdown-item" :class="{ active: currentUser === 'meduser' }"
+                     @click.stop="currentUser = 'meduser'; openDropdown = null">meduser</div>
+                <div class="home-dropdown-item" :class="{ active: currentUser === 'SimuAdmin' }"
+                     @click.stop="currentUser = 'SimuAdmin'; openDropdown = null">SimuAdmin</div>
+                <div class="home-dropdown-item" :class="{ active: currentUser === 'Other User' }"
+                     @click.stop="currentUser = 'Other User'; openDropdown = null">Other User</div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- 4 cards centrais -->
+        <div class="home-center">
+          <div class="home-cards-grid">
+            <div class="home-card" @click="currentScreen = 'patient-browser'">
+              <div class="home-card-icon">
+                <img :src="BASE_URL + 'imagens/examination.png'" alt="Examination"
+                     @error="$event.target.style.display='none'" />
+              </div>
+              <span class="home-card-label">Examination</span>
+            </div>
+
+            <div class="home-card" @click="currentScreen = 'system-check'; startSystemCheck()">
+              <div class="home-card-icon home-card-icon-accent">
+                <img :src="BASE_URL + 'imagens/system.png'" alt="System Check"
+                     @error="$event.target.style.display='none'" />
+              </div>
+              <span class="home-card-label">System Check</span>
+            </div>
+
+            <div class="home-card" @click="showRestartConfirm = true">
+              <div class="home-card-icon">
+                <img :src="BASE_URL + 'imagens/restart.png'" alt="Restart"
+                     @error="$event.target.style.display='none'" />
+              </div>
+              <span class="home-card-label">Restart</span>
+            </div>
+
+            <div class="home-card" @click="isLocked = true">
+              <div class="home-card-icon">
+                <img :src="BASE_URL + 'imagens/lock.png'" alt="Lock"
+                     @error="$event.target.style.display='none'" />
+              </div>
+              <span class="home-card-label">Lock</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra inferior -->
+        <footer class="home-bottombar">
+          <div></div>
+          <div class="home-power-btn" @click="showShutdownModal = true" title="Desligar">
+            <img :src="BASE_URL + 'imagens/desligar.png'" alt="Desligar"
+                 @error="$event.target.style.display='none'" />
+          </div>
+        </footer>
+      </div>
+
+      <!-- ══════════ SYSTEM CHECK ══════════ -->
+      <div v-else-if="currentScreen === 'system-check'" class="syscheck-root">
+        <header class="home-header">
+          <div class="home-header-left">
+            <img :src="BASE_URL + 'imagens/logo.png'" alt="SimuScan" class="home-logo-icon"
+                 @error="$event.target.style.display='none'" />
+            <span class="home-logo-text"><span class="t-simu">Simu</span><span class="t-scan">Scan</span></span>
+          </div>
+        </header>
+        <div class="syscheck-body">
+          <h2>System Check — Sigma ON</h2>
+          <div class="syscheck-list">
+            <div v-for="(item, i) in systemCheckItems" :key="i"
+                 class="syscheck-item"
+                 :class="{ visible: i < systemCheckVisible }">
+              <span class="syscheck-check">✓</span>
+              <span>{{ item }}</span>
+            </div>
+          </div>
+          <div v-if="systemCheckVisible >= systemCheckItems.length" class="syscheck-status">
+            Status: Sistema OK
+          </div>
+          <button class="syscheck-back-btn" @click="currentScreen = 'home'">Voltar</button>
         </div>
       </div>
 
@@ -55,6 +204,7 @@
             <button class="so-tab">Exam</button>
             <button class="so-tab">MPR</button>
             <button class="so-tab">3D</button>
+            <button class="so-tab" @click="currentScreen = 'home'">Home</button>
             <button class="so-tab" @click="$router.push('/escolha')">Return System</button>
           </div>
         </div>
@@ -168,6 +318,7 @@
           <div class="scan-hdr-right">
             <span class="scan-version">{{ version }}</span>
             <button class="scan-back-btn" @click="currentScreen = 'patient-browser'">← Patient Browser</button>
+            <button class="scan-back-btn" @click="currentScreen = 'home'">Home</button>
             <button class="scan-return-btn" @click="$router.push('/escolha')">Return System</button>
           </div>
         </div>
@@ -346,16 +497,170 @@
           <div class="scan-tl-info">{{ acquiredFrames }}/{{ timelineFrames.length }} frames</div>
         </div>
       </div>
+
+      <!-- ══════════ MODAIS E OVERLAYS ══════════ -->
+
+      <!-- Restart confirm -->
+      <div v-if="showRestartConfirm" class="modal-overlay" @click.self="showRestartConfirm = false">
+        <div class="modal-box">
+          <h3>Reiniciar Sistema</h3>
+          <p>Tem certeza que deseja reiniciar o Sigma ON CT?</p>
+          <div class="modal-actions">
+            <button class="modal-btn-cancel" @click="showRestartConfirm = false">Cancelar</button>
+            <button class="modal-btn-confirm" @click="confirmRestart">Reiniciar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Restart overlay -->
+      <div v-if="showRestartOverlay" class="fullscreen-overlay">
+        <div class="fs-spinner"></div>
+        <p>Reiniciando sistema...</p>
+      </div>
+
+      <!-- Lock overlay -->
+      <div v-if="isLocked" class="lock-overlay">
+        <img :src="BASE_URL + 'imagens/lock.png'" alt="Lock" class="lock-big-icon"
+             @error="$event.target.style.display='none'" />
+        <h2>Tela Bloqueada</h2>
+        <p>Sigma ON CT</p>
+        <button class="lock-unlock-btn" @click="isLocked = false">Desbloquear</button>
+      </div>
+
+      <!-- Shutdown modal -->
+      <div v-if="showShutdownModal" class="modal-overlay" @click.self="showShutdownModal = false">
+        <div class="modal-box">
+          <h3>O que deseja fazer?</h3>
+          <div class="shutdown-options">
+            <button class="shutdown-opt" @click="showShutdownModal = false; showRestartConfirm = true">
+              🔄 Reiniciar
+            </button>
+            <button class="shutdown-opt" @click="confirmShutdown">
+              ⏻ Desligar
+            </button>
+            <button class="shutdown-opt" @click="showShutdownModal = false">
+              ✕ Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shutdown overlay -->
+      <div v-if="showShutdownOverlay" class="fullscreen-overlay">
+        <p>Desligando...</p>
+      </div>
+
+      <!-- Help modal -->
+      <div v-if="showHelpModal" class="modal-overlay" @click.self="showHelpModal = false">
+        <div class="modal-box modal-box-lg">
+          <h3>Help — Sigma ON CT</h3>
+          <p><strong>Sistema Operacional:</strong> SimuScan OS v2.1 (Educational)</p>
+          <p style="margin-top:12px;"><strong>Manual do Operador</strong></p>
+          <ul>
+            <li>1. Introdução ao Sistema</li>
+            <li>2. Patient Browser — Busca e Seleção</li>
+            <li>3. Console de Aquisição</li>
+            <li>4. Reconstrução e Pós-processamento</li>
+            <li>5. Solução de Problemas</li>
+          </ul>
+          <button class="modal-btn-confirm" @click="showHelpModal = false">Fechar</button>
+        </div>
+      </div>
+
+      <!-- About modal -->
+      <div v-if="showAboutModal" class="modal-overlay" @click.self="showAboutModal = false">
+        <div class="modal-box modal-box-lg">
+          <h3>Sobre o Sistema</h3>
+          <p><strong>System Type:</strong> Simulador de TC</p>
+          <p><strong>Software:</strong> Sigma ON CT — VS10A</p>
+          <p><strong>Material Number:</strong> SIMU-SGON-2026</p>
+          <p><strong>Serial Number:</strong> SG2026-RJ-001</p>
+          <p style="margin-top:10px;"><strong>Instituição:</strong><br>[Nome da Instituição]<br>[Endereço]<br>[Telefone]</p>
+          <hr style="margin:14px 0; border-color:rgba(0,0,0,0.15);">
+          <p style="font-size:11px; color:rgba(0,0,0,0.4);">
+            © 2026 SimuScan. Simulador educacional — interfaces fictícias para fins de treinamento.
+          </p>
+          <button class="modal-btn-confirm" @click="showAboutModal = false">Fechar</button>
+        </div>
+      </div>
+
+      <!-- Settings panel -->
+      <div v-if="showSettingsPanel" class="settings-overlay" @click.self="showSettingsPanel = false">
+        <div class="settings-panel" @click.stop>
+          <div class="settings-item" @click="simulateAction('Configuration Panel')">Configuration Panel</div>
+          <div class="settings-item" @click="simulateAction('Administration Portal')">Administration Portal</div>
+          <div class="settings-item" @click="simulateAction('Clinical Configuration')">Clinical Configuration</div>
+          <div class="settings-item" @click="simulateAction('Checkup')">Checkup</div>
+          <div class="settings-item" @click="simulateAction('Daily QA')">Daily QA</div>
+          <div class="settings-item" @click="simulateAction('Calibration')">Calibration</div>
+          <div class="settings-item" @click="simulateAction('Resume')">Resume</div>
+          <div class="settings-item" @click="simulateAction('SimuScan Remote Assist')">SimuScan Remote Assist</div>
+          <div class="settings-item" @click="simulateAction('Screen Recorder')">Screen Recorder</div>
+          <div class="settings-item" @click="simulateAction('Save Log')">Save Log</div>
+          <div class="settings-item" @click="simulateAction('Remote Service')">Remote Service</div>
+          <div class="settings-divider"></div>
+          <div class="settings-item disabled" title="Requer senha">Exam Designer</div>
+          <div class="settings-divider"></div>
+          <div class="settings-item" @click="simulateAction('Create Screenshot')">Create Screenshot</div>
+          <div class="settings-item" @click="simulateAction('Fast Contact')">Fast Contact</div>
+          <div class="settings-item" @click="simulateAction('File Browser')">File Browser</div>
+          <div class="settings-item" @click="simulateAction('Load Service Pack')">Load Service Pack</div>
+          <div class="settings-divider"></div>
+          <div class="settings-item disabled">Direct Laser Check</div>
+          <div class="settings-item disabled">myNeedle Laser Check</div>
+          <div class="settings-divider"></div>
+          <div class="settings-item" @click="showAboutModal = true; showSettingsPanel = false">What is New</div>
+        </div>
+      </div>
+
+      <!-- Job View -->
+      <div v-if="showJobView" class="jobview-overlay" @click.self="showJobView = false">
+        <div class="jobview-panel">
+          <div class="jobview-body">
+            <div class="jobview-sidebar">
+              <div v-for="tab in jobViewTabs" :key="tab"
+                   class="jobview-sidebar-item"
+                   :class="{ active: activeJobTab === tab }"
+                   @click="activeJobTab = tab">
+                {{ tab }}
+              </div>
+            </div>
+            <div class="jobview-content">
+              <table class="jobview-table">
+                <thead>
+                  <tr><th v-for="col in jobViewColumns[activeJobTab]" :key="col">{{ col }}</th></tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(row, i) in jobViewRows[activeJobTab]" :key="i">
+                    <td v-for="col in jobViewColumns[activeJobTab]" :key="col">{{ row[col] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="jobview-messages">
+            <div class="jobview-messages-title">Messages</div>
+            <div v-if="jobViewMessages.length === 0" style="opacity:0.4;">No messages.</div>
+            <div v-for="(m, i) in jobViewMessages" :key="i">{{ m }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast -->
+      <div v-if="toastMessage" class="toast">{{ toastMessage }}</div>
+
     </template>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { APP_VERSION } from '@/version.js'
 
 const BASE_URL = import.meta.env.BASE_URL
 const version = APP_VERSION
+const router = useRouter()
 
 // ── orientation ──
 const isPortrait = ref(false)
@@ -398,9 +703,59 @@ function startBoot() {
     bootStatusText.value = bootMessages[Math.min(msgIdx, bootMessages.length - 1)]
     if (bootProgress.value >= 100) {
       clearInterval(timer)
-      setTimeout(() => { currentScreen.value = 'patient-browser' }, 300)
+      setTimeout(() => { currentScreen.value = 'home' }, 300)
     }
   }, interval)
+}
+
+// ── home state ──
+const openDropdown = ref(null)
+const showHelpModal = ref(false)
+const showAboutModal = ref(false)
+const showSettingsPanel = ref(false)
+const showJobView = ref(false)
+const showRestartConfirm = ref(false)
+const showRestartOverlay = ref(false)
+const showShutdownModal = ref(false)
+const showShutdownOverlay = ref(false)
+const isLocked = ref(false)
+const currentUser = ref('meduser')
+const toastMessage = ref('')
+
+function toggleDropdown(name) {
+  openDropdown.value = openDropdown.value === name ? null : name
+}
+
+function confirmRestart() {
+  showRestartConfirm.value = false
+  showRestartOverlay.value = true
+  setTimeout(() => { window.location.reload() }, 2500)
+}
+
+function confirmShutdown() {
+  showShutdownModal.value = false
+  showShutdownOverlay.value = true
+  setTimeout(() => { router.push('/') }, 1800)
+}
+
+function simulateAction(name) {
+  toastMessage.value = `Funcionalidade simulada: ${name}`
+  showSettingsPanel.value = false
+  setTimeout(() => { toastMessage.value = '' }, 2000)
+}
+
+// ── system check ──
+const systemCheckItems = [
+  'Conexão com Gantry', 'Detector Array', 'High Voltage Generator',
+  'Cooling System', 'Table Control', 'Image Reconstruction'
+]
+const systemCheckVisible = ref(0)
+function startSystemCheck() {
+  systemCheckVisible.value = 0
+  const interval = setInterval(() => {
+    systemCheckVisible.value++
+    if (systemCheckVisible.value >= systemCheckItems.length) clearInterval(interval)
+  }, 400)
 }
 
 // ── patient data ──
@@ -527,6 +882,40 @@ function openStudy(patient) {
   acquiredFrames.value = 0
   currentScreen.value = 'scan'
 }
+
+// ── job view ──
+const activeJobTab = ref('Recon')
+const jobViewTabs = ['Recon','Short Term Storage','Data Publisher','Media','Network','Print','Raw Data','WorkFlow']
+const jobViewColumns = {
+  'Recon': ['Patient Name','Study Description','Range Name','Serie Description','Order','Progress'],
+  'Short Term Storage': ['Resource','User','Priority','Status','Progress','Time'],
+  'Data Publisher': ['Patient Name','Status','User','Time','Priority'],
+  'Media': ['Patient Name','Status','Total Objects','Progress','Instances','Workflow','Label','Transfer Type','Client','Resource','User','Time','Connection Type','Task Flow ID','Priority'],
+  'Network': ['Patient Name','Status','Total Objects','Progress','Instances','Workflow','Label','Transfer Type','Client','Resource','User','Time','Connection Type','Task Flow ID','Priority'],
+  'Print': ['Patient Name','Resource','User','Priority','State','Progress'],
+  'Raw Data': ['Patient Name','Study Description','Range Name','Source','Destination','Order','Progress','Anonymized'],
+  'WorkFlow': ['Patient Name','User','Client','License In Use','# of Slices'],
+}
+const jobViewRows = computed(() => {
+  const result = {}
+  for (const tab of jobViewTabs) {
+    result[tab] = Array.from({ length: 4 }, () => {
+      const p = allPatients[Math.floor(Math.random() * allPatients.length)]
+      const row = {}
+      jobViewColumns[tab].forEach(col => {
+        if (col === 'Patient Name') row[col] = p.name
+        else if (col.includes('Progress')) row[col] = Math.floor(Math.random() * 100) + '%'
+        else if (col === 'Status' || col === 'State') row[col] = ['Completed','In Progress','Pending'][Math.floor(Math.random() * 3)]
+        else if (col === 'Priority') row[col] = ['High','Normal','Low'][Math.floor(Math.random() * 3)]
+        else if (col === 'User') row[col] = currentUser.value
+        else row[col] = '—'
+      })
+      return row
+    })
+  }
+  return result
+})
+const jobViewMessages = ref([])
 </script>
 
 <style scoped>
@@ -542,47 +931,134 @@ function openStudy(patient) {
 }
 
 /* ════════ BOOT ════════ */
-.boot-screen {
-  width: 100%; height: 100%;
-  display: flex;
-}
+.boot-screen { width: 100%; height: 100%; display: flex; }
+
 .boot-left {
-  width: 38%; height: 100%;
-  background: #1a5c1e;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
+  width: 50%; height: 100%;
+  background: #1c6020;
   position: relative; overflow: hidden;
 }
+.boot-sphere {
+  position: absolute;
+  width: 260px; height: 260px; border-radius: 50%;
+  background: radial-gradient(circle at center, #0d3d10 0%, #1c6020 70%);
+  right: -60px; top: 50%; transform: translateY(-50%);
+}
+.boot-logo-wrap {
+  position: absolute; top: 14px; left: 14px; z-index: 2;
+  display: flex; align-items: center; gap: 8px;
+}
+.boot-logo-icon {
+  width: 30px; height: 30px; object-fit: contain;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.6));
+}
+.boot-logo-text {
+  font-size: 17px; font-weight: 900; white-space: nowrap; line-height: 1;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.95));
+}
+.t-simu { color: #e91e8c; }
+.t-scan { color: #3fc8ff; }
 .boot-on-watermark {
-  position: absolute; font-size: 240px; font-weight: 900; letter-spacing: -8px;
-  color: rgba(255,255,255,0.06); user-select: none; pointer-events: none;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  position: absolute;
+  bottom: -14px; left: -6px;
+  font-size: min(18vw, 190px); font-weight: 900;
+  color: #2d8a34;
+  font-family: 'Arial Black', Arial, sans-serif;
+  line-height: 1; letter-spacing: -6px;
+  user-select: none; z-index: 1;
 }
-.boot-logo { width: 96px; height: 96px; object-fit: contain; z-index: 1; }
-.boot-brand {
-  font-size: 28px; font-weight: 700; color: #fff; margin-top: 20px; z-index: 1;
-  letter-spacing: 1px;
-}
-.boot-brand-sub { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 6px; z-index: 1; }
 
 .boot-right {
-  flex: 1; height: 100%;
-  background: #060e06;
+  width: 50%; height: 100%;
+  background: #04100a;
+  position: relative;
   display: flex; align-items: center; justify-content: center;
 }
-.boot-right-inner { display: flex; flex-direction: column; gap: 14px; width: 360px; }
-.boot-sys-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.35); }
-.boot-sys-name { font-size: 22px; font-weight: 700; color: #e8e8ea; }
-.boot-sys-version { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: -8px; }
-.boot-progress-wrap {
-  height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin-top: 8px;
+.boot-right-inner {
+  display: flex; flex-direction: column; gap: 12px;
+  width: min(360px, 80%);
 }
-.boot-progress-bar {
-  height: 100%; background: #2ecc71; border-radius: 2px;
-  transition: width 0.05s linear;
+.boot-product-name { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+.boot-product-version { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 10px; }
+.boot-progress-wrap { width: 100%; height: 2px; background: rgba(255,255,255,0.1); }
+.boot-progress-bar { height: 100%; background: #ffffff; transition: width 0.05s linear; }
+.boot-status-text { font-size: 12px; color: rgba(255,255,255,0.45); min-height: 18px; }
+.boot-copyright {
+  position: absolute; bottom: 10px; left: 0; right: 0;
+  text-align: center; font-size: 10px; color: rgba(255,255,255,0.3); padding: 0 12px;
 }
-.boot-status-text { font-size: 12px; color: rgba(255,255,255,0.4); min-height: 18px; }
-.boot-copyright { font-size: 11px; color: rgba(255,255,255,0.2); margin-top: 24px; }
+
+/* ════════ HOME ════════ */
+.home-root { width: 100%; height: 100%; display: flex; flex-direction: column; background: #1a1a1a; color: #e8e8ea; }
+.home-header {
+  height: 52px; background: #2e2e2e;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 14px; flex-shrink: 0; border-bottom: 1px solid #222;
+}
+.home-header-left { display: flex; align-items: center; gap: 8px; }
+.home-logo-icon { width: 28px; height: 28px; object-fit: contain; }
+.home-logo-text { font-size: 15px; font-weight: 900; }
+.home-header-right { display: flex; align-items: center; gap: 4px; }
+.home-icon-btn {
+  width: 38px; height: 38px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; position: relative; transition: background 0.15s;
+}
+.home-icon-btn:hover { background: rgba(255,255,255,0.08); }
+.home-icon-img { width: 20px; height: 20px; object-fit: contain; }
+.home-dropdown {
+  position: absolute; top: 44px; right: 0;
+  background: #eee; color: #222; border-radius: 6px;
+  min-width: 200px; box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+  z-index: 300; overflow: hidden;
+}
+.home-dropdown-item { padding: 9px 14px; font-size: 12px; cursor: pointer; transition: background 0.15s; }
+.home-dropdown-item:hover { background: #ccc; }
+.home-dropdown-item.disabled { color: #999; cursor: not-allowed; }
+.home-dropdown-item.active { background: #3498db; color: #fff; }
+
+.home-center { flex: 1; display: flex; align-items: center; justify-content: center; }
+.home-cards-grid { display: flex; gap: 32px; }
+.home-card {
+  width: 140px; cursor: pointer; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.home-card-icon {
+  width: 100px; height: 100px; background: #3a3a3a; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s, background 0.15s;
+}
+.home-card-icon img { width: 56px; height: 56px; object-fit: contain; }
+.home-card:hover .home-card-icon { transform: translateY(-4px); background: #444; }
+.home-card-icon-accent { background: #00c800; }
+.home-card-label { font-size: 13px; font-weight: 600; color: #ddd; }
+
+.home-bottombar {
+  height: 44px; background: #2e2e2e; border-top: 1px solid #222;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 14px; flex-shrink: 0;
+}
+.home-power-btn {
+  width: 34px; height: 34px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.15s;
+}
+.home-power-btn:hover { background: rgba(255,0,0,0.15); }
+.home-power-btn img { width: 18px; height: 18px; object-fit: contain; }
+
+/* ════════ SYSTEM CHECK ════════ */
+.syscheck-root { width: 100%; height: 100%; display: flex; flex-direction: column; background: #1a1a1a; color: #e8e8ea; }
+.syscheck-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+.syscheck-body h2 { font-size: 20px; color: #00c800; }
+.syscheck-list { display: flex; flex-direction: column; gap: 8px; }
+.syscheck-item { display: flex; gap: 10px; font-size: 14px; opacity: 0; transition: opacity 0.3s; }
+.syscheck-item.visible { opacity: 1; }
+.syscheck-check { color: #2ecc71; font-weight: 700; }
+.syscheck-status { color: #2ecc71; font-weight: 700; margin-top: 10px; }
+.syscheck-back-btn {
+  margin-top: 16px; padding: 8px 24px; background: #444; color: #ddd;
+  border: none; border-radius: 20px; cursor: pointer;
+}
 
 /* ════════ SHARED MENUBAR ════════ */
 .so-menubar {
@@ -879,6 +1355,107 @@ function openStudy(patient) {
 .scan-tl-frame.acquired { background: rgba(46,204,113,0.2); border-color: rgba(46,204,113,0.3); }
 .scan-tl-frame.active { background: #2ecc71; border-color: #2ecc71; }
 .scan-tl-info { font-size: 11px; color: rgba(255,255,255,0.3); flex-shrink: 0; font-family: monospace; width: 64px; text-align: right; }
+
+/* ════════ MODAIS GENÉRICOS ════════ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center; z-index: 9000;
+}
+.modal-box {
+  background: #eee; color: #222; border-radius: 10px; padding: 24px 28px;
+  min-width: 320px; max-width: 420px;
+}
+.modal-box-lg { max-width: 480px; max-height: 70vh; overflow-y: auto; }
+.modal-box h3 { margin-bottom: 12px; font-size: 16px; }
+.modal-box p { font-size: 13px; margin-bottom: 6px; line-height: 1.5; }
+.modal-box ul { padding-left: 18px; font-size: 13px; margin: 8px 0; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+.modal-btn-cancel {
+  padding: 7px 18px; background: #ccc; border: none; border-radius: 6px; cursor: pointer;
+}
+.modal-btn-confirm {
+  padding: 7px 18px; background: #2ecc71; color: #fff; border: none;
+  border-radius: 6px; cursor: pointer; font-weight: 700; margin-top: 12px;
+}
+
+.shutdown-options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.shutdown-opt {
+  padding: 10px; background: #ddd; border: none; border-radius: 6px;
+  cursor: pointer; font-size: 13px; text-align: left;
+}
+.shutdown-opt:hover { background: #ccc; }
+
+.fullscreen-overlay {
+  position: fixed; inset: 0; background: #000; z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; color: #2ecc71;
+}
+.fs-spinner {
+  width: 48px; height: 48px; border: 4px solid #1a1a1a; border-top-color: #2ecc71;
+  border-radius: 50%; animation: fsspin 0.8s linear infinite;
+}
+@keyframes fsspin { to { transform: rotate(360deg); } }
+
+/* ════════ LOCK ════════ */
+.lock-overlay {
+  position: fixed; inset: 0; background: #111; z-index: 9500;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  color: #ddd;
+}
+.lock-big-icon { width: 64px; height: 64px; object-fit: contain; opacity: 0.7; }
+.lock-unlock-btn {
+  margin-top: 16px; padding: 10px 28px; background: #2ecc71; color: #000;
+  border: none; border-radius: 20px; font-weight: 700; cursor: pointer;
+}
+
+/* ════════ SETTINGS ════════ */
+.settings-overlay { position: fixed; inset: 0; z-index: 400; }
+.settings-panel {
+  position: fixed; top: 52px; right: 0; width: 260px; height: calc(100vh - 52px);
+  background: #eee; color: #222; box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+  overflow-y: auto; z-index: 401;
+}
+.settings-item {
+  padding: 11px 18px; font-size: 12.5px; cursor: pointer;
+  border-bottom: 1px solid #ddd; transition: background 0.15s;
+}
+.settings-item:hover:not(.disabled) { background: #ccc; }
+.settings-item.disabled { color: #aaa; cursor: not-allowed; font-style: italic; }
+.settings-divider { height: 1px; background: #ccc; }
+
+/* ════════ JOB VIEW ════════ */
+.jobview-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; }
+.jobview-panel {
+  position: fixed; top: 0; left: 0; width: 75vw; height: 100vh;
+  background: #2a2a2a; display: flex; flex-direction: column; z-index: 501;
+}
+.jobview-body { flex: 1; display: flex; overflow: hidden; }
+.jobview-sidebar { width: 170px; background: #1a1a1a; flex-shrink: 0; overflow-y: auto; }
+.jobview-sidebar-item {
+  padding: 12px 14px; font-size: 12px; color: #ccc; cursor: pointer;
+  border-bottom: 1px solid #333;
+}
+.jobview-sidebar-item:hover { background: #333; }
+.jobview-sidebar-item.active { background: #2ecc71; color: #000; font-weight: 700; }
+.jobview-content { flex: 1; overflow: auto; padding: 12px; }
+.jobview-table { width: 100%; border-collapse: collapse; font-size: 11px; color: #ddd; }
+.jobview-table th {
+  background: #1a1a1a; padding: 6px 8px; text-align: left;
+  white-space: nowrap; color: #aaa; border-bottom: 1px solid #444;
+}
+.jobview-table td { padding: 6px 8px; border-bottom: 1px solid #333; white-space: nowrap; }
+.jobview-messages {
+  height: 70px; background: #111; border-top: 1px solid #444;
+  padding: 6px 12px; font-size: 11px; color: #888; overflow-y: auto;
+}
+.jobview-messages-title { color: #aaa; font-weight: 700; margin-bottom: 4px; }
+
+/* ════════ TOAST ════════ */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: #2ecc71; color: #000; padding: 10px 20px; border-radius: 6px;
+  font-size: 13px; font-weight: 700; z-index: 9999;
+}
 
 /* tablet landscape */
 @media (max-width: 1023px) and (orientation: landscape) {
