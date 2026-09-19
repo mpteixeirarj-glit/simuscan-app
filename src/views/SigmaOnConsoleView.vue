@@ -22,6 +22,7 @@
     <template v-else>
       <!-- ══════════ BOOT SCREEN ══════════ -->
       <div v-if="currentScreen === 'boot'" class="boot-screen">
+        <div class="boot-card">
         <!-- Painel esquerdo — verde, 50% -->
         <div class="boot-left">
           <!-- Logo SimuScan no canto superior esquerdo -->
@@ -52,6 +53,7 @@
           <div class="boot-copyright">
             © 2026 SimuScan. Interfaces fictícias para fins de treinamento.
           </div>
+        </div>
         </div>
       </div>
 
@@ -931,52 +933,64 @@ const jobViewMessages = ref([])
 }
 
 /* ════════ BOOT ════════ */
-.boot-screen { width: 100%; height: 100%; display: flex; }
+.boot-screen {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: #0a0a0a;
+}
+.boot-card {
+  display: flex;
+  width: min(740px, 90vw);
+  height: min(360px, 72vh);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 28px 80px rgba(0,0,0,0.92), 0 0 0 1px rgba(255,255,255,0.06);
+}
 
 .boot-left {
-  width: 50%; height: 100%;
+  width: 44%; height: 100%;
   background: #1c6020;
   position: relative; overflow: hidden;
 }
 .boot-sphere {
   position: absolute;
-  width: 260px; height: 260px; border-radius: 50%;
+  width: 200px; height: 200px; border-radius: 50%;
   background: radial-gradient(circle at center, #0d3d10 0%, #1c6020 70%);
-  right: -60px; top: 50%; transform: translateY(-50%);
+  right: -50px; top: 50%; transform: translateY(-50%);
 }
 .boot-logo-wrap {
   position: absolute; top: 14px; left: 14px; z-index: 2;
   display: flex; align-items: center; gap: 8px;
 }
 .boot-logo-icon {
-  width: 30px; height: 30px; object-fit: contain;
+  width: 28px; height: 28px; object-fit: contain;
   filter: drop-shadow(0 1px 4px rgba(0,0,0,0.6));
 }
 .boot-logo-text {
-  font-size: 17px; font-weight: 900; white-space: nowrap; line-height: 1;
+  font-size: 15px; font-weight: 900; white-space: nowrap; line-height: 1;
   filter: drop-shadow(0 1px 4px rgba(0,0,0,0.95));
 }
 .t-simu { color: #e91e8c; }
 .t-scan { color: #3fc8ff; }
 .boot-on-watermark {
   position: absolute;
-  bottom: -14px; left: -6px;
-  font-size: min(18vw, 190px); font-weight: 900;
+  bottom: -10px; left: -4px;
+  font-size: clamp(90px, 22vw, 160px); font-weight: 900;
   color: #2d8a34;
   font-family: 'Arial Black', Arial, sans-serif;
-  line-height: 1; letter-spacing: -6px;
+  line-height: 1; letter-spacing: -4px;
   user-select: none; z-index: 1;
 }
 
 .boot-right {
-  width: 50%; height: 100%;
+  width: 56%; height: 100%;
   background: #04100a;
   position: relative;
   display: flex; align-items: center; justify-content: center;
 }
 .boot-right-inner {
   display: flex; flex-direction: column; gap: 12px;
-  width: min(360px, 80%);
+  width: min(300px, 80%);
 }
 .boot-product-name { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 2px; }
 .boot-product-version { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 10px; }
